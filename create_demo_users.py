@@ -54,6 +54,17 @@ def create_demo_users():
         )
         vendor.password_hash = generate_password_hash("password123")
         
+        # Create an admin user
+        admin = User(
+            email="admin@example.com",
+            user_type="Admin",
+            account_status='Active',
+            verification_status='Verified',
+            created_at=datetime.utcnow(),
+            last_login=datetime.utcnow()
+        )
+        admin.password_hash = generate_password_hash("admin123")
+        
         # Add the users
         db.session.add(student)
         db.session.add(pi)
