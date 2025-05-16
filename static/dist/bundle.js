@@ -41314,7 +41314,7 @@ var Home = function Home(_ref) {
       className: "text-muted"
     }, "Deadline: ", new Date(opportunity.deadline).toLocaleDateString()))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "card-footer bg-transparent"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(InertiaLink, {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.Link, {
       href: "/opportunities/".concat(opportunity.id),
       className: "btn btn-sm btn-outline-primary"
     }, "View Details"))));
@@ -41324,7 +41324,7 @@ var Home = function Home(_ref) {
     className: "alert alert-info"
   }, "No opportunities available at the moment."))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "text-center mt-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(InertiaLink, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.Link, {
     href: "/opportunities",
     className: "btn btn-outline-primary"
   }, "Browse All Opportunities"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("section", {

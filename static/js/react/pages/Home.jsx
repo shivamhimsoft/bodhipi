@@ -93,12 +93,12 @@ const Home = ({ opportunities = [], profiles = [], stats = {}, title = 'Research
                     </div>
                   </div>
                   <div className="card-footer bg-transparent">
-                    <InertiaLink
+                    <Link
                       href={`/opportunities/${opportunity.id}`}
                       className="btn btn-sm btn-outline-primary"
                     >
                       View Details
-                    </InertiaLink>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -110,9 +110,9 @@ const Home = ({ opportunities = [], profiles = [], stats = {}, title = 'Research
           )}
         </div>
         <div className="text-center mt-3">
-          <InertiaLink href="/opportunities" className="btn btn-outline-primary">
+          <Link href="/opportunities" className="btn btn-outline-primary">
             Browse All Opportunities
-          </InertiaLink>
+          </Link>
         </div>
       </section>
 
