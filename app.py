@@ -8,6 +8,7 @@ from sqlalchemy.orm import DeclarativeBase
 from urllib.parse import urlparse
 from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.security import generate_password_hash, check_password_hash
+from inertia_flask import inertia, init_inertia
 
 # Setup logging
 logging.basicConfig(level=logging.DEBUG)
@@ -39,6 +40,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # Initialize extensions with app
 db.init_app(app)
 login_manager.init_app(app)
+init_inertia(app)
 
 # Add custom Jinja filters
 @app.template_filter('nl2br')

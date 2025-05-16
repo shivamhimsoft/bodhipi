@@ -1,51 +1,68 @@
-from flask_inertia import Inertia
-import json
-from flask import session, request, jsonify, render_template, make_response
+from flask import session, request, jsonify, render_template, make_response, g
 from flask_login import current_user
+import json
 
-# Initialize Inertia-Flask
-inertia = Inertia()
+class CustomInertia:
+    """A simplified Inertia implementation for Flask"""
+    
+    def __init__(self):
+        self.shared_data = {}
+    
+    def share(self, key, value=None):
+        """Share data across all Inertia responses"""
+        if callable(key) and value is None:
+            self.shared_data.update(key())
+        elif isinstance(key, dict) and value is None:
+            self.shared_data.update(key)
+        else:
+            self.shared_data[key] = value
+    
+    def render(self, component_name, props=None, version=None):
+        """Render an Inertia-powered page"""
+        if props is None:
+            props = {}
+        
+        # Merge shared data with page props
+        merged_props = {**self.shared_data, **props}
+        
+        page_data = {
+            'component': component_name,
+            'props': merged_props,
+            'url': request.path,
+            'version': version or '1'
+        }
+        
+        # Handle Inertia requests (XHR/fetch)
+        if 'X-Inertia' in request.headers and request.headers['X-Inertia'] == 'true':
+            response = make_response(jsonify(page_data))
+            response.headers['X-Inertia'] = 'true'
+            response.headers['Vary'] = 'Accept'
+            return response
+        
+        # Handle regular page loads
+        return render_template('inertia.html', page=page_data)
 
-# Fix for Inertia.js render method
-def render_inertia(component_name, props=None, version=None):
-    """Custom render method for Inertia"""
-    if props is None:
-        props = {}
-    
-    page_data = {
-        'component': component_name,
-        'props': props,
-        'url': request.path,
-        'version': version or '1'
-    }
-    
-    if 'X-Inertia' in request.headers and request.headers['X-Inertia'] == 'true':
-        response = make_response(jsonify(page_data))
-        response.headers['X-Inertia'] = 'true'
-        response.headers['Vary'] = 'Accept'
-        return response
-    
-    return render_template('inertia.html', page=page_data)
-
-# Add the custom render method to inertia
-inertia.render = render_inertia
+# Create a global instance of our CustomInertia
+inertia = CustomInertia()
 
 def init_inertia(app):
     """Initialize Inertia with the Flask app"""
-    inertia.init_app(app)
-    
     # Configure Inertia
     app.config["INERTIA_TEMPLATE"] = "inertia.html"
     
-    # Add shared data for authentication
-    @app.context_processor
-    def inject_shared_data():
+    # Middleware to gather auth data and flash messages before each request
+    @app.before_request
+    def prepare_inertia_data():
+        # Auth data
         auth_data = {}
         if current_user.is_authenticated:
             # Get unread message count
             unread_count = 0
             if hasattr(current_user, 'notifications'):
-                unread_count = current_user.notifications.filter_by(read_status=False, type='message').count()
+                try:
+                    unread_count = current_user.notifications.filter_by(read_status=False, type='message').count()
+                except:
+                    unread_count = 0
                 
             auth_data = {
                 'auth': {
@@ -71,5 +88,6 @@ def init_inertia(app):
         
         flash_data = {'flash': messages}
         
-        # Combine all shared data
-        return {**auth_data, **flash_data}
+        # Share data with Inertia
+        inertia.share(auth_data)
+        inertia.share(flash_data)
