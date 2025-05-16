@@ -5,6 +5,8 @@ import { InertiaProgress } from '@inertiajs/progress';
 
 // Import all page components
 import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import Layout from './components/Layout';
 
 // Initialize progress indicator
@@ -15,9 +17,12 @@ InertiaProgress.init({
 
 // Component resolver function
 const resolveComponent = (name) => {
+  // Register all page components here
   const pages = {
-    'Home': Home
-    // Add more pages as needed
+    'Home': Home,
+    'Login': Login,
+    'Register': Register
+    // Add more pages as more components are created
   };
   
   const Component = pages[name];

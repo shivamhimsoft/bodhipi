@@ -129,21 +129,38 @@ def login():
         return redirect(url_for('index'))
     
     form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user is None or not check_password_hash(user.password_hash, form.password.data):
-            flash('Invalid email or password', 'danger')
-            return redirect(url_for('login'))
-        
-        login_user(user, remember=form.remember_me.data)
-        next_page = request.args.get('next')
-        if not next_page or urlparse(next_page).netloc != '':
-            next_page = url_for('index')
-        
-        flash('Login successful!', 'success')
-        return redirect(next_page)
+    errors = {}
     
-    return render_template('auth/login.html', title='Sign In', form=form)
+    if request.method == 'POST':
+        # For Inertia AJAX requests
+        form.email.data = request.json.get('email', '')
+        form.password.data = request.json.get('password', '')
+        form.remember_me.data = request.json.get('remember_me', False)
+        
+        if form.validate():
+            user = User.query.filter_by(email=form.email.data).first()
+            if user is None or not check_password_hash(user.password_hash, form.password.data):
+                flash('Invalid email or password', 'danger')
+                errors['email'] = 'Invalid email or password'
+            else:
+                login_user(user, remember=form.remember_me.data)
+                next_page = request.args.get('next')
+                if not next_page or urlparse(next_page).netloc != '':
+                    next_page = url_for('index')
+                
+                flash('Login successful!', 'success')
+                return redirect(next_page)
+        else:
+            # Convert WTForms errors to a format usable by Inertia
+            for field_name, field_errors in form.errors.items():
+                errors[field_name] = field_errors[0]
+    
+    # For both GET and failed POST requests
+    return inertia.render('Login', {
+        'title': 'Sign In',
+        'errors': errors,
+        'csrfToken': session.get('csrf_token', '')
+    })
 
 @app.route('/logout')
 def logout():
