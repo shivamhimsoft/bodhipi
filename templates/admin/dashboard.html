@@ -221,7 +221,7 @@
                                     <i class="fas fa-user-shield fa-3x mb-3 text-primary"></i>
                                     <h5>User Management</h5>
                                     <p class="small">Approve, suspend, or manage user accounts</p>
-                                    <button class="btn btn-sm btn-outline-primary">Manage Users</button>
+                                    <a href="#" class="btn btn-sm btn-outline-primary" id="manage-users-btn">Manage Users</a>
                                 </div>
                             </div>
                         </div>
@@ -231,7 +231,7 @@
                                     <i class="fas fa-clipboard-check fa-3x mb-3 text-success"></i>
                                     <h5>Content Moderation</h5>
                                     <p class="small">Review and approve opportunities and profiles</p>
-                                    <button class="btn btn-sm btn-outline-success">Moderate Content</button>
+                                    <a href="#" class="btn btn-sm btn-outline-success" id="moderate-content-btn">Moderate Content</a>
                                 </div>
                             </div>
                         </div>
@@ -241,7 +241,7 @@
                                     <i class="fas fa-envelope-open-text fa-3x mb-3 text-info"></i>
                                     <h5>Message Broadcast</h5>
                                     <p class="small">Send announcements to platform users</p>
-                                    <button class="btn btn-sm btn-outline-info">Compose Message</button>
+                                    <a href="#" class="btn btn-sm btn-outline-info" id="broadcast-message-btn">Compose Message</a>
                                 </div>
                             </div>
                         </div>
@@ -251,7 +251,7 @@
                                     <i class="fas fa-download fa-3x mb-3 text-warning"></i>
                                     <h5>Export Data</h5>
                                     <p class="small">Generate reports and export platform data</p>
-                                    <button class="btn btn-sm btn-outline-warning">Export Reports</button>
+                                    <a href="#" class="btn btn-sm btn-outline-warning" id="export-data-btn">Export Reports</a>
                                 </div>
                             </div>
                         </div>
@@ -264,7 +264,6 @@
 
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="{{ url_for('static', filename='js/chart.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // User Distribution Chart
@@ -299,5 +298,6 @@
         });
     });
 </script>
+<script src="{{ url_for('static', filename='js/admin-dashboard.js') }}"></script>
 {% endblock %}
 {% endblock %}
