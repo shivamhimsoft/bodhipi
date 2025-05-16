@@ -1,16 +1,16 @@
 const path = require('path');
 
 module.exports = {
-  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  entry: './static/js/react/app.js',
+  mode: 'development',
+  entry: './static/js/react/app.jsx',
   output: {
-    path: path.resolve(__dirname, './static/dist'),
+    path: path.resolve(__dirname, 'static/dist'),
     filename: 'bundle.js',
   },
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -26,6 +26,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
-  }
+    extensions: ['.js', '.jsx']
+  },
+  devtool: 'source-map'
 };

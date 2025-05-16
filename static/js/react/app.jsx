@@ -2,14 +2,19 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/inertia-react';
 
-// Import global styles
-import '../css/custom.css';
+// Import components
+import Home from './pages/Home';
+import Layout from './components/Layout';
+
+// Component mapping
+const pages = {
+  'Home': Home
+};
 
 createInertiaApp({
   // The page data comes from the server through Inertia
   resolve: name => {
-    const pages = import.meta.glob('./pages/**/*.jsx', { eager: true });
-    return pages[`./pages/${name}.jsx`];
+    return pages[name];
   },
   setup({ el, App, props }) {
     createRoot(el).render(<App {...props} />);
