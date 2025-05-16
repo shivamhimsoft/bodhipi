@@ -41232,10 +41232,10 @@ var Home = function Home(_ref) {
     className: "lead mb-4"
   }, "Find research opportunities, connect with peers, and collaborate on groundbreaking projects."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "d-grid gap-2 d-sm-flex justify-content-sm-center"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.InertiaLink, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.Link, {
     href: "/register",
     className: "btn btn-primary btn-lg px-4 gap-3"
-  }, "Join Today"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.InertiaLink, {
+  }, "Join Today"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.Link, {
     href: "/documentation",
     className: "btn btn-outline-secondary btn-lg px-4"
   }, "Learn More")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("section", {
@@ -41314,7 +41314,7 @@ var Home = function Home(_ref) {
       className: "text-muted"
     }, "Deadline: ", new Date(opportunity.deadline).toLocaleDateString()))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "card-footer bg-transparent"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.InertiaLink, {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(InertiaLink, {
       href: "/opportunities/".concat(opportunity.id),
       className: "btn btn-sm btn-outline-primary"
     }, "View Details"))));
@@ -41324,7 +41324,7 @@ var Home = function Home(_ref) {
     className: "alert alert-info"
   }, "No opportunities available at the moment."))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "text-center mt-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.InertiaLink, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(InertiaLink, {
     href: "/opportunities",
     className: "btn btn-outline-primary"
   }, "Browse All Opportunities"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("section", {
@@ -41367,7 +41367,7 @@ var Home = function Home(_ref) {
       className: "small mb-0"
     }, "Profile Completion: ", profile.completeness || 0, "%")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "card-footer bg-transparent"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.InertiaLink, {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(InertiaLink, {
       href: "/profile/".concat(profile.user_id),
       className: "btn btn-sm btn-outline-info w-100"
     }, "View Profile"))));

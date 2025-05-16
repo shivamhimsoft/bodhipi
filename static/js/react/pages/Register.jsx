@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
+import { Link } from '@inertiajs/inertia-react';
 import Layout from '../components/Layout';
 
 const Register = ({ errors = {}, title = 'Register - Research Collaboration Platform', csrfToken = '' }) => {

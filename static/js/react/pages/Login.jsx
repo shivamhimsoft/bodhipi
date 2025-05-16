@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
+import { Link } from '@inertiajs/inertia-react';
 import Layout from '../components/Layout';
 
 const Login = ({ errors = {}, title = 'Login - Research Collaboration Platform', csrfToken = '' }) => {
@@ -83,7 +84,7 @@ const Login = ({ errors = {}, title = 'Login - Research Collaboration Platform',
                 </form>
                 
                 <div className="mt-3 text-center">
-                  <p>Don't have an account? <a href="/register" className="link-info">Register here</a></p>
+                  <p>Don't have an account? <Link href="/register" className="link-info">Register here</Link></p>
                 </div>
               </div>
             </div>

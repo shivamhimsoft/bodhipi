@@ -1,5 +1,5 @@
 import React from 'react';
-import { InertiaLink } from '@inertiajs/inertia-react';
+import { Link } from '@inertiajs/inertia-react';
 import Layout from '../components/Layout';
 
 const Home = ({ opportunities = [], profiles = [], stats = {}, title = 'Research Collaboration Platform' }) => {
@@ -22,12 +22,12 @@ const Home = ({ opportunities = [], profiles = [], stats = {}, title = 'Research
             Find research opportunities, connect with peers, and collaborate on groundbreaking projects.
           </p>
           <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <InertiaLink href="/register" className="btn btn-primary btn-lg px-4 gap-3">
+            <Link href="/register" className="btn btn-primary btn-lg px-4 gap-3">
               Join Today
-            </InertiaLink>
-            <InertiaLink href="/documentation" className="btn btn-outline-secondary btn-lg px-4">
+            </Link>
+            <Link href="/documentation" className="btn btn-outline-secondary btn-lg px-4">
               Learn More
-            </InertiaLink>
+            </Link>
           </div>
         </div>
       </section>
