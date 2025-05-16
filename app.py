@@ -674,6 +674,11 @@ def conversation(user_id):
                           messages=messages,
                           form=form)
 
+@app.route('/documentation')
+def documentation():
+    """Display the platform documentation and user guide"""
+    return render_template('documentation.html')
+    
 @app.route('/admin/dashboard')
 @login_required
 def admin_dashboard():
