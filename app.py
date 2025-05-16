@@ -313,6 +313,17 @@ def view_profile(user_id):
         user = User.query.get_or_404(user_id)
         profile = Profile.query.filter_by(user_id=user_id).first_or_404()
         
+        # Get stats for admin profile
+        stats = None
+        if profile.profile_type == 'Admin':
+            stats = {
+                'total_users': User.query.count(),
+                'students': User.query.filter_by(user_type='Student').count(),
+                'pis': User.query.filter_by(user_type='PI').count(),
+                'industry': User.query.filter_by(user_type='Industry').count(),
+                'vendors': User.query.filter_by(user_type='Vendor').count(),
+            }
+        
         if profile.profile_type == 'Student':
             specific_profile = StudentProfile.query.filter_by(profile_id=profile.id).first_or_404()
             template = 'profile/student.html'
@@ -325,11 +336,22 @@ def view_profile(user_id):
         elif profile.profile_type == 'Vendor':
             specific_profile = VendorProfile.query.filter_by(profile_id=profile.id).first_or_404()
             template = 'profile/vendor.html'
+        elif profile.profile_type == 'Admin':
+            specific_profile = db.session.query(db.Table('admin_profiles')).filter_by(profile_id=profile.id).first()
+            if not specific_profile:
+                # If admin profile doesn't exist in the table yet
+                specific_profile = {
+                    'name': 'System Administrator',
+                    'email': user.email,
+                    'role': 'Platform Administrator',
+                    'permissions': 'Full Access'
+                }
+            template = 'profile/admin.html'
         else:
             flash('Invalid profile type', 'danger')
             return redirect(url_for('index'))
         
-        return render_template(template, user=user, profile=profile, specific_profile=specific_profile)
+        return render_template(template, user=user, profile=profile, specific_profile=specific_profile, stats=stats)
     except Exception as e:
         logger.error(f"Error viewing profile: {str(e)}")
         flash('There was an error loading the profile. Please try again later.', 'danger')
