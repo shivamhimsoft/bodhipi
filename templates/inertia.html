@@ -8,24 +8,23 @@
     <!-- Bootstrap CSS (Dark Theme) -->
     <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
     
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
     
-    <!-- Inertia data -->
-    <script>
-        window.inertiaBase = "{{ url_for('index') }}";
-    </script>
-    
-    <!-- Page Data -->
     {% if page %}
-    <script id="page-data" type="application/json">
-        {{ page|tojson }}
-    </script>
+        <script id="page-data" type="application/json">
+            {{ page|tojson|safe }}
+        </script>
     {% endif %}
 </head>
 <body>
-    <!-- React mount point -->
-    <div id="app" data-page="{{ page|tojson }}"></div>
+    <div id="app" data-page="{{ page|tojson|safe }}"></div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Webpack bundle -->
     <script src="{{ url_for('static', filename='dist/bundle.js') }}"></script>
