@@ -337,15 +337,14 @@ def view_profile(user_id):
             specific_profile = VendorProfile.query.filter_by(profile_id=profile.id).first_or_404()
             template = 'profile/vendor.html'
         elif profile.profile_type == 'Admin':
-            specific_profile = db.session.query(db.Table('admin_profiles')).filter_by(profile_id=profile.id).first()
-            if not specific_profile:
-                # If admin profile doesn't exist in the table yet
-                specific_profile = {
-                    'name': 'System Administrator',
-                    'email': user.email,
-                    'role': 'Platform Administrator',
-                    'permissions': 'Full Access'
-                }
+            # For admin, we'll use a simpler approach with a hardcoded profile
+            specific_profile = {
+                'name': 'System Administrator',
+                'email': user.email,
+                'role': 'Platform Administrator',
+                'permissions': 'User Management, Content Moderation, System Configuration, Data Access',
+                'contact_phone': '+1-555-123-4567'
+            }
             template = 'profile/admin.html'
         else:
             flash('Invalid profile type', 'danger')
