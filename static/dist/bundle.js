@@ -41522,46 +41522,73 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// Import components
+// Import all page components
 
 
 
 // Initialize progress indicator
-_inertiajs_progress__WEBPACK_IMPORTED_MODULE_3__.InertiaProgress.init();
+_inertiajs_progress__WEBPACK_IMPORTED_MODULE_3__.InertiaProgress.init({
+  color: '#4B5563',
+  showSpinner: true
+});
 
-// Page component resolver
+// Component resolver function
 var resolveComponent = function resolveComponent(name) {
   var pages = {
     'Home': _pages_Home__WEBPACK_IMPORTED_MODULE_4__["default"]
+    // Add more pages as needed
   };
-  return pages[name];
+  var Component = pages[name];
+  if (!Component) {
+    console.error("Component ".concat(name, " not found in the pages object"));
+    return null;
+  }
+  return Component;
 };
 
-// Initialize Inertia
+// Create and mount the Inertia app
 document.addEventListener('DOMContentLoaded', function () {
   var el = document.getElementById('app');
   if (!el) {
     console.error('Root element #app not found');
     return;
   }
+  try {
+    // Safely extract page data
+    var pageData;
+    try {
+      var dataStr = el.dataset.page;
+      if (!dataStr) throw new Error('No data-page attribute found');
 
-  // Get page data from the data-page attribute
-  var pageElement = el.dataset.page;
-  var page = pageElement ? JSON.parse(decodeURIComponent(pageElement)) : null;
-  if (!page) {
-    console.error('Page data not found');
-    return;
+      // First decode URI component, then parse JSON
+      pageData = JSON.parse(decodeURIComponent(dataStr));
+    } catch (parseError) {
+      console.error('Error parsing page data:', parseError);
+      // Fallback to basic valid data structure to prevent fatal errors
+      pageData = {
+        component: 'Home',
+        props: {
+          title: 'Research Collaboration Platform'
+        },
+        url: window.location.pathname
+      };
+    }
+
+    // Initialize the app with the parsed data
+    (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__.createInertiaApp)({
+      resolve: resolveComponent,
+      setup: function setup(_ref) {
+        var el = _ref.el,
+          App = _ref.App,
+          props = _ref.props;
+        (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(el).render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(App, props));
+      },
+      page: pageData
+    });
+    console.log('Inertia app initialized successfully');
+  } catch (error) {
+    console.error('Error initializing Inertia app:', error);
   }
-  (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__.createInertiaApp)({
-    resolve: resolveComponent,
-    setup: function setup(_ref) {
-      var el = _ref.el,
-        App = _ref.App,
-        props = _ref.props;
-      (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(el).render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(App, props));
-    },
-    page: page
-  });
 });
 })();
 

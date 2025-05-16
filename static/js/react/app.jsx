@@ -39,17 +39,30 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   try {
-    // Get the page data from the data-page attribute
-    const pageData = JSON.parse(decodeURIComponent(el.dataset.page || '{}'));
+    // Safely extract page data
+    let pageData;
+    try {
+      const dataStr = el.dataset.page;
+      if (!dataStr) throw new Error('No data-page attribute found');
+      
+      // First decode URI component, then parse JSON
+      pageData = JSON.parse(decodeURIComponent(dataStr));
+    } catch (parseError) {
+      console.error('Error parsing page data:', parseError);
+      // Fallback to basic valid data structure to prevent fatal errors
+      pageData = {
+        component: 'Home',
+        props: { title: 'Research Collaboration Platform' },
+        url: window.location.pathname
+      };
+    }
     
+    // Initialize the app with the parsed data
     createInertiaApp({
-      // Resolves components based on their name
       resolve: resolveComponent,
-      // Root component setup
       setup({ el, App, props }) {
         createRoot(el).render(<App {...props} />);
       },
-      // The initial page object
       page: pageData
     });
     
