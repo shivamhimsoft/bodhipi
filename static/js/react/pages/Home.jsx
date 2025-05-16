@@ -2,7 +2,16 @@ import React from 'react';
 import { InertiaLink } from '@inertiajs/inertia-react';
 import Layout from '../components/Layout';
 
-const Home = ({ opportunities, profiles, stats, title }) => {
+const Home = ({ opportunities = [], profiles = [], stats = {}, title = 'Research Collaboration Platform' }) => {
+  // Ensure stats has default values to prevent errors
+  const safeStats = {
+    users: stats?.users || 0,
+    labs: stats?.labs || 0,
+    opportunities: stats?.opportunities || 0,
+    collaborations: stats?.collaborations || 0,
+    ...stats
+  };
+  
   return (
     <Layout title={title}>
       {/* Hero section */}
@@ -29,7 +38,7 @@ const Home = ({ opportunities, profiles, stats, title }) => {
           <div className="col-md-3">
             <div className="card bg-dark border-primary mb-3">
               <div className="card-body">
-                <h2 className="display-6 fw-bold text-primary">{stats.users}</h2>
+                <h2 className="display-6 fw-bold text-primary">{safeStats.users}</h2>
                 <p className="card-text">Users</p>
               </div>
             </div>
@@ -37,7 +46,7 @@ const Home = ({ opportunities, profiles, stats, title }) => {
           <div className="col-md-3">
             <div className="card bg-dark border-success mb-3">
               <div className="card-body">
-                <h2 className="display-6 fw-bold text-success">{stats.labs}</h2>
+                <h2 className="display-6 fw-bold text-success">{safeStats.labs}</h2>
                 <p className="card-text">Research Labs</p>
               </div>
             </div>
@@ -45,7 +54,7 @@ const Home = ({ opportunities, profiles, stats, title }) => {
           <div className="col-md-3">
             <div className="card bg-dark border-info mb-3">
               <div className="card-body">
-                <h2 className="display-6 fw-bold text-info">{stats.opportunities}</h2>
+                <h2 className="display-6 fw-bold text-info">{safeStats.opportunities}</h2>
                 <p className="card-text">Opportunities</p>
               </div>
             </div>
@@ -53,7 +62,7 @@ const Home = ({ opportunities, profiles, stats, title }) => {
           <div className="col-md-3">
             <div className="card bg-dark border-warning mb-3">
               <div className="card-body">
-                <h2 className="display-6 fw-bold text-warning">{stats.collaborations}</h2>
+                <h2 className="display-6 fw-bold text-warning">{safeStats.collaborations}</h2>
                 <p className="card-text">Collaborations</p>
               </div>
             </div>

@@ -41195,14 +41195,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
 /* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Layout */ "./static/js/react/components/Layout.jsx");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
 
 var Home = function Home(_ref) {
-  var opportunities = _ref.opportunities,
-    profiles = _ref.profiles,
-    stats = _ref.stats,
-    title = _ref.title;
+  var _ref$opportunities = _ref.opportunities,
+    opportunities = _ref$opportunities === void 0 ? [] : _ref$opportunities,
+    _ref$profiles = _ref.profiles,
+    profiles = _ref$profiles === void 0 ? [] : _ref$profiles,
+    _ref$stats = _ref.stats,
+    stats = _ref$stats === void 0 ? {} : _ref$stats,
+    _ref$title = _ref.title,
+    title = _ref$title === void 0 ? 'Research Collaboration Platform' : _ref$title;
+  // Ensure stats has default values to prevent errors
+  var safeStats = _objectSpread({
+    users: (stats === null || stats === void 0 ? void 0 : stats.users) || 0,
+    labs: (stats === null || stats === void 0 ? void 0 : stats.labs) || 0,
+    opportunities: (stats === null || stats === void 0 ? void 0 : stats.opportunities) || 0,
+    collaborations: (stats === null || stats === void 0 ? void 0 : stats.collaborations) || 0
+  }, stats);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Layout__WEBPACK_IMPORTED_MODULE_2__["default"], {
     title: title
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("section", {
@@ -41233,7 +41250,7 @@ var Home = function Home(_ref) {
     className: "card-body"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
     className: "display-6 fw-bold text-primary"
-  }, stats.users), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+  }, safeStats.users), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "card-text"
   }, "Users")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "col-md-3"
@@ -41243,7 +41260,7 @@ var Home = function Home(_ref) {
     className: "card-body"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
     className: "display-6 fw-bold text-success"
-  }, stats.labs), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+  }, safeStats.labs), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "card-text"
   }, "Research Labs")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "col-md-3"
@@ -41253,7 +41270,7 @@ var Home = function Home(_ref) {
     className: "card-body"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
     className: "display-6 fw-bold text-info"
-  }, stats.opportunities), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+  }, safeStats.opportunities), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "card-text"
   }, "Opportunities")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "col-md-3"
@@ -41263,7 +41280,7 @@ var Home = function Home(_ref) {
     className: "card-body"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
     className: "display-6 fw-bold text-warning"
-  }, stats.collaborations), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+  }, safeStats.collaborations), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "card-text"
   }, "Collaborations")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("section", {
     className: "mb-5"
@@ -41554,27 +41571,24 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
   try {
-    // Safely extract page data
-    var pageData;
-    try {
-      var dataStr = el.dataset.page;
-      if (!dataStr) throw new Error('No data-page attribute found');
+    // Get page data from the global window object
+    var pageData = window.pageData || {
+      component: 'Home',
+      props: {
+        title: 'Research Collaboration Platform',
+        opportunities: [],
+        profiles: [],
+        stats: {
+          users: 0,
+          labs: 0,
+          opportunities: 0,
+          collaborations: 0
+        }
+      },
+      url: window.location.pathname
+    };
 
-      // First decode URI component, then parse JSON
-      pageData = JSON.parse(decodeURIComponent(dataStr));
-    } catch (parseError) {
-      console.error('Error parsing page data:', parseError);
-      // Fallback to basic valid data structure to prevent fatal errors
-      pageData = {
-        component: 'Home',
-        props: {
-          title: 'Research Collaboration Platform'
-        },
-        url: window.location.pathname
-      };
-    }
-
-    // Initialize the app with the parsed data
+    // Initialize the Inertia app
     (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__.createInertiaApp)({
       resolve: resolveComponent,
       setup: function setup(_ref) {
