@@ -116,11 +116,11 @@ def index():
     }
     
     # Use Inertia to render the React component
-    from inertia_flask import inertia
     return inertia.render('Home', {
         'opportunities': serialized_opportunities,
         'profiles': serialized_profiles,
-        'stats': stats
+        'stats': stats,
+        'title': 'Research Collaboration Platform'
     })
 
 @app.route('/login', methods=['GET', 'POST'])
