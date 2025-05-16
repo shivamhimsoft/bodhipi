@@ -219,7 +219,12 @@ def register():
         login_user(user)
         return redirect(url_for('edit_profile'))
     
-    return render_template('auth/register.html', title='Register', form=form)
+    # Return Inertia response
+    return inertia.render('Register', {
+        'title': 'Register',
+        'errors': {},
+        'csrfToken': session.get('csrf_token', '')
+    })
 
 @app.route('/profile/edit', methods=['GET', 'POST'])
 @login_required
