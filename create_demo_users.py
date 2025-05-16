@@ -54,23 +54,11 @@ def create_demo_users():
         )
         vendor.password_hash = generate_password_hash("password123")
         
-        # Create an admin user
-        admin = User(
-            email="admin@example.com",
-            user_type="Admin",
-            account_status='Active',
-            verification_status='Verified',
-            created_at=datetime.utcnow(),
-            last_login=datetime.utcnow()
-        )
-        admin.password_hash = generate_password_hash("admin123")
-        
-        # Add all users
+        # Add the users
         db.session.add(student)
         db.session.add(pi)
         db.session.add(industry)
         db.session.add(vendor)
-        db.session.add(admin)
         
         try:
             db.session.commit()
@@ -111,7 +99,7 @@ def create_profiles(student, pi, industry, vendor):
             affiliation="Stanford University",
             contact_email="alex.johnson@stanford.edu",
             contact_phone="(555) 123-4567",
-            gender="Prefer not to say",
+            gender="Other",
             address="Stanford, CA 94305",
             research_interests="Machine Learning, Artificial Intelligence, Data Science, Computational Biology",
             why_me="I am a motivated graduate student with a strong background in computer science and biology. I have experience in implementing machine learning algorithms for biological data analysis.",
