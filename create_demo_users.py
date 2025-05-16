@@ -70,6 +70,7 @@ def create_demo_users():
         db.session.add(pi)
         db.session.add(industry)
         db.session.add(vendor)
+        db.session.add(admin)
         
         try:
             db.session.commit()
