@@ -60,7 +60,6 @@ def create_demo_users():
             user_type="Admin",
             account_status='Active',
             verification_status='Verified',
-            is_admin=True,
             created_at=datetime.utcnow(),
             last_login=datetime.utcnow()
         )
