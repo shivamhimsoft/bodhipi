@@ -13,8 +13,7 @@ def init_inertia(app):
     # Configure Inertia
     app.config["INERTIA_TEMPLATE"] = "inertia.html"
     
-    # Add shared data function
-    @inertia.share
+    # Add shared data for authentication
     def share_auth():
         if current_user.is_authenticated:
             # Get unread message count
@@ -33,23 +32,19 @@ def init_inertia(app):
                 }
             }
         return {'auth': None}
+        
+    inertia.share(share_auth)
     
     # Flash messages middleware
-    @app.context_processor
-    def inject_inertia_flash():
-        def get_flashed_messages():
-            from flask import get_flashed_messages as flash_msgs
-            messages = []
-            for category, message in flash_msgs(with_categories=True):
-                messages.append({
-                    'type': category,
-                    'message': message
-                })
-            return messages
-        
-        if inertia.page:
-            inertia.share({
-                'flash': get_flashed_messages()
+    @app.before_request
+    def share_flash_messages():
+        from flask import get_flashed_messages as flash_msgs
+        messages = []
+        for category, message in flash_msgs(with_categories=True):
+            messages.append({
+                'type': category,
+                'message': message
             })
-            
-        return {}
+        
+        # Share flash messages with Inertia
+        inertia.share({'flash': messages})

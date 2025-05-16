@@ -1,206 +1,122 @@
 import React from 'react';
-import { InertiaLink } from '@inertiajs/inertia-react';
+import { usePage } from '@inertiajs/inertia-react';
+import { Link } from '@inertiajs/inertia-react';
 
-const Layout = ({ children, auth }) => {
+export default function Layout({ children, title = 'Research Collaboration Platform' }) {
+  const { auth, flash } = usePage().props;
+  
   return (
-    <div className="min-vh-100 d-flex flex-column">
-      <header>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div className="container">
-            <InertiaLink href="/" className="navbar-brand">
-              <i className="fas fa-flask me-2"></i>Research Collaboration
-            </InertiaLink>
-            <button 
-              className="navbar-toggler" 
-              type="button" 
-              data-bs-toggle="collapse" 
-              data-bs-target="#navbarNav" 
-              aria-controls="navbarNav" 
-              aria-expanded="false" 
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav me-auto">
-                <li className="nav-item">
-                  <InertiaLink href="/" className="nav-link">Home</InertiaLink>
-                </li>
-                <li className="nav-item">
-                  <InertiaLink href="/opportunities" className="nav-link">Opportunities</InertiaLink>
-                </li>
-                <li className="nav-item dropdown">
-                  <a 
-                    className="nav-link dropdown-toggle" 
-                    href="#" 
-                    id="navbarDropdown" 
-                    role="button" 
-                    data-bs-toggle="dropdown" 
-                    aria-expanded="false"
-                  >
-                    Explore
-                  </a>
-                  <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li>
-                      <InertiaLink href="/search?category=profiles" className="dropdown-item">
-                        Research Labs
-                      </InertiaLink>
-                    </li>
-                    <li>
-                      <InertiaLink href="/search?category=profiles" className="dropdown-item">
-                        Industry Partners
-                      </InertiaLink>
-                    </li>
-                    <li>
-                      <InertiaLink href="/search?category=profiles" className="dropdown-item">
-                        Vendors
-                      </InertiaLink>
-                    </li>
-                    <li><hr className="dropdown-divider" /></li>
-                    <li>
-                      <InertiaLink href="/search?category=opportunities" className="dropdown-item">
-                        Research Positions
-                      </InertiaLink>
-                    </li>
-                  </ul>
-                </li>
-                {auth && auth.user && (auth.user.user_type === 'PI' || auth.user.user_type === 'Industry') && (
-                  <li className="nav-item">
-                    <InertiaLink href="/create_opportunity" className="nav-link">
-                      Post Opportunity
-                    </InertiaLink>
-                  </li>
-                )}
-                {auth && auth.user && auth.user.user_type === 'Admin' && (
-                  <li className="nav-item">
-                    <InertiaLink href="/admin/dashboard" className="nav-link">
-                      Admin Dashboard
-                    </InertiaLink>
-                  </li>
-                )}
-              </ul>
-              
-              <form className="d-flex me-4" action="/search" method="get">
-                <input 
-                  className="form-control me-2" 
-                  type="search" 
-                  placeholder="Search" 
-                  aria-label="Search" 
-                  name="query" 
-                  required 
-                />
-                <input type="hidden" name="category" value="all" />
-                <button className="btn btn-outline-light" type="submit">
-                  <i className="fas fa-search"></i>
-                </button>
-              </form>
-              
-              <ul className="navbar-nav">
-                {auth && auth.user ? (
-                  <>
-                    <li className="nav-item">
-                      <InertiaLink href="/messages" className="nav-link">
-                        <i className="fas fa-envelope"></i>
-                        {auth.unread_count > 0 && (
-                          <span className="badge bg-danger">{auth.unread_count}</span>
-                        )}
-                      </InertiaLink>
-                    </li>
-                    <li className="nav-item dropdown">
-                      <a 
-                        className="nav-link dropdown-toggle" 
-                        href="#" 
-                        id="userDropdown" 
-                        role="button" 
-                        data-bs-toggle="dropdown" 
-                        aria-expanded="false"
-                      >
-                        {auth.user.email}
-                      </a>
-                      <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li>
-                          <InertiaLink 
-                            href={`/profile/${auth.user.id}`} 
-                            className="dropdown-item"
-                          >
-                            My Profile
-                          </InertiaLink>
-                        </li>
-                        <li>
-                          <InertiaLink href="/edit_profile" className="dropdown-item">
-                            Edit Profile
-                          </InertiaLink>
-                        </li>
-                        <li><hr className="dropdown-divider" /></li>
-                        <li>
-                          <InertiaLink 
-                            href="/logout" 
-                            method="post" 
-                            as="button" 
-                            className="dropdown-item"
-                          >
-                            Logout
-                          </InertiaLink>
-                        </li>
-                      </ul>
-                    </li>
-                  </>
-                ) : (
-                  <>
-                    <li className="nav-item">
-                      <InertiaLink href="/login" className="nav-link">Login</InertiaLink>
-                    </li>
-                    <li className="nav-item">
-                      <InertiaLink href="/register" className="nav-link">Register</InertiaLink>
-                    </li>
-                  </>
-                )}
-              </ul>
-            </div>
-          </div>
-        </nav>
-      </header>
-
-      <main className="flex-grow-1 py-4">
+    <div className="d-flex flex-column min-vh-100">
+      {/* Header/Navbar */}
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div className="container">
-          {children}
+          <Link className="navbar-brand" href="/">Research Collaboration</Link>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav me-auto">
+              <li className="nav-item">
+                <Link className="nav-link" href="/">Home</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" href="/opportunities">Opportunities</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" href="/search">Search</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" href="/documentation">Documentation</Link>
+              </li>
+            </ul>
+            <ul className="navbar-nav">
+              {auth && auth.user ? (
+                <>
+                  <li className="nav-item dropdown">
+                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                      <i className="fas fa-user-circle me-1"></i> 
+                      {auth.user.email}
+                      {auth.unread_count > 0 && 
+                        <span className="badge bg-danger ms-1">{auth.unread_count}</span>
+                      }
+                    </a>
+                    <ul className="dropdown-menu dropdown-menu-end">
+                      <li><Link className="dropdown-item" href={`/profile/${auth.user.id}`}>My Profile</Link></li>
+                      <li><Link className="dropdown-item" href="/profile/edit">Edit Profile</Link></li>
+                      <li><Link className="dropdown-item" href="/messages">Messages</Link></li>
+                      <li><hr className="dropdown-divider" /></li>
+                      <li><Link className="dropdown-item" href="/logout" method="post">Logout</Link></li>
+                    </ul>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link" href="/login">Login</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" href="/register">Register</Link>
+                  </li>
+                </>
+              )}
+            </ul>
+          </div>
         </div>
-      </main>
+      </nav>
 
-      <footer className="bg-dark text-light py-4 mt-5">
+      {/* Flash Messages */}
+      {flash && flash.length > 0 && (
+        <div className="container mb-4">
+          {flash.map((message, i) => (
+            <div key={i} className={`alert alert-${message.type || 'info'} alert-dismissible fade show`} role="alert">
+              {message.message}
+              <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Page Title */}
+      <div className="container mb-4">
+        <h1>{title}</h1>
+      </div>
+      
+      {/* Main Content */}
+      <main className="container flex-grow-1 mb-4">
+        {children}
+      </main>
+      
+      {/* Footer */}
+      <footer className="footer bg-dark text-white py-4 mt-auto">
         <div className="container">
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-md-6">
               <h5>Research Collaboration Platform</h5>
-              <p>Connecting researchers, students, industry partners, and vendors to foster innovation and collaboration.</p>
+              <p>Connecting students, researchers, industry partners, and vendors.</p>
             </div>
-            <div className="col-md-4">
+            <div className="col-md-3">
               <h5>Quick Links</h5>
               <ul className="list-unstyled">
-                <li><InertiaLink href="/" className="text-decoration-none text-light">Home</InertiaLink></li>
-                <li><InertiaLink href="/opportunities" className="text-decoration-none text-light">Opportunities</InertiaLink></li>
-                <li><InertiaLink href="/documentation" className="text-decoration-none text-light">Documentation</InertiaLink></li>
-                <li><a href="#" className="text-decoration-none text-light">Contact</a></li>
+                <li><Link className="text-white" href="/documentation">Documentation</Link></li>
+                <li><Link className="text-white" href="/terms">Terms of Service</Link></li>
+                <li><Link className="text-white" href="/privacy">Privacy Policy</Link></li>
               </ul>
             </div>
-            <div className="col-md-4">
-              <h5>Connect With Us</h5>
-              <div className="d-flex gap-3 fs-4">
-                <a href="#" className="text-light"><i className="fab fa-twitter"></i></a>
-                <a href="#" className="text-light"><i className="fab fa-facebook"></i></a>
-                <a href="#" className="text-light"><i className="fab fa-linkedin"></i></a>
-                <a href="#" className="text-light"><i className="fab fa-instagram"></i></a>
-              </div>
+            <div className="col-md-3">
+              <h5>Contact</h5>
+              <ul className="list-unstyled">
+                <li><i className="fas fa-envelope me-2"></i> support@research-collab.com</li>
+                <li><i className="fas fa-phone me-2"></i> +1 (123) 456-7890</li>
+              </ul>
             </div>
           </div>
-          <hr />
-          <div className="text-center">
-            <p className="mb-0">&copy; {new Date().getFullYear()} Research Collaboration Platform. All rights reserved.</p>
+          <div className="row mt-3">
+            <div className="col text-center">
+              <p className="mb-0">&copy; {new Date().getFullYear()} Research Collaboration Platform. All rights reserved.</p>
+            </div>
           </div>
         </div>
       </footer>
     </div>
   );
-};
-
-export default Layout;
+}

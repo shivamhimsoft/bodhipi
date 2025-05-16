@@ -60,9 +60,66 @@ def load_user(id):
 def index():
     featured_opportunities = Opportunity.query.filter_by(status='Active').order_by(Opportunity.created_at.desc()).limit(3).all()
     featured_profiles = Profile.query.order_by(db.func.random()).limit(4).all()
-    return render_template('index.html', 
-                          opportunities=featured_opportunities, 
-                          profiles=featured_profiles)
+    
+    # Convert opportunities to a serializable format
+    serialized_opportunities = []
+    for opp in featured_opportunities:
+        serialized_opportunities.append({
+            'id': opp.id,
+            'title': opp.title,
+            'type': opp.type,
+            'description': opp.description,
+            'location': opp.location,
+            'duration': opp.duration,
+            'created_at': opp.created_at.isoformat() if opp.created_at else None
+        })
+    
+    # Convert profiles to a serializable format
+    serialized_profiles = []
+    for profile in featured_profiles:
+        profile_data = {
+            'id': profile.id,
+            'user_id': profile.user_id,
+            'profile_type': profile.profile_type,
+            'profile_completeness': profile.profile_completeness
+        }
+        
+        # Add specific profile data based on type
+        if profile.profile_type == 'Student':
+            specific = StudentProfile.query.filter_by(profile_id=profile.id).first()
+            if specific:
+                profile_data.update({
+                    'name': specific.name,
+                    'affiliation': specific.affiliation,
+                    'research_interests': specific.research_interests
+                })
+        elif profile.profile_type == 'PI':
+            specific = PIProfile.query.filter_by(profile_id=profile.id).first()
+            if specific:
+                profile_data.update({
+                    'name': specific.name,
+                    'affiliation': specific.affiliation,
+                    'department': specific.department,
+                    'current_focus': specific.current_focus
+                })
+                
+        serialized_profiles.append(profile_data)
+    
+    # Basic platform statistics
+    stats = {
+        'users': User.query.count(),
+        'labs': User.query.filter_by(user_type='PI').count(),
+        'opportunities': Opportunity.query.count(),
+        'collaborations': Application.query.filter_by(status='Accepted').count()
+    }
+    
+    # Use Inertia to render the React component
+    from inertia_flask import inertia
+    return inertia.render('Home', {
+        'opportunities': serialized_opportunities,
+        'profiles': serialized_profiles,
+        'stats': stats
+    })
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
