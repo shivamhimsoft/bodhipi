@@ -95,9 +95,7 @@ def create_seed_data():
             current_message="Welcome to the Williams Lab! We are always looking for talented students to join our research on artificial intelligence and robotics.",
             current_focus="Robotics, Computer Vision, Reinforcement Learning",
             expectations_from_students="Strong programming skills, background in machine learning or robotics, willingness to learn and collaborate.",
-            why_join_lab="Our lab has cutting-edge facilities and collaborations with leading tech companies. We publish regularly in top-tier conferences and journals.",
-            lab_website="https://williamslab.mit.edu",
-            funding_sources="NSF, DARPA, Industry Partners"
+            why_join_lab="Our lab has cutting-edge facilities and collaborations with leading tech companies. We publish regularly in top-tier conferences and journals."
         )
         db.session.add(pi_specific)
         
@@ -138,10 +136,7 @@ def create_seed_data():
             vision="Pioneering technological solutions to solve global challenges through research and innovation.",
             sector="Technology, Healthcare",
             team_size=250,
-            annual_turnover="$50M",
-            company_website="https://innovatetech.com",
-            social_media_links="linkedin.com/company/innovatetech, twitter.com/innovatetech",
-            current_projects="AI-Driven Medical Diagnostics, Sustainable Energy Solutions"
+            annual_turnover="$50M"
         )
         db.session.add(industry_specific)
         
@@ -182,9 +177,7 @@ def create_seed_data():
             address="456 Science Park, Boston, MA 02210",
             product_categories="Microscopes, Centrifuges, Spectrophotometers, PCR Equipment",
             why_me="We provide high-quality lab equipment with excellent customer service and technical support. Academic discounts available!",
-            region="North America, Europe",
-            company_website="https://labsupplypro.com",
-            delivery_info="Free shipping for orders over $1000, 30-day returns policy"
+            region="North America, Europe"
         )
         db.session.add(vendor_specific)
         
@@ -194,7 +187,7 @@ def create_seed_data():
         opportunities = [
             # PI opportunities
             Opportunity(
-                creator_user_id=pi.id,
+                creator_profile_id=pi_profile.id,
                 type="PhD",
                 title="PhD Position in Machine Learning for Robotics",
                 domain="Machine Learning, Robotics",
@@ -281,7 +274,7 @@ def create_seed_data():
             
             # Industry opportunities
             Opportunity(
-                creator_user_id=industry.id,
+                creator_profile_id=industry_profile.id,
                 type="Internship",
                 title="AI Research Intern",
                 domain="Artificial Intelligence, Healthcare",
@@ -310,7 +303,7 @@ def create_seed_data():
                 last_updated=datetime.utcnow() - timedelta(days=5)
             ),
             Opportunity(
-                creator_user_id=industry.id,
+                creator_profile_id=industry_profile.id,
                 type="Job",
                 title="Research Scientist - Sustainable Energy",
                 domain="Renewable Energy, Materials Science",
@@ -340,7 +333,7 @@ def create_seed_data():
                 last_updated=datetime.utcnow() - timedelta(days=20)
             ),
             Opportunity(
-                creator_user_id=industry.id,
+                creator_profile_id=industry_profile.id,
                 type="Project",
                 title="Collaborative Research Project in Quantum Computing",
                 domain="Quantum Computing, Algorithm Development",
