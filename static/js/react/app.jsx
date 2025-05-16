@@ -68,13 +68,29 @@ document.addEventListener('DOMContentLoaded', () => {
       url: window.location.pathname
     };
     
-    // Initialize the Inertia app
+    // Initialize the Inertia app with proper visit options
     createInertiaApp({
       resolve: resolveComponent,
       setup({ el, App, props }) {
         createRoot(el).render(<App {...props} />);
       },
-      page: pageData
+      page: pageData,
+      // Add the following to ensure proper link handling
+      visit: {
+        preserveState: true,
+        preserveScroll: true,
+        replace: false,
+        onBefore: () => true,
+        onStart: () => console.log('Navigation started'),
+        onFinish: () => console.log('Navigation finished'),
+        onSuccess: () => console.log('Navigation succeeded'),
+        onError: () => console.log('Navigation failed')
+      }
+    });
+    
+    // Configure Inertia global settings
+    Inertia.on('success', (event) => {
+      console.log('Page loaded successfully', event.detail.page.component);
     });
     
     console.log('Inertia app initialized successfully');

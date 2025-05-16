@@ -123,7 +123,7 @@ const Register = ({ errors = {}, title = 'Register - Research Collaboration Plat
                 </form>
                 
                 <div className="mt-3 text-center">
-                  <p>Already have an account? <a href="/login" className="link-info">Login here</a></p>
+                  <p>Already have an account? <Link href="/login" className="link-info">Login here</Link></p>
                 </div>
               </div>
             </div>
