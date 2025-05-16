@@ -3,23 +3,33 @@ import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/inertia-react';
 import { InertiaProgress } from '@inertiajs/progress';
 
-// Import components
+// Import all page components
 import Home from './pages/Home';
 import Layout from './components/Layout';
 
 // Initialize progress indicator
-InertiaProgress.init();
+InertiaProgress.init({
+  color: '#4B5563',
+  showSpinner: true,
+});
 
-// Page component resolver
+// Component resolver function
 const resolveComponent = (name) => {
   const pages = {
     'Home': Home
+    // Add more pages as needed
   };
   
-  return pages[name];
+  const Component = pages[name];
+  if (!Component) {
+    console.error(`Component ${name} not found in the pages object`);
+    return null;
+  }
+  
+  return Component;
 };
 
-// Initialize Inertia
+// Create and mount the Inertia app
 document.addEventListener('DOMContentLoaded', () => {
   const el = document.getElementById('app');
   
@@ -28,20 +38,23 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
   
-  // Get page data from the data-page attribute
-  const pageElement = el.dataset.page;
-  const page = pageElement ? JSON.parse(decodeURIComponent(pageElement)) : null;
-  
-  if (!page) {
-    console.error('Page data not found');
-    return;
+  try {
+    // Get the page data from the data-page attribute
+    const pageData = JSON.parse(decodeURIComponent(el.dataset.page || '{}'));
+    
+    createInertiaApp({
+      // Resolves components based on their name
+      resolve: resolveComponent,
+      // Root component setup
+      setup({ el, App, props }) {
+        createRoot(el).render(<App {...props} />);
+      },
+      // The initial page object
+      page: pageData
+    });
+    
+    console.log('Inertia app initialized successfully');
+  } catch (error) {
+    console.error('Error initializing Inertia app:', error);
   }
-  
-  createInertiaApp({
-    resolve: resolveComponent,
-    setup({ el, App, props }) {
-      createRoot(el).render(<App {...props} />);
-    },
-    page
-  });
 });
