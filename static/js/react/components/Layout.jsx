@@ -1,5 +1,5 @@
 import React from 'react';
-import { InertiaLink } from '@inertiajs/inertia-react';
+import { Link } from '@inertiajs/inertia-react';
 
 const Layout = ({ children, title = 'Research Collaboration Platform' }) => {
   return (
@@ -7,9 +7,9 @@ const Layout = ({ children, title = 'Research Collaboration Platform' }) => {
       <header>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container">
-            <InertiaLink className="navbar-brand" href="/">
+            <Link className="navbar-brand" href="/">
               Research Platform
-            </InertiaLink>
+            </Link>
             <button
               className="navbar-toggler"
               type="button"
@@ -24,31 +24,31 @@ const Layout = ({ children, title = 'Research Collaboration Platform' }) => {
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav me-auto">
                 <li className="nav-item">
-                  <InertiaLink className="nav-link" href="/opportunities">
+                  <Link className="nav-link" href="/opportunities">
                     Opportunities
-                  </InertiaLink>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <InertiaLink className="nav-link" href="/documentation">
+                  <Link className="nav-link" href="/documentation">
                     Documentation
-                  </InertiaLink>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <InertiaLink className="nav-link" href="/search">
+                  <Link className="nav-link" href="/search">
                     Search
-                  </InertiaLink>
+                  </Link>
                 </li>
               </ul>
               <ul className="navbar-nav">
                 <li className="nav-item">
-                  <InertiaLink className="nav-link" href="/login">
+                  <Link className="nav-link" href="/login">
                     Login
-                  </InertiaLink>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <InertiaLink className="nav-link" href="/register">
+                  <Link className="nav-link" href="/register">
                     Register
-                  </InertiaLink>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -73,15 +73,15 @@ const Layout = ({ children, title = 'Research Collaboration Platform' }) => {
             <div className="col-md-3">
               <h6>Resources</h6>
               <ul className="list-unstyled">
-                <li><InertiaLink className="text-light" href="/documentation">Documentation</InertiaLink></li>
-                <li><InertiaLink className="text-light" href="/search">Search</InertiaLink></li>
+                <li><Link className="text-light" href="/documentation">Documentation</Link></li>
+                <li><Link className="text-light" href="/search">Search</Link></li>
               </ul>
             </div>
             <div className="col-md-3">
               <h6>Legal</h6>
               <ul className="list-unstyled">
-                <li><InertiaLink className="text-light" href="/terms">Terms of Service</InertiaLink></li>
-                <li><InertiaLink className="text-light" href="/privacy">Privacy Policy</InertiaLink></li>
+                <li><Link className="text-light" href="/terms">Terms of Service</Link></li>
+                <li><Link className="text-light" href="/privacy">Privacy Policy</Link></li>
               </ul>
             </div>
           </div>

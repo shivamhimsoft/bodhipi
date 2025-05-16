@@ -2,12 +2,19 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/inertia-react';
 import { InertiaProgress } from '@inertiajs/progress';
+import { Inertia } from '@inertiajs/inertia';
 
 // Import all page components
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Layout from './components/Layout';
+
+// Configure Inertia
+Inertia.on('navigate', (event) => {
+  // This helps debug navigation issues
+  console.log('Navigating to:', event.detail.page.url);
+});
 
 // Initialize progress indicator
 InertiaProgress.init({
