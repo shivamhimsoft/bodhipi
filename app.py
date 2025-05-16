@@ -40,6 +40,13 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 login_manager.init_app(app)
 
+# Add custom Jinja filters
+@app.template_filter('nl2br')
+def nl2br(value):
+    """Convert newlines to HTML line breaks."""
+    if value:
+        return value.replace('\n', '<br>')
+
 # Import models and forms after db is initialized to avoid circular imports
 from models import User, Profile, StudentProfile, PIProfile, IndustryProfile, VendorProfile, Opportunity, Message, Application, Notification
 from forms import LoginForm, RegistrationForm, StudentProfileForm, PIProfileForm, IndustryProfileForm, VendorProfileForm, OpportunityForm, MessageForm, SearchForm
