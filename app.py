@@ -148,22 +148,27 @@ def register():
 @app.route('/profile/edit', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
-    profile = Profile.query.filter_by(user_id=current_user.id).first_or_404()
-    
-    if profile.profile_type == 'Student':
-        form = StudentProfileForm()
-        specific_profile = StudentProfile.query.filter_by(profile_id=profile.id).first_or_404()
-    elif profile.profile_type == 'PI':
-        form = PIProfileForm()
-        specific_profile = PIProfile.query.filter_by(profile_id=profile.id).first_or_404()
-    elif profile.profile_type == 'Industry':
-        form = IndustryProfileForm()
-        specific_profile = IndustryProfile.query.filter_by(profile_id=profile.id).first_or_404()
-    elif profile.profile_type == 'Vendor':
-        form = VendorProfileForm()
-        specific_profile = VendorProfile.query.filter_by(profile_id=profile.id).first_or_404()
-    else:
-        flash('Invalid profile type', 'danger')
+    try:
+        profile = Profile.query.filter_by(user_id=current_user.id).first_or_404()
+        
+        if profile.profile_type == 'Student':
+            form = StudentProfileForm()
+            specific_profile = StudentProfile.query.filter_by(profile_id=profile.id).first_or_404()
+        elif profile.profile_type == 'PI':
+            form = PIProfileForm()
+            specific_profile = PIProfile.query.filter_by(profile_id=profile.id).first_or_404()
+        elif profile.profile_type == 'Industry':
+            form = IndustryProfileForm()
+            specific_profile = IndustryProfile.query.filter_by(profile_id=profile.id).first_or_404()
+        elif profile.profile_type == 'Vendor':
+            form = VendorProfileForm()
+            specific_profile = VendorProfile.query.filter_by(profile_id=profile.id).first_or_404()
+        else:
+            flash('Invalid profile type', 'danger')
+            return redirect(url_for('index'))
+    except Exception as e:
+        logger.error(f"Error loading profile for editing: {str(e)}")
+        flash('There was an error loading your profile. Please try again later.', 'danger')
         return redirect(url_for('index'))
     
     if request.method == 'GET':
@@ -304,25 +309,31 @@ def edit_profile():
 
 @app.route('/profile/<int:user_id>')
 def view_profile(user_id):
-    user = User.query.get_or_404(user_id)
-    profile = Profile.query.filter_by(user_id=user_id).first_or_404()
-    
-    if profile.profile_type == 'Student':
-        specific_profile = StudentProfile.query.filter_by(profile_id=profile.id).first_or_404()
-        template = 'profile/student.html'
-    elif profile.profile_type == 'PI':
-        specific_profile = PIProfile.query.filter_by(profile_id=profile.id).first_or_404()
-        template = 'profile/pi.html'
-    elif profile.profile_type == 'Industry':
-        specific_profile = IndustryProfile.query.filter_by(profile_id=profile.id).first_or_404()
-        template = 'profile/industry.html'
-    elif profile.profile_type == 'Vendor':
-        specific_profile = VendorProfile.query.filter_by(profile_id=profile.id).first_or_404()
-        template = 'profile/vendor.html'
-    else:
-        abort(404)
-    
-    return render_template(template, user=user, profile=profile, specific_profile=specific_profile)
+    try:
+        user = User.query.get_or_404(user_id)
+        profile = Profile.query.filter_by(user_id=user_id).first_or_404()
+        
+        if profile.profile_type == 'Student':
+            specific_profile = StudentProfile.query.filter_by(profile_id=profile.id).first_or_404()
+            template = 'profile/student.html'
+        elif profile.profile_type == 'PI':
+            specific_profile = PIProfile.query.filter_by(profile_id=profile.id).first_or_404()
+            template = 'profile/pi.html'
+        elif profile.profile_type == 'Industry':
+            specific_profile = IndustryProfile.query.filter_by(profile_id=profile.id).first_or_404()
+            template = 'profile/industry.html'
+        elif profile.profile_type == 'Vendor':
+            specific_profile = VendorProfile.query.filter_by(profile_id=profile.id).first_or_404()
+            template = 'profile/vendor.html'
+        else:
+            flash('Invalid profile type', 'danger')
+            return redirect(url_for('index'))
+        
+        return render_template(template, user=user, profile=profile, specific_profile=specific_profile)
+    except Exception as e:
+        logger.error(f"Error viewing profile: {str(e)}")
+        flash('There was an error loading the profile. Please try again later.', 'danger')
+        return redirect(url_for('index'))
 
 @app.route('/opportunities', methods=['GET'])
 def list_opportunities():
