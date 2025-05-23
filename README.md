@@ -40,7 +40,7 @@ The Research Collaboration Platform is designed to streamline connections betwee
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-organization/research-collaboration-platform.git
+   git clone https://github.com/vin33t/research-collaboration-platform.git
    cd research-collaboration-platform
    ```
 
