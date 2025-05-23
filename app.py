@@ -8,7 +8,6 @@ from sqlalchemy.orm import DeclarativeBase
 from urllib.parse import urlparse
 from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.security import generate_password_hash, check_password_hash
-from inertia_flask import inertia, init_inertia
 
 # Setup logging
 logging.basicConfig(level=logging.DEBUG)
@@ -40,7 +39,6 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # Initialize extensions with app
 db.init_app(app)
 login_manager.init_app(app)
-init_inertia(app)
 
 # Add custom Jinja filters
 @app.template_filter('nl2br')
@@ -62,66 +60,9 @@ def load_user(id):
 def index():
     featured_opportunities = Opportunity.query.filter_by(status='Active').order_by(Opportunity.created_at.desc()).limit(3).all()
     featured_profiles = Profile.query.order_by(db.func.random()).limit(4).all()
-    
-    # Convert opportunities to a serializable format
-    serialized_opportunities = []
-    for opp in featured_opportunities:
-        serialized_opportunities.append({
-            'id': opp.id,
-            'title': opp.title,
-            'type': opp.type,
-            'description': opp.description,
-            'location': opp.location,
-            'duration': opp.duration,
-            'created_at': opp.created_at.isoformat() if opp.created_at else None
-        })
-    
-    # Convert profiles to a serializable format
-    serialized_profiles = []
-    for profile in featured_profiles:
-        profile_data = {
-            'id': profile.id,
-            'user_id': profile.user_id,
-            'profile_type': profile.profile_type,
-            'profile_completeness': profile.profile_completeness
-        }
-        
-        # Add specific profile data based on type
-        if profile.profile_type == 'Student':
-            specific = StudentProfile.query.filter_by(profile_id=profile.id).first()
-            if specific:
-                profile_data.update({
-                    'name': specific.name,
-                    'affiliation': specific.affiliation,
-                    'research_interests': specific.research_interests
-                })
-        elif profile.profile_type == 'PI':
-            specific = PIProfile.query.filter_by(profile_id=profile.id).first()
-            if specific:
-                profile_data.update({
-                    'name': specific.name,
-                    'affiliation': specific.affiliation,
-                    'department': specific.department,
-                    'current_focus': specific.current_focus
-                })
-                
-        serialized_profiles.append(profile_data)
-    
-    # Basic platform statistics
-    stats = {
-        'users': User.query.count(),
-        'labs': User.query.filter_by(user_type='PI').count(),
-        'opportunities': Opportunity.query.count(),
-        'collaborations': Application.query.filter_by(status='Accepted').count()
-    }
-    
-    # Use Inertia to render the React component
-    return inertia.render('Home', {
-        'opportunities': serialized_opportunities,
-        'profiles': serialized_profiles,
-        'stats': stats,
-        'title': 'Research Collaboration Platform'
-    })
+    return render_template('index.html', 
+                          opportunities=featured_opportunities, 
+                          profiles=featured_profiles)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -129,38 +70,21 @@ def login():
         return redirect(url_for('index'))
     
     form = LoginForm()
-    errors = {}
-    
-    if request.method == 'POST':
-        # For Inertia AJAX requests
-        form.email.data = request.json.get('email', '')
-        form.password.data = request.json.get('password', '')
-        form.remember_me.data = request.json.get('remember_me', False)
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is None or not check_password_hash(user.password_hash, form.password.data):
+            flash('Invalid email or password', 'danger')
+            return redirect(url_for('login'))
         
-        if form.validate():
-            user = User.query.filter_by(email=form.email.data).first()
-            if user is None or not check_password_hash(user.password_hash, form.password.data):
-                flash('Invalid email or password', 'danger')
-                errors['email'] = 'Invalid email or password'
-            else:
-                login_user(user, remember=form.remember_me.data)
-                next_page = request.args.get('next')
-                if not next_page or urlparse(next_page).netloc != '':
-                    next_page = url_for('index')
-                
-                flash('Login successful!', 'success')
-                return redirect(next_page)
-        else:
-            # Convert WTForms errors to a format usable by Inertia
-            for field_name, field_errors in form.errors.items():
-                errors[field_name] = field_errors[0]
+        login_user(user, remember=form.remember_me.data)
+        next_page = request.args.get('next')
+        if not next_page or urlparse(next_page).netloc != '':
+            next_page = url_for('index')
+        
+        flash('Login successful!', 'success')
+        return redirect(next_page)
     
-    # For both GET and failed POST requests
-    return inertia.render('Login', {
-        'title': 'Sign In',
-        'errors': errors,
-        'csrfToken': session.get('csrf_token', '')
-    })
+    return render_template('auth/login.html', title='Sign In', form=form)
 
 @app.route('/logout')
 def logout():
@@ -219,12 +143,7 @@ def register():
         login_user(user)
         return redirect(url_for('edit_profile'))
     
-    # Return Inertia response
-    return inertia.render('Register', {
-        'title': 'Register',
-        'errors': {},
-        'csrfToken': session.get('csrf_token', '')
-    })
+    return render_template('auth/register.html', title='Register', form=form)
 
 @app.route('/profile/edit', methods=['GET', 'POST'])
 @login_required
