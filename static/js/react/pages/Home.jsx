@@ -145,12 +145,12 @@ const Home = ({ opportunities = [], profiles = [], stats = {}, title = 'Research
                     </p>
                   </div>
                   <div className="card-footer bg-transparent">
-                    <InertiaLink
+                    <Link
                       href={`/profile/${profile.user_id}`}
                       className="btn btn-sm btn-outline-info w-100"
                     >
                       View Profile
-                    </InertiaLink>
+                    </Link>
                   </div>
                 </div>
               </div>

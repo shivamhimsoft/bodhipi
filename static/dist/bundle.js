@@ -41367,7 +41367,7 @@ var Home = function Home(_ref) {
       className: "small mb-0"
     }, "Profile Completion: ", profile.completeness || 0, "%")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "card-footer bg-transparent"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(InertiaLink, {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.Link, {
       href: "/profile/".concat(profile.user_id),
       className: "btn btn-sm btn-outline-info w-100"
     }, "View Profile"))));
