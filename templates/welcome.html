@@ -1,0 +1,246 @@
+{% extends "frontBase.html" %}
+
+{% block title %}Research Collaboration Platform | Home{% endblock %}
+
+{% block content %}
+<div class="w-full flex justify-center lg:mt-8">
+    <div class="lg:w-[70%] md:w-[80%] sm:w-[80%] w-full ">
+        <div class="w-full bg-gray-100  w-full rounded-2xl flex flex-col items-center px-4 lg:py-12 md:py-12 sm:py-6 py-4">
+            <span class="text-[#314a4a] font-medium lg:text-4xl md:text-4xl sm:text-3xl text-2xl">bodhiϕ</span>
+            <form action="{{url_for('index')}}" class="lg:w-[70%] md:w-[90%] w-full flex flex-col items-center">
+                <div
+                        class="border-[1px] border-[#314a4a]/60 rounded-full w-full py-2 pr-3 pl-10 gap-4 lg:mt-12 md:mt-12 sm:mt-8 mt-4 flex  items-center relative">
+                    <i class="fa fa-search absolute left-6 top-[50%] translate-y-[-50%] text-[#314a4a]"></i>
+                    <input type="text"
+                           class="w-full rounded-full border-[0px] bg-gray-100 focus:outline-none focus:ring-0"
+                           placeholder="Search with Name/ Institute/ Location/ Research Area">
+                    <button
+                            class="w-max h-full flex gap-2 items-center px-6 py-2 whitespace-nowrap text-white bg-[#314a4a]/90 font-semibold rounded-full text-lg border-[1px] border-[#314a4a] hover:bg-[#314a4a] transition ease-in duration-2000">
+                        <i class="fa fa-search"></i> <span class="lg:block md:block hidden">Search....</span>
+                    </button>
+                </div>
+
+                <div class="mt-4 w-full">
+                    <div class="carousel">
+                        <div class="mx-4">
+                            <button id="tab-profile" data-tab="profile"
+                                    type="button" class="tab-button w-full h-max rounded-sm px-4 py-2 whitespace-nowrap text-[#314a4a] bg-white font-medium border-[1px] border-[#314a4a] hover:text-white hover:bg-[#314a4a] transition ease-in duration-2000">
+                                Find Profile
+                            </button>
+                        </div>
+                        <div class="mx-4">
+                            <button id="tab-org" data-tab="organisation"
+                                    type="button" class="tab-button w-full h-max rounded-sm px-4 py-2 whitespace-nowrap text-[#314a4a] bg-white font-medium border-[1px] border-[#314a4a] hover:text-white hover:bg-[#314a4a] transition ease-in duration-2000">
+                                Find Organisation
+                            </button>
+                        </div>
+                        <div class="mx-4">
+                            <button id="tab-univ" data-tab="university"
+                                    type="button" class="tab-button w-full h-max rounded-sm px-4 py-2 whitespace-nowrap text-[#314a4a] bg-white font-medium border-[1px] border-[#314a4a] hover:text-white hover:bg-[#314a4a] transition ease-in duration-2000">
+                                Find University
+                            </button>
+                        </div>
+                        <div class="mx-4">
+                            <button id="tab-research" data-tab="research"
+                                    type="button" class="tab-button w-full h-max rounded-sm px-4 py-2 whitespace-nowrap text-[#314a4a] bg-white font-medium border-[1px] border-[#314a4a] hover:text-white hover:bg-[#314a4a] transition ease-in duration-2000">
+                                Find Research Area
+                            </button>
+                        </div>
+                        <div class="mx-4">
+                            <button id="tab-location" data-tab="location"
+                                    type="button" class="tab-button w-full h-max rounded-sm px-4 py-2 whitespace-nowrap text-[#314a4a] bg-white font-medium border-[1px] border-[#314a4a] hover:text-white hover:bg-[#314a4a] transition ease-in duration-2000">
+                                Location
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="tab-content-profile" data-tab-content="profile" class="tab-content w-full flex flex-col gap-4 mt-12">
+                    <div class="w-full bg-white rounded-lg border-[2px]  border-[#314a4a]/10 p-4 flex flex-col gap-4">
+                        <div class="flex w-full justify-between flex-wrap gap-2">
+                            <div class="flex gap-2 w-max">
+                                <div class="rounded-full h-16 w-16">
+                                    <img src="../static/images/logo.png"
+                                         class="w-full h-full rounded-full object-cover" alt="">
+                                </div>
+                                <div class="flex flex-col ">
+                                    <span class="font-bold text-[14px] text-[#314a4a]">Firdas Ali</span>
+                                    <span class="font-medium text-[12px]">Physicist and Material Scientist</span>
+                                    <span class="text-gray-500 text-[11px]">6 Hours ago PUBLIC</span>
+                                </div>
+                            </div>
+                            <button
+                                    class="flex gap-2 items-center w-max h-max rounded-sm text-blue-500 px-3 py-0.5 hover:bg-[#314a4a] hover:text-white transition ease-in duration-2000">
+                                <i class="fa fa-plus text-[14px]"></i>
+                                <span class="text-[14px] font-bold ">FOLLOW</span>
+                            </button>
+                        </div>
+
+                        <div class="w-full flex flex-col">
+                            <span class="font-semibold lg:text-xl text-black">Understanding the way of doing research is more important than the research itself</span>
+
+                            <span class="font-medium lg:text-md text-black">Why the way of doing research matters more.....</span>
+
+                            <button
+                                    class="flex gap-2 items-center w-max h-max rounded-sm text-blue-500 hover:border-b-[1px] border-b-blue-500 transition ease-in duration-2000">
+                                <i class="fa fa-plus text-[14px]"></i>
+                                <span class="text-[14px] font-bold ">More</span>
+                            </button>
+
+                        </div>
+
+                        <div
+                                class="w-full flex justify-between gap-2 flex-wrap pb-4 border-b-[1px] border-b-[#314a4a]/20">
+                            <button class="text-sm text-[#314a4a]">
+                                <i class="fa fa-heart"></i>
+                                <span>5</span>
+                            </button>
+
+                            <button class="text-sm text-[#314a4a]">
+                                <span>0</span>
+                                <span>comments</span>
+                            </button>
+                        </div>
+
+                        <div class="w-full flex gap-6">
+                            <button class="text-sm text-black">
+                                <i class="fa-regular fa-heart"></i>
+                                <span>Like</span>
+                            </button>
+
+                            <button class="text-sm text-black">
+                                <i class="fa-regular fa-comment"></i>
+                                <span>Comments</span>
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="w-full bg-white rounded-lg border-[2px]  border-[#314a4a]/10 p-4 flex flex-col gap-4">
+                        <div class="flex w-full justify-between flex-wrap gap-2">
+                            <div class="flex gap-2 w-max">
+                                <div class="rounded-full h-16 w-16">
+                                    <img src="../static/images/logo.png"
+                                         class="w-full h-full rounded-full object-cover" alt="">
+                                </div>
+                                <div class="flex flex-col ">
+                                    <span class="font-bold text-[14px] text-[#314a4a]">Firdas Ali</span>
+                                    <span class="font-medium text-[12px]">Physicist and Material Scientist</span>
+                                    <span class="text-gray-500 text-[11px]">6 Hours ago PUBLIC</span>
+                                </div>
+                            </div>
+                            <button
+                                    class="flex gap-2 items-center w-max h-max rounded-sm text-blue-500 px-3 py-0.5 hover:bg-[#314a4a] hover:text-white transition ease-in duration-2000">
+                                <i class="fa fa-plus text-[14px]"></i>
+                                <span class="text-[14px] font-bold ">FOLLOW</span>
+                            </button>
+                        </div>
+
+                        <div class="w-full flex flex-col">
+                            <span class="font-semibold lg:text-xl text-black">Understanding the way of doing research is more important than the research itself</span>
+
+                            <span class="font-medium lg:text-md text-black">Why the way of doing research matters more.....</span>
+
+                            <button
+                                    class="flex gap-2 items-center w-max h-max rounded-sm text-blue-500 hover:border-b-[1px] border-b-blue-500 transition ease-in duration-2000">
+                                <i class="fa fa-plus text-[14px]"></i>
+                                <span class="text-[14px] font-bold ">More</span>
+                            </button>
+
+                        </div>
+
+                        <div
+                                class="w-full flex justify-between gap-2 flex-wrap pb-4 border-b-[1px] border-b-[#314a4a]/20">
+                            <button class="text-sm text-[#314a4a]">
+                                <i class="fa fa-heart"></i>
+                                <span>5</span>
+                            </button>
+
+                            <button class="text-sm text-[#314a4a]">
+                                <span>0</span>
+                                <span>comments</span>
+                            </button>
+                        </div>
+
+                        <div class="w-full flex gap-6">
+                            <button class="text-sm text-black">
+                                <i class="fa-regular fa-heart"></i>
+                                <span>Like</span>
+                            </button>
+
+                            <button class="text-sm text-black">
+                                <i class="fa-regular fa-comment"></i>
+                                <span>Comments</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="tab-content-organisation" data-tab-content="organisation" class="tab-content w-full flex flex-col gap-4 mt-12 hidden">
+                    <div class="w-full bg-white rounded-lg border-[2px]  border-[#314a4a]/10 p-4 flex flex-col gap-4">
+                        <div class="w-full flex lg:flex-row md:flew-row sm:flew-row flex-col gap-4 ">
+                            <div class="h-24 w-24 flex-none rounded-md border-[1px] border-[#314a4a]/10 p-2">
+                                <img src="../static/images/logo.png" class="w-full h-full object-cover" alt="">
+                            </div>
+                            <div class="w-full flex flex-col ">
+                                <span
+                                        class="text-[12px] font-normal text-black">Indian Institute of Science Banglore</span>
+                                <span class="text-[#314a4a] font-bold lg:text-xl">Scientist D (medical/non-medical), Scientist C (medical/non-medical), Health Economist & Field Officer</span>
+                                <div class="w-full flex gap-2 mt-4 pb-4 border-b-[1px] border-b-[#314a4a]/10">
+                                    <button class="text-gray-600 font-normal text-sm flex items-center gap-2">
+                                        <i class="fa fa-location-dot"></i>
+                                        <span class="font-medium">IISc Banglore</span>
+                                    </button>
+                                    <button class="text-gray-600 font-normal text-sm flex items-center gap-2">
+                                        <i class="fa fa-building"></i>
+                                        <span class="font-medium">Instrumentation & Applied Physics</span>
+                                    </button>
+                                </div>
+
+                                <div class="py-4 flex justify-between items-center w-full flex-wrap gap-2">
+                                    <span>Apply before: <span>20-06-2025</span></span>
+                                    <button
+                                            class="w-max h-max rounded-sm px-4 py-0.5 whitespace-nowrap text-[#314a4a] bg-white font-medium border-[1px] border-[#314a4a] hover:text-white hover:bg-[#314a4a] transition ease-in duration-2000">
+                                        View more
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full bg-white rounded-lg border-[2px]  border-[#314a4a]/10 p-4 flex flex-col gap-4">
+                        <div class="w-full flex lg:flex-row md:flew-row sm:flew-row flex-col gap-4 ">
+                            <div class="h-24 w-24 flex-none rounded-md border-[1px] border-[#314a4a]/10 p-2">
+                                <img src="../static/images/logo.png" class="w-full h-full object-cover"
+                                     alt="">
+                            </div>
+                            <div class="w-full flex flex-col ">
+                                <span class="text-[12px] font-normal text-black">IIT Roorkee</span>
+                                <span class="text-[#314a4a] font-bold lg:text-xl">Scientist D (medical/non-medical), Scientist C (medical/non-medical), Health Economist & Field Officer</span>
+                                <div class="w-full flex gap-2 mt-4 pb-4 border-b-[1px] border-b-[#314a4a]/10">
+                                    <button class="text-gray-600 font-normal text-sm flex items-center gap-2">
+                                        <i class="fa fa-location-dot"></i>
+                                        <span class="font-medium">IIT Roorkee</span>
+                                    </button>
+                                    <button class="text-gray-600 font-normal text-sm flex items-center gap-2">
+                                        <i class="fa fa-building"></i>
+                                        <span class="font-medium">Instrumentation & Applied Physics</span>
+                                    </button>
+                                </div>
+
+                                <div class="py-4 flex justify-between items-center w-full flex-wrap gap-2">
+                                    <span>Apply before: <span>20-06-2025</span></span>
+                                    <button
+                                            class="w-max h-max rounded-sm px-4 py-0.5 whitespace-nowrap text-[#314a4a] bg-white font-medium border-[1px] border-[#314a4a] hover:text-white hover:bg-[#314a4a] transition ease-in duration-2000">
+                                        View more
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

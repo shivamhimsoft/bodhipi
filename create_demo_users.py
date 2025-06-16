@@ -9,7 +9,7 @@ def create_demo_users():
     """Create demo users with different roles"""
     with app.app_context():
         print("Creating demo users...")
-        
+
         # Create a student user
         student = User(
             email="student@example.com",
@@ -20,7 +20,7 @@ def create_demo_users():
             last_login=datetime.utcnow()
         )
         student.password_hash = generate_password_hash("password123")
-        
+
         # Create a PI user
         pi = User(
             email="pi@example.com",
@@ -31,7 +31,7 @@ def create_demo_users():
             last_login=datetime.utcnow()
         )
         pi.password_hash = generate_password_hash("password123")
-        
+
         # Create an Industry user
         industry = User(
             email="industry@example.com",
@@ -42,7 +42,7 @@ def create_demo_users():
             last_login=datetime.utcnow()
         )
         industry.password_hash = generate_password_hash("password123")
-        
+
         # Create a Vendor user
         vendor = User(
             email="vendor@example.com",
@@ -53,40 +53,40 @@ def create_demo_users():
             last_login=datetime.utcnow()
         )
         vendor.password_hash = generate_password_hash("password123")
-        
-        # Create an admin user
-        admin = User(
-            email="admin@example.com",
-            user_type="Admin",
-            account_status='Active',
-            verification_status='Verified',
-            created_at=datetime.utcnow(),
-            last_login=datetime.utcnow()
-        )
-        admin.password_hash = generate_password_hash("admin123")
-        
+
+#         # Create an admin user
+#         admin = User(
+#             email="admin@example.com",
+#             user_type="Admin",
+#             account_status='Active',
+#             verification_status='Verified',
+#             created_at=datetime.utcnow(),
+#             last_login=datetime.utcnow()
+#         )
+#         admin.password_hash = generate_password_hash("admin123")
+
         # Add the users
         db.session.add(student)
         db.session.add(pi)
         db.session.add(industry)
         db.session.add(vendor)
-        db.session.add(admin)
-        
+#         db.session.add(admin)
+
         try:
             db.session.commit()
             print("Users created successfully!")
-            
+
             # Create profiles for each user
             create_profiles(student, pi, industry, vendor)
-            
+
             print("\nLogin Credentials:")
             print("------------------")
             print("Student: student@example.com / password123")
             print("PI: pi@example.com / password123")
             print("Industry: industry@example.com / password123")
             print("Vendor: vendor@example.com / password123")
-            print("Admin: admin@example.com / admin123")
-            
+#             print("Admin: admin@example.com / admin123")
+
         except Exception as e:
             db.session.rollback()
             print(f"Error creating users: {e}")
@@ -104,7 +104,7 @@ def create_profiles(student, pi, industry, vendor):
         )
         db.session.add(student_profile)
         db.session.commit()
-        
+
         student_specific = StudentProfile(
             profile_id=student_profile.id,
             name="Alex Johnson",
@@ -118,7 +118,7 @@ def create_profiles(student, pi, industry, vendor):
             current_status="PhD Student"
         )
         db.session.add(student_specific)
-        
+
         # PI profile
         pi_profile = Profile(
             user_id=pi.id,
@@ -129,7 +129,7 @@ def create_profiles(student, pi, industry, vendor):
         )
         db.session.add(pi_profile)
         db.session.commit()
-        
+
         pi_specific = PIProfile(
             profile_id=pi_profile.id,
             name="Dr. Sarah Williams",
@@ -146,7 +146,7 @@ def create_profiles(student, pi, industry, vendor):
             why_join_lab="Our lab has cutting-edge facilities and collaborations with leading tech companies. We publish regularly in top-tier conferences and journals."
         )
         db.session.add(pi_specific)
-        
+
         # Industry profile
         industry_profile = Profile(
             user_id=industry.id,
@@ -157,7 +157,7 @@ def create_profiles(student, pi, industry, vendor):
         )
         db.session.add(industry_profile)
         db.session.commit()
-        
+
         industry_specific = IndustryProfile(
             profile_id=industry_profile.id,
             company_name="InnovateTech Solutions",
@@ -173,7 +173,7 @@ def create_profiles(student, pi, industry, vendor):
             annual_turnover="$50M"
         )
         db.session.add(industry_specific)
-        
+
         # Vendor profile
         vendor_profile = Profile(
             user_id=vendor.id,
@@ -184,7 +184,7 @@ def create_profiles(student, pi, industry, vendor):
         )
         db.session.add(vendor_profile)
         db.session.commit()
-        
+
         vendor_specific = VendorProfile(
             profile_id=vendor_profile.id,
             company_name="LabSupply Pro",
@@ -200,10 +200,10 @@ def create_profiles(student, pi, industry, vendor):
             region="North America, Europe"
         )
         db.session.add(vendor_specific)
-        
+
         db.session.commit()
         print("Profiles created successfully!")
-        
+
     except Exception as e:
         db.session.rollback()
         print(f"Error creating profiles: {e}")

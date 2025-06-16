@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "frontBase.html" %}
 
 {% block title %}Research Collaboration Platform | Home{% endblock %}
 
@@ -8,7 +8,7 @@
         <div class="col-lg-6">
             <h1 class="display-4 fw-bold">Connecting Research Ecosystems</h1>
             <p class="lead">Join our platform to collaborate with researchers, find opportunities, and accelerate innovation.</p>
-            
+
             {% if not current_user.is_authenticated %}
             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
                 <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg px-4 me-md-2">Get Started</a>

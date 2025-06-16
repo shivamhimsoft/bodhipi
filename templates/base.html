@@ -1,157 +1,1038 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="shortcut icon" type="image/png" href="../static/images/logo.png"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+          rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+    <link rel="stylesheet" href="../static/assets/css/theme.css"/>
     <title>{% block title %}Research Collaboration Platform{% endblock %}</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
-    <!-- Favicon -->
-    <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml">
-    {% block extra_css %}{% endblock %}
+    <link rel="stylesheet" href="../static/assets/libs/jvectormap/jquery-jvectormap.css">
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url_for('index') }}">
-                    <i class="fas fa-flask me-2"></i>Research Collaboration
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('index') }}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('list_opportunities') }}">Opportunities</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Explore
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{{ url_for('search', category='profiles', query='') }}">Research Labs</a></li>
-                                <li><a class="dropdown-item" href="{{ url_for('search', category='profiles', query='') }}">Industry Partners</a></li>
-                                <li><a class="dropdown-item" href="{{ url_for('search', category='profiles', query='') }}">Vendors</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{{ url_for('search', category='opportunities', query='') }}">Research Positions</a></li>
-                            </ul>
-                        </li>
-                        {% if current_user.is_authenticated %}
-                            {% if current_user.user_type in ['PI', 'Industry'] %}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url_for('create_opportunity') }}">Post Opportunity</a>
-                                </li>
-                            {% endif %}
-                            {% if current_user.user_type == 'Admin' %}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a>
-                                </li>
-                            {% endif %}
-                        {% endif %}
-                    </ul>
-                    
-                    <form class="d-flex me-4" action="{{ url_for('search') }}" method="get">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" required>
-                        <input type="hidden" name="category" value="all">
-                        <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
-                    </form>
-                    
-                    <ul class="navbar-nav">
-                        {% if current_user.is_authenticated %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('messages') }}">
-                                    <i class="fas fa-envelope"></i>
-                                    {% set unread_count = current_user.notifications.filter_by(read_status=False, type='message').count() %}
-                                    {% if unread_count > 0 %}
-                                        <span class="badge bg-danger">{{ unread_count }}</span>
-                                    {% endif %}
+
+<body class="DEFAULT_THEME bg-lightprimary dark:bg-darkbody">
+<main>
+    <div id="main-wrapper" class="flex p-5">
+<!--        sidebar starts here-->
+        <aside id="application-sidebar-brand"
+               class="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full xl:rtl:-translate-x-0 rtl:translate-x-full  left-0 rtl:left-auto xl:rtl:right-5 rtl:right-0 transform hidden xl:block xl:translate-x-0 xl:end-auto xl:bottom-0 fixed top-0 with-vertical  left-sidebar transition-all duration-300 h-screen z-[2] flex-shrink-0  w-[270px] border-border dark:border-darkborder bg-white dark:bg-dark xl:top-5 xl:start-5 shadow-md xl:rounded-md">
+            <!-- ---------------------------------- -->
+            <!-- Start Vertical Layout Sidebar -->
+            <!-- ---------------------------------- -->
+            <div class="p-3.5 flex justify-center">
+                <div class="brand-logo d-flex align-items-center justify-center">
+                    <a href="{{url_for('index')}}" class="text-nowrap logo-img">
+                        <img
+                                src="../static/images/logo.png"
+                                class="block h-32"
+                                alt="Logo-Dark"
+                        />
+                    </a>
+                </div>
+
+            </div>
+            <div class="scroll-sidebar" data-simplebar="">
+                <div class="px-4  mini-layout" data-te-sidenav-menu-ref>
+                    <nav class="hs-accordion-group w-full flex flex-col">
+                        <ul data-te-sidenav-menu-ref id="sidebarnav">
+
+                            <!-----Dashboard------->
+                            <div class="caption">
+                                <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center leading-[16px]"></i>
+                                <span class="hide-menu">HOME</span>
+                            </div>
+
+                            <li class="sidebar-item">
+                                <a class="sidebar-link before:bg-lightindigo hover:text-indigo
+                  " href="{{url_for('index')}}"
+                                >
+                                    <iconify-icon icon="solar:screencast-2-line-duotone"
+                                                  class="text-xl p-2"></iconify-icon>
+                                    <span class="hide-menu flex-shrink-0 ">Dashboard</span>
                                 </a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ current_user.email }}
+
+
+                            <!---Apps---->
+                            <div class="caption">
+                                <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center leading-[16px]"></i>
+                                <span class="hide-menu">Other</span>
+                            </div>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link before:bg-lightindigo hover:text-indigo
+                  " href="{{ url_for('list_opportunities') }}"
+                                >
+                                    <iconify-icon icon="solar:lightbulb-bolt-broken" class="text-xl p-2"></iconify-icon>
+                                    <span class="hide-menu flex-shrink-0 ">Opportunities</span>
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                    <li><a class="dropdown-item" href="{{ url_for('view_profile', user_id=current_user.id) }}">My Profile</a></li>
-                                    <li><a class="dropdown-item" href="{{ url_for('edit_profile') }}">Edit Profile</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
-                                </ul>
                             </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+
+                            <li class="hs-accordion sidebar-item " id="menulevel-form-accordion">
+                                <a class="cursor-pointer hs-accordion-toggle sidebar-link  before:bg-lightindigo hover:text-indigo dark:hover:text-indigo ">
+                                    <iconify-icon icon="solar:smart-speaker-minimalistic-line-duotone"
+                                                  class="text-xl p-2"></iconify-icon>
+                                    <span class="hide-menu">Explore</span>
+                                    <span class="hide-menu ms-auto">
+                                        <i class="ti ti-chevron-right text-lg me-4 leading-tight hs-accordion-active:hidden "></i>
+                                         <i class="ti ti-chevron-up text-lg ms-auto hs-accordion-active:block hidden z-10 relative me-4"></i>
+                                    </span>
+                                </a>
+                                <div id="ecommerce-apps"
+                                     class="hs-accordion-content ">
+                                    <ul class="hs-accordion-group ">
+                                        <li class="dropdown-submenu">
+                                            <a class="hs-accordion-toggle textlink dark:opacity-70"
+                                               href="{{ url_for('search', category='profiles', query='') }}">
+                                                <div class="w-1.5 h-1.5 rounded-full bg-dark dark:bg-darklink opacity-50 "></div>
+                                                <span class="hide-menu">Research Labs</span>
+                                            </a>
+                                        </li>
+                                        <li class="dropdown-submenu">
+                                            <a class="hs-accordion-toggle textlink dark:opacity-70"
+                                               href="{{ url_for('search', category='profiles', query='') }}">
+                                                <div class="w-1.5 h-1.5 rounded-full bg-dark dark:bg-darklink opacity-50 "></div>
+                                                <span class="hide-menu">Industry Partners</span>
+                                            </a>
+                                        </li>
+                                        <li class="dropdown-submenu">
+                                            <a class="hs-accordion-toggle textlink dark:opacity-70"
+                                               href="{{ url_for('search', category='profiles', query='') }}">
+                                                <div class="w-1.5 h-1.5 rounded-full bg-dark dark:bg-darklink opacity-50 "></div>
+                                                <span class="hide-menu">Vendors</span>
+                                            </a>
+                                        </li>
+                                        <li class="dropdown-submenu">
+                                            <a class="hs-accordion-toggle textlink dark:opacity-70"
+                                               href="{{ url_for('search', category='opportunities', query='') }}">
+                                                <div class="w-1.5 h-1.5 rounded-full bg-dark dark:bg-darklink opacity-50 "></div>
+                                                <span class="hide-menu">Research Positions</span>
+                                            </a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                                                        {% if current_user.is_authenticated %}
+                                                        {% if current_user.user_type in ['PI', 'Industry'] %}
+                            <li class="sidebar-item">
+                                <a class="sidebar-link before:bg-lightindigo hover:text-indigo
+                  " href="{{ url_for('create_opportunity') }}"
+                                >
+                                    <iconify-icon icon="solar:screencast-2-line-duotone"
+                                                  class="text-xl p-2"></iconify-icon>
+                                    <span class="hide-menu flex-shrink-0 ">Post Opportunity</span>
+                                </a>
                             </li>
-                        {% endif %}
-                    </ul>
+
+                                                        {% endif %}
+                                                        {% if current_user.user_type == 'Admin' %}
+                            <li class="sidebar-item">
+                                <a class="sidebar-link before:bg-lightindigo hover:text-indigo
+                  " href="{{ url_for('admin_dashboard') }}"
+                                >
+                                    <iconify-icon icon="solar:screencast-2-line-duotone"
+                                                  class="text-xl p-2"></iconify-icon>
+                                    <span class="hide-menu flex-shrink-0 ">Admin Dashboard</span>
+                                </a>
+                            </li>
+
+                                                        {% endif %}
+                                                        {% endif %}
+
+                        </ul>
+                    </nav>
                 </div>
             </div>
-        </nav>
-    </header>
+        </aside>
+<!--        side bar ends here-->
+        <div class="page-wrapper w-full" role="main">
+            <main class="h-full ">
+                <div class="container full-container py-5 xl:ps-6 ps-0 pt-0 pe-0 remove-ps max-w-full">
+<!--                     header starts here-->
+                    <header class="sticky top-0 inset-x-0 z-[1] flex flex-wrap md:justify-start md:flex-nowrap text-sm py-3 lg:py-0 mb-6 bg-white dark:bg-dark rounded-md shadow-md">
+                        <div class="with-vertical w-full">
+                            <div class="w-full mx-auto px-4 lg:px-6" aria-label="Global">
+                                <div class="relative md:flex md:items-center md:justify-between">
+                                    <div class="hs-collapse  grow md:block">
+                                        <div class="flex justify-between items-center">
+                                            <div class="flex items-center gap-2 lg:w-auto w-full justify-between">
 
-    <main class="container py-4">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        
-        {% block content %}{% endblock %}
-    </main>
+                                                <div class="relative">
+                                                    <a class="xl:flex hidden text-xl icon-hover cursor-pointer text-link dark:text-darklink sidebartoggler h-10 w-10 hover:text-primary hover:bg-lightprimary dark:hover:bg-darkprimary  justify-center items-center rounded-full"
+                                                       id="headerCollapse" href="javascript:void(0)">
+                                                        <iconify-icon icon="solar:list-bold-duotone"
+                                                                      class="text-2xl relative z-[1]"></iconify-icon>
+                                                    </a>
+                                                    <!--Mobile Sidebar Toggle -->
+                                                    <div class="sticky top-0 inset-x-0 xl:hidden">
+                                                        <div class="flex items-center">
+                                                            <!-- Navigation Toggle -->
+                                                            <a class="text-xl icon-hover cursor-pointer text-link dark:text-darklink sidebartoggler h-10 w-10 hover:text-primary hover:bg-lightprimary dark:hover:bg-darkprimary flex justify-center items-center rounded-full"
+                                                               data-hs-overlay="#application-sidebar-brand"
+                                                               aria-controls="application-sidebar-brand"
+                                                               aria-label="Toggle navigation">
+                                                                <iconify-icon icon="solar:list-bold-duotone"
+                                                                              class="text-2xl relative z-[1]"></iconify-icon>
+                                                            </a>
+                                                            <!-- End Navigation Toggle -->
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Sidebar Toggle -->
+                                                </div>
 
-    <footer class="bg-dark text-light py-4 mt-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>Research Collaboration Platform</h5>
-                    <p>Connecting researchers, students, industry partners, and vendors to foster innovation and collaboration.</p>
+                                                <div class="flex lg:hidden  md:w-fit overflow-hidden">
+                                                    <div class="brand-logo d-flex align-items-center justify-center">
+                                                        <a href="{{url_for('index')}}" class="text-nowrap logo-img">
+                                                            <img
+                                                                    src="../static/images/logo.png"
+                                                                    class=" block h-20"
+                                                                    alt="Logo-Dark"
+                                                            />
+                                                        </a>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="lg:hidden">
+                                                    <button type="button"
+                                                            class="p-2 hs-collapse-toggle inline-flex h-10 w-10 text-link dark:text-darklink hover:text-primary hover:bg-lightprimary dark:hover:bg-darkprimary  justify-center items-center rounded-full"
+                                                            data-hs-collapse="#hs-basic-collapse-heading"
+                                                            aria-label="Toggle navigation">
+                                                        <i class="ti ti-dots text-xl"></i>
+                                                    </button>
+                                                </div>
+
+                                                <!-- Menu-->
+                                                <div id="navbar-offcanvas-example lg:block hidden"
+                                                     class="hs-overlay hs-overlay-open:translate-x-0 z-[2] -translate-x-full fixed top-0 start-0 transition-all duration-300 transform h-full max-w-xs bg-white dark:bg-dark  basis-full grow sm:order-1 lg:static lg:block lg:h-auto sm:max-w-none w-[270px] lg:border-r-transparent lg:transition-none lg:translate-x-0  lg:basis-auto hidden "
+                                                     tabindex="-1" data-hs-overlay-close-on-resize>
+                                                    <div class="lg:flex gap-2  items-center ">
+                                                        <div class="flex lg:hidden lg:p-0 p-5">
+                                                            <div class="brand-logo d-flex align-items-center justify-center">
+                                                                <a href="{{url_for('index')}}"
+                                                                   class="text-nowrap logo-img">
+                                                                    <img
+                                                                            src="../static/images/logo.png"
+                                                                            class=" block h-20"
+                                                                            alt="Logo-Dark"
+                                                                    />
+                                                                </a>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="lg:p-0 p-5 lg:flex gap-2 items-center">
+
+                                                            <div>
+                                                                <a href="#"
+                                                                   class="lg:w-auto w-full lg:py-1 lg:px-2 py-2 px-2 lg:text-base text-md flex  lg:gap-0 gap-3 header-link text-link dark:text-darklink  items-center hover:text-primary dark:hover:text-primary  rounded-md">
+                                                                    <i class="ti ti-message-dots lg:hidden lg:text-base text-xl"></i>Chat</a>
+                                                            </div>
+                                                            <div>
+                                                                <a href="#"
+                                                                   class="lg:w-auto w-full lg:py-1 lg:px-2 py-2 px-2 lg:text-base text-md flex  lg:gap-0 gap-3  header-link text-link dark:text-darklink  items-center hover:text-primary dark:hover:text-primary  rounded-md">
+                                                                    <i class="ti ti-calendar lg:hidden lg:text-base text-xl"></i>Calender</a>
+                                                            </div>
+                                                            <div>
+                                                                <a href="#"
+                                                                   class="lg:w-auto w-full lg:py-1 lg:px-2 py-2 px-2 lg:text-base text-md flex  lg:gap-0 gap-3   header-link text-link dark:text-darklink  items-center hover:text-primary dark:hover:text-primary rounded-md">
+                                                                    <i class="ti ti-mail lg:hidden lg:text-base text-xl"></i>Email</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="icon-nav items-center gap-2  lg:flex hidden">
+
+
+                                                <div class="hs-dropdown relative inline-flex [--auto-close:inside]">
+                                                    <a href="{{url_for('index')}}#"
+                                                       class="relative block hs-dropdown-toggle"
+                                                       id="hs-dropdown-default">
+                                                        <input type="text"
+                                                               class="form-control rounded-full py-[9px]  ps-12 border-bordergray  text-dark dark:text-darklink text-fs_15  placeholder:text-dark dark:placeholder:text-darklink placeholder:opacity-100 font-medium"
+                                                               placeholder="Try to searching ...">
+                                                        <iconify-icon icon="solar:magnifer-linear"
+                                                                      class="text-dark dark:text-darklink absolute top-3  start-1 text-fs_15  ms-3"></iconify-icon>
+                                                    </a>
+                                                    <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden w-[385px] bg-white shadow-md rounded-lg p-0 mt-2 dark:bg-gray-800 dark:divide-gray-700 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full"
+                                                         aria-labelledby="hs-dropdown-default">
+                                                        <div class="flex flex-col bg-white dark:bg-dark  shadow-sm  pointer-events-auto rounded-md">
+                                                            <div class="p-4 overflow-y-auto">
+                                                                <input type="text"
+                                                                       class="form-control rounded-sm py-2 border-bordergray text-dark dark:text-darklink text-sm  placeholder:text-dark dark:placeholder:text-darklink placeholder:opacity-100 font-medium"
+                                                                       placeholder="Try to searching ...">
+                                                            </div>
+                                                            <div class="items-center gap-x-2 py-3 px-5 border-t border-border dark:border-darkborder">
+
+                                                                <div class="overflow-hidden">
+                                                                    <h5 class="card-title mb-2">Quick Page Links</h5>
+                                                                    <div class="message-body max-h-[300px]"
+                                                                         data-simplebar="">
+                                                                        <ul>
+                                                                            <li class="bg-hover py-2 px-3 rounded-sm">
+                                                                                <a href="{{url_for('index')}}#"
+                                                                                   class="font-semibold text-sm text-link dark:text-darklink ">
+                                                                                    Opportunities
+                                                                                    <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                                                                        /dashboards/opportunities</p>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li class="bg-hover py-2 px-3 rounded-sm">
+                                                                                <a href="{{url_for('index')}}#"
+                                                                                   class="font-semibold text-sm text-link dark:text-darklink">
+                                                                                    Research Labs
+                                                                                    <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                                                                        /dashboards/research-labs</p>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li class="bg-hover py-2 px-3 rounded-sm">
+                                                                                <a href="{{url_for('index')}}#"
+                                                                                   class="font-semibold text-sm text-link dark:text-darklink">
+                                                                                    Industry
+                                                                                    <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                                                                        /apps/industry</p>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li class="bg-hover py-2 px-3 rounded-sm">
+                                                                                <a href="{{url_for('index')}}#"
+                                                                                   class="font-semibold text-sm text-link dark:text-darklink">
+                                                                                    Vendors
+                                                                                    <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                                                                        /ecommerce/vendors</p>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li class="bg-hover py-2 px-3 rounded-sm">
+                                                                                <a href="{{url_for('index')}}#"
+                                                                                   class="font-semibold text-sm text-link dark:text-darklink">
+                                                                                    Research Positions
+                                                                                    <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                                                                        /ecommerce/research-positions</p>
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Theme Toggle  -->
+                                                <button type="button"
+                                                        class="hs-dark-mode-active:hidden icon-hover block hs-dark-mode group items-center font-medium hover:text-primary text-link dark:text-darklink h-10 w-10 hover:bg-lightprimary dark:hover:bg-darkprimary  justify-center rounded-full"
+                                                        data-hs-theme-click-value="dark" id="dark-layout">
+                                                    <iconify-icon icon="solar:moon-line-duotone"
+                                                                  class=" text-2xl  text-link dark:text-darklink relative  hover:text-primary"></iconify-icon>
+
+                                                </button>
+                                                <button type="button"
+                                                        class="hs-dark-mode-active:block icon-hover h-10 w-10 hidden hs-dark-mode group  items-center  font-medium hover:text-primary text-link dark:text-darklink hover:bg-lightprimary dark:hover:bg-darkprimary  justify-center rounded-full"
+                                                        data-hs-theme-click-value="light" id="light-layout">
+                                                    <iconify-icon icon="solar:sun-2-line-duotone"
+                                                                  class="text-2xl  text-link dark:text-darklink relative  hover:text-primary"></iconify-icon>
+                                                </button>
+                                                <div class="hs-dropdown xl:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] sm:relative group/menu">
+                                                    <a id="hs-dropdown-hover-event-notification"
+                                                       class="relative hs-dropdown-toggle h-10 w-10 text-link dark:text-darklink cursor-pointer hover:bg-lightprimary  hover:text-primary dark:hover:bg-darkprimary flex justify-center items-center rounded-full group-hover/menu:bg-lightprimary group-hover/menu:text-primary">
+                                                        <iconify-icon icon="solar:bell-bing-line-duotone"
+                                                                      class="text-2xl relative z-[1]"></iconify-icon>
+                                                        <span class="flex absolute top-2 end-3 -mt-0.5 -me-2">
+            <span
+                    class="animate-ping absolute inline-flex size-full rounded-full bg-teal-400 opacity-75 dark:bg-teal-600"></span>
+            <span
+                    class="relative inline-flex text-xs bg-teal-500 text-white rounded-full py-0.5 px-1">
+                <div class="h-1 rounded-full bg-primary"></div>
+            </span>
+        </span>
+                                                    </a>
+                                                    <div
+                                                            class="card hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 right-0 rtl:right-auto rtl:left-0 mt-2 min-w-max top-auto w-full sm:w-[360px] hidden z-[2]"
+                                                            aria-labelledby="hs-dropdown-hover-event-notification">
+                                                        <div class="flex items-center pt-6 px-7 gap-4">
+                                                            <h3 class="mb-0 text-lg font-semibold ">
+                                                                Notifications</h3>
+                                                            <span
+                                                                    class="py-1 px-3 border-0 badge text-xs font-medium bg-warning text-white">5
+                new</span>
+                                                        </div>
+                                                        <div class="message-body max-h-[320px] pt-4" data-simplebar>
+                                                            <a href="javascript:void(0)"
+                                                               class="dropdown-item px-7 py-3 flex items-center bg-hover">
+                <span
+                        class="flex-shrink-0 h-12 w-12 rounded-full bg-lightprimary dark:bg-darkprimary flex justify-center items-center">
+                    <iconify-icon icon="solar:widget-3-line-duotone"
+                                  class="text-primary text-xl"></iconify-icon>
+                </span>
+                                                                <div class="ps-4">
+                                                                    <h5 class="font-medium text-sm">
+                                                                        New Researcher
+                                                                    </h5>
+                                                                    <span class="text-xs block my-0.5">New researcher joined
+                        admin!</span>
+                                                                    <p class="text-xs">9.00 AM</p>
+                                                                </div>
+                                                            </a>
+                                                            <a href="javascript:void(0)"
+                                                               class="dropdown-item px-7 py-3 flex items-center bg-hover">
+                <span
+                        class="flex-shrink-0 h-12 w-12 rounded-full bg-lightsuccess dark:bg-darksuccess flex justify-center items-center">
+                    <iconify-icon icon="solar:user-circle-outline"
+                                  class="text-success text-xl"></iconify-icon>
+                </span>
+                                                                <div class="ps-4">
+                                                                    <h5 class="font-medium text-sm ">
+                                                                        New industry registered
+                                                                    </h5>
+                                                                    <span class="text-xs block my-0.5">A new industry joined us today
+                        meeting</span>
+                                                                    <p class="text-xs">10.00 AM</p>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                        <div class="pt-3 pb-6 px-7">
+                                                            <a href="{{url_for('index')}}#" class="btn w-full block">
+                                                                See All Notification
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Profile DD -->
+                                                <div class="hs-dropdown xl:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] sm:relative ms-3">
+                                                    <a id="hs-dropdown-hover-event-profile"
+                                                       class="relative hs-dropdown-toggle cursor-pointer align-middle rounded-full">
+                                                        <div class="flex gap-4">
+                                                            <div class="relative">
+                                                                <img class="object-cover w-11 h-11 rounded-full"
+                                                                     src="../static/images/logo.png"
+                                                                     alt
+                                                                     aria-hidden="true">
+                                                                <span class="h-3.5 w-3.5 rounded-full bg-success block absolute top-0 -end-1 border-2 border-white dark:border-dark"></span>
+
+                                                            </div>
+                                                            <div class="hidden sm:block">
+                                                                <h6
+                                                                        class="font-bold text-dark dark:text-white text-base mb-1 profile-name">
+                                                                    Super Admin
+                                                                </h6>
+                                                                <p
+                                                                        class="text-sm leading-tight mb-0 text-link dark:text-darklink">
+                                                                    Admin
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div
+                                                            class="card hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max top-auto right-0 rtl:right-auto rtl:left-0 w-full sm:w-[385px] hidden z-[2] border-none "
+                                                            aria-labelledby="hs-dropdown-hover-event-profile">
+                                                        <div class="card-body p-7">
+                                                            <div class="flex items-center pb-5 justify-between">
+                                                                <h3
+                                                                        class="mb-0 text-lg font-semibold text-dark dark:text-white">
+                                                                    User
+                                                                    Profile</h3>
+                                                            </div>
+                                                            <div class="message-body max-h-[450px]" data-simplebar>
+                                                                <div class>
+                                                                    <div
+                                                                            class="flex items-center gap-6 pb-5 border-b dark:border-darkborder">
+                                                                        <img src="../static/images/logo.png"
+                                                                             class="h-[90px] w-[90px] rounded-full object-cover"
+                                                                             alt="profile">
+                                                                        <div class>
+                                                                            <h5 class="card-title">
+                                                                                Super Admin
+                                                                            </h5>
+                                                                            <span class="card-subtitle">super admin</span>
+                                                                            <p
+                                                                                    class=" mb-0 mt-1 flex items-center">
+                                                                                <iconify-icon
+                                                                                        icon="solar:mailbox-line-duotone"
+                                                                                        class="text-base me-1"></iconify-icon>
+                                                                                superadmin@gmail.com
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <ul class="mt-3 flex flex-col gap-3.5">
+                                                                        <li>
+                                                                            <a href="#"
+                                                                               class="flex gap-5 items-center bg-hover relative group p-2 rounded-sm">
+                                <span
+                                        class="bg-lightinfo dark:bg-darkinfo p-2 hover:bg-info group text-info hover:text-white rounded-sm flex justify-center items-center">
+                                    <iconify-icon
+                                            icon="solar:wallet-2-line-duotone"
+                                            class="text-2xl "></iconify-icon>
+                                </span>
+
+                                                                                <div>
+                                                                                    <h6
+                                                                                            class="font-medium text-base leading-tight mb-1  group-hover:text-primary">
+                                                                                        My Profile
+                                                                                    </h6>
+                                                                                    <p
+                                                                                            class="text-sm  font-normal leading-tight">
+                                                                                        Account settings</p>
+                                                                                </div>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="#"
+                                                                               class="flex gap-5 items-center p-2 rounded-sm bg-hover relative group">
+                                <span
+                                        class="bg-lighterror dark:bg-darkerror p-2 hover:bg-error group text-error hover:text-white rounded-sm flex justify-center items-center">
+                                    <iconify-icon
+                                            icon="solar:card-2-line-duotone"
+                                            class="text-2xl"></iconify-icon>
+                                </span>
+
+                                                                                <div>
+                                                                                    <h6
+                                                                                            class="font-medium text-base leading-tight mb-1  group-hover:text-primary">
+                                                                                        Logout
+                                                                                    </h6>
+                                                                                    <p
+                                                                                            class="text-sm  font-normal leading-tight">
+                                                                                        Logout from you account</p>
+                                                                                </div>
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="lg:hidden block">
+                                    <div id="hs-basic-collapse-heading"
+                                         class="hs-collapse hidden w-full overflow-hidden transition-[height] duration-300"
+                                         aria-labelledby="hs-basic-collapse">
+                                        <div class="mt-2">
+                                            <div class="flex justify-between items-center">
+                                                <div class="lg:hidden flex items-center">
+
+                                                </div>
+                                                <div class="flex items-center gap-1">
+                                                    <!-- Theme Toggle  -->
+                                                    <button type="button" class="hs-dark-mode-active:hidden icon-hover h-10 w-10 block hs-dark-mode group items-center font-medium hover:text-primary text-link dark:text-darklink hover:bg-lightprimary dark:hover:bg-darkprimary  justify-center rounded-full"
+                                                            data-hs-theme-click-value="dark" id="dark-layout">
+                                                        <iconify-icon icon="solar:moon-line-duotone"
+                                                                      class="text-2xl  text-link dark:text-darklink relative  hover:text-primary"></iconify-icon>
+                                                    </button>
+                                                    <button type="button"
+                                                            class="hs-dark-mode-active:block icon-hover h-10 w-10 hidden hs-dark-mode group  items-center  font-medium hover:text-primary text-link dark:text-darklink hover:bg-lightprimary dark:hover:bg-darkprimary  justify-center rounded-full"
+                                                            data-hs-theme-click-value="light" id="light-layout">
+                                                        <iconify-icon icon="solar:sun-2-line-duotone"
+                                                                      class="text-2xl  text-link dark:text-darklink relative  hover:text-primary"></iconify-icon>
+                                                    </button>
+
+                                                    <!-- searchbar -->
+                                                    <div class="hs-dropdown relative inline-flex [--auto-close:inside]">
+                                                        <a href="{{url_for('index')}}#"
+                                                           class="relative flex justify-center items-center h-10 w-10 -top-0.5 hs-dropdown-toggle"
+                                                           id="hs-dropdown-default">
+                                                            <iconify-icon icon="solar:magnifer-linear"
+                                                                          class="text-dark dark:text-darklink text-2xl"></iconify-icon>
+                                                        </a>
+
+
+                                                        <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden w-[385px] bg-white shadow-md rounded-lg p-0 mt-2 dark:bg-gray-800 dark:divide-gray-700 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full"
+                                                             aria-labelledby="hs-dropdown-default">
+                                                            <div class="flex flex-col bg-white dark:bg-dark  shadow-sm  pointer-events-auto rounded-md">
+                                                                <div class="p-4 overflow-y-auto">
+                                                                    <input type="text"
+                                                                           class="form-control rounded-sm py-2 border-bordergray text-dark dark:text-darklink text-sm  placeholder:text-dark dark:placeholder:text-darklink placeholder:opacity-100 font-medium"
+                                                                           placeholder="Try to searching ...">
+                                                                </div>
+                                                                <div class="items-center gap-x-2 py-3 px-5 border-t border-border dark:border-darkborder">
+
+                                                                    <div class="overflow-hidden">
+                                                                        <h5 class="card-title mb-2">Quick Page Links</h5>
+                                                                        <div class="message-body max-h-[300px]"
+                                                                             data-simplebar="">
+                                                                            <ul>
+                                                                                <li class="bg-hover py-2 px-3 rounded-sm">
+                                                                                    <a href="{{url_for('index')}}#"
+                                                                                       class="font-semibold text-sm text-link dark:text-darklink ">
+                                                                                        Opportunites
+                                                                                        <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                                                                            /dashboards/opportunities   </p>
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li class="bg-hover py-2 px-3 rounded-sm">
+                                                                                    <a href="{{url_for('index')}}#"
+                                                                                       class="font-semibold text-sm text-link dark:text-darklink">
+                                                                                        Researc Labs
+                                                                                        <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                                                                            /dashboards/research-labs</p>
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li class="bg-hover py-2 px-3 rounded-sm">
+                                                                                    <a href="{{url_for('index')}}#"
+                                                                                       class="font-semibold text-sm text-link dark:text-darklink">
+                                                                                        Industry
+                                                                                        <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                                                                            /apps/industry</p>
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li class="bg-hover py-2 px-3 rounded-sm">
+                                                                                    <a href="{{url_for('index')}}#"
+                                                                                       class="font-semibold text-sm text-link dark:text-darklink">
+                                                                                        Vendors
+                                                                                        <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                                                                            /ecommerce/vendors</p>
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li class="bg-hover py-2 px-3 rounded-sm">
+                                                                                    <a href="{{url_for('index')}}#"
+                                                                                       class="font-semibold text-sm text-link dark:text-darklink">
+                                                                                        Research Positions
+                                                                                        <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                                                                            /ecommerce/research-positions</p>
+                                                                                    </a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <!-- Notifications DD -->
+
+                                                    <div
+                                                            class="hs-dropdown xl:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] sm:relative group/menu">
+                                                        <a id="hs-dropdown-hover-event-notification"
+                                                           class="relative hs-dropdown-toggle h-10 w-10 text-link dark:text-darklink cursor-pointer hover:bg-lightprimary  hover:text-primary dark:hover:bg-darkprimary flex justify-center items-center rounded-full group-hover/menu:bg-lightprimary group-hover/menu:text-primary">
+                                                            <iconify-icon icon="solar:bell-bing-line-duotone"
+                                                                          class="text-2xl relative z-[1]"></iconify-icon>
+                                                            <span class="flex absolute top-2 end-3 -mt-0.5 -me-2">
+            <span
+                    class="animate-ping absolute inline-flex size-full rounded-full bg-teal-400 opacity-75 dark:bg-teal-600"></span>
+            <span
+                    class="relative inline-flex text-xs bg-teal-500 text-white rounded-full py-0.5 px-1">
+                <div class="h-1 rounded-full bg-primary"></div>
+            </span>
+        </span>
+                                                        </a>
+                                                        <div
+                                                                class="card hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 right-0 rtl:right-auto rtl:left-0 mt-2 min-w-max top-auto w-full sm:w-[360px] hidden z-[2]"
+                                                                aria-labelledby="hs-dropdown-hover-event-notification">
+                                                            <div class="flex items-center pt-6 px-7 gap-4">
+                                                                <h3 class="mb-0 text-lg font-semibold ">
+                                                                    Notifications</h3>
+                                                                <span
+                                                                        class="py-1 px-3 border-0 badge text-xs font-medium bg-warning text-white">5
+                new</span>
+                                                            </div>
+                                                            <div class="message-body max-h-[320px] pt-4" data-simplebar>
+                                                                <a href="javascript:void(0)"
+                                                                   class="dropdown-item px-7 py-3 flex items-center bg-hover">
+                <span
+                        class="flex-shrink-0 h-12 w-12 rounded-full bg-lightprimary dark:bg-darkprimary flex justify-center items-center">
+                    <iconify-icon icon="solar:widget-3-line-duotone"
+                                  class="text-primary text-xl"></iconify-icon>
+                </span>
+                                                                    <div class="ps-4">
+                                                                        <h5 class="font-medium text-sm">
+                                                                            New Researcher
+                                                                        </h5>
+                                                                        <span class="text-xs block my-0.5">New researcher joined us
+                        admin!</span>
+                                                                        <p class="text-xs">9.00 AM</p>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="javascript:void(0)"
+                                                                   class="dropdown-item px-7 py-3 flex items-center bg-hover">
+                <span
+                        class="flex-shrink-0 h-12 w-12 rounded-full bg-lightsuccess dark:bg-darksuccess flex justify-center items-center">
+                    <iconify-icon icon="solar:user-circle-outline"
+                                  class="text-success text-xl"></iconify-icon>
+                </span>
+                                                                    <div class="ps-4">
+                                                                        <h5 class="font-medium text-sm ">
+                                                                            Industry Registration
+                                                                        </h5>
+                                                                        <span class="text-xs block my-0.5">New industry registration today
+                        meeting</span>
+                                                                        <p class="text-xs">10.00 AM</p>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                            <div class="pt-3 pb-6 px-7">
+                                                                <a href="{{url_for('index')}}#"
+                                                                   class="btn w-full block">
+                                                                    See All Notification
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Profile DD -->
+                                                    <div
+                                                            class="hs-dropdown xl:[--strategy:absolute] [--adaptive:none] md:[--trigger:hover] sm:relative ms-3">
+                                                        <a id="hs-dropdown-hover-event-profile"
+                                                           class="relative hs-dropdown-toggle cursor-pointer align-middle rounded-full">
+                                                            <div class="flex gap-4">
+                                                                <div class="relative">
+                                                                    <img class="object-cover w-11 h-11 rounded-full"
+                                                                         src="../static/images/logo.png"
+                                                                         alt
+                                                                         aria-hidden="true">
+                                                                    <span class="h-3.5 w-3.5 rounded-full bg-success block absolute top-0 -end-1 border-2 border-white dark:border-dark"></span>
+
+                                                                </div>
+                                                                <div class="hidden sm:block">
+                                                                    <h6
+                                                                            class="font-bold text-dark dark:text-white text-base mb-1 profile-name">
+                                                                        Super Admin
+                                                                    </h6>
+                                                                    <p
+                                                                            class="text-sm leading-tight mb-0 text-link dark:text-darklink">
+                                                                        Admin
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <div
+                                                                class="card hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max top-auto right-0 rtl:right-auto rtl:left-0 w-full sm:w-[385px] hidden z-[2] border-none "
+                                                                aria-labelledby="hs-dropdown-hover-event-profile">
+                                                            <div class="card-body p-7">
+                                                                <div class="flex items-center pb-5 justify-between">
+                                                                    <h3
+                                                                            class="mb-0 text-lg font-semibold text-dark dark:text-white">
+                                                                        User
+                                                                        Profile</h3>
+                                                                </div>
+                                                                <div class="message-body max-h-[450px]" data-simplebar>
+                                                                    <div class>
+                                                                        <div
+                                                                                class="flex items-center gap-6 pb-5 border-b dark:border-darkborder">
+                                                                            <img src="../static/images/logo.png"
+                                                                                 class="h-[90px] w-[90px] rounded-full object-cover"
+                                                                                 alt="profile">
+                                                                            <div class>
+                                                                                <h5
+                                                                                        class="card-title">
+                                                                                   Super Admin
+                                                                                </h5>
+                                                                                <span
+                                                                                        class="card-subtitle">super
+                                admin</span>
+                                                                                <p
+                                                                                        class=" mb-0 mt-1 flex items-center">
+                                                                                    <iconify-icon
+                                                                                            icon="solar:mailbox-line-duotone"
+                                                                                            class="text-base me-1"></iconify-icon>
+                                                                                   superadmin@gmail.com
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <ul class="mt-3 flex flex-col gap-3.5">
+                                                                            <li>
+                                                                                <a href="#"
+                                                                                   class="flex gap-5 items-center bg-hover relative group p-2 rounded-sm">
+                                <span
+                                        class="bg-lightinfo dark:bg-darkinfo p-2 hover:bg-info group text-info hover:text-white rounded-sm flex justify-center items-center">
+                                    <iconify-icon
+                                            icon="solar:wallet-2-line-duotone"
+                                            class="text-2xl "></iconify-icon>
+                                </span>
+
+                                                                                    <div>
+                                                                                        <h6
+                                                                                                class="font-medium text-base leading-tight mb-1  group-hover:text-primary">
+                                                                                            My Profile
+                                                                                        </h6>
+                                                                                        <p
+                                                                                                class="text-sm  font-normal leading-tight">
+                                                                                            Account settings</p>
+                                                                                    </div>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="#"
+                                                                                   class="flex gap-5 items-center p-2 rounded-sm bg-hover relative group">
+                                <span
+                                        class="bg-lighterror dark:bg-darkerror p-2 hover:bg-error group text-error hover:text-white rounded-sm flex justify-center items-center">
+                                    <iconify-icon
+                                            icon="solar:card-2-line-duotone"
+                                            class="text-2xl"></iconify-icon>
+                                </span>
+
+                                                                                    <div>
+                                                                                        <h6
+                                                                                                class="font-medium text-base leading-tight mb-1  group-hover:text-primary">
+                                                                                            Logout
+                                                                                        </h6>
+                                                                                        <p
+                                                                                                class="text-sm  font-normal leading-tight">
+                                                                                           Logout from your account</p>
+                                                                                    </div>
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </header>
+<!--                     header ends here-->
+<!--                    main content block here-->
+                           {% block content %}{% endblock %}
+<!--                    main content  block ends here-->
                 </div>
-                <div class="col-md-4">
-                    <h5>Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="{{ url_for('index') }}" class="text-decoration-none text-light">Home</a></li>
-                        <li><a href="{{ url_for('list_opportunities') }}" class="text-decoration-none text-light">Opportunities</a></li>
-                        <li><a href="#" class="text-decoration-none text-light">About Us</a></li>
-                        <li><a href="#" class="text-decoration-none text-light">Contact</a></li>
-                    </ul>
+            </main>
+        </div>
+    </div>
+</main>
+<div id="hs-overlay-right"
+     class="customizer  rounded-none hs-overlay bg-white dark:bg-dark hs-overlay-open:translate-x-0  translate-x-full rtl:hs-overlay-open:translate-x-0  rtl:-translate-x-full  fixed top-0 right-0 rtl:left-0 rtl:right-auto transition-all duration-300 transform h-full max-w-xs  w-full z-[60] hidden "
+     tabindex="-1">
+    <div class="flex justify-between items-center  border-border dark:border-darkborder  border-b py-3 px-6 ">
+        <h3 class="font-semibold text-lg text-dark dark:text-white">
+            Settings
+        </h3>
+        <button type="button"
+                class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-white text-sm "
+                data-hs-overlay="#hs-overlay-right">
+            <span class="sr-only">Close modal</span>
+            <i class="ti ti-x text-xl text-dark dark:text-white"></i>
+        </button>
+    </div>
+
+    <!-------Light/Dark Theme--------->
+    <div class="px-6 py-6" data-simplebar="" style="height: calc(100vh - 80px)">
+        <h6 class="font-semibold text-dark dark:text-white mb-2">Theme</h6>
+        <div class="flex flex-row gap-3 customizer-box mb-8" role="group">
+            <input type="radio" class=" btn-check" name="theme-layout" autocomplete="off"/>
+            <label class="btn rounded-md border border-border dark:border-darkborder text-primary h-full py-3 px-5 hs-dark-mode-active:text-darklink cursor-pointer"
+                   for="light-layout" data-hs-theme-click-value="light"><i
+                    class="icon ti ti-sun text-2xl me-2 "></i> Light</label>
+            <input type="radio" class="btn-check" name="theme-layout" autocomplete="off"/>
+            <label class="btn rounded-md border border-border dark:border-darkborder text-link  h-full py-3 px-5 cursor-pointer hs-dark-mode-active:text-primary"
+                   for="dark-layout" data-hs-theme-click-value="dark"><i
+                    class="icon ti ti-moon text-2xl me-2 "></i> Dark</label>
+        </div>
+
+        <!-------Theme Direction--------->
+        <h6 class="font-semibold mb-2 text-dark dark:text-white">Theme Direction</h6>
+        <div class="flex flex-row gap-3 customizer-box mb-8" role="group">
+            <input type="radio" class="btn-check" name="direction-l" id="ltr-layout" autocomplete="off"/>
+            <label class="btn rounded-md border border-border dark:border-darkborder text-link dark:text-darklink h-full py-3 px-5 cursor-pointer"
+                   for="ltr-layout"><i
+                    class="icon ti ti-text-direction-ltr text-2xl me-2"></i>LTR</label>
+            <input type="radio" class="btn-check" name="direction-l" id="rtl-layout" autocomplete="off"/>
+            <label class="btn rounded-md border border-border dark:border-darkborder text-link dark:text-darklink h-full py-3 px-5 cursor-pointer"
+                   for="rtl-layout">
+                <i class="icon ti ti-text-direction-rtl text-2xl me-2"></i>RTL</label>
+        </div>
+
+        <!-------Theme Colors--------->
+        <h6 class="font-semibold mb-2 text-dark dark:text-white">Theme Colors</h6>
+        <div class="flex flex-row flex-wrap gap-3 customizer-box color-pallete mb-8" role="group">
+            <input type="radio" class="btn-check" name="color-theme-layout" id="Blue_Theme" autocomplete="off"/>
+            <label class="hs-tooltip btn py-4 px-5 rounded-md border border-border dark:border-darkborder flex items-center  justify-center hs-tooltip-toggle cursor-pointer"
+                   onclick="handleColorTheme('Blue_Theme')" for="Blue_Theme" data-bs-title="BLUE_THEME">
+                <div class="color-box rounded-full flex items-center justify-center skin-1">
+                    <i class="ti ti-check  flex icon text-white fs-5"></i>
                 </div>
-                <div class="col-md-4">
-                    <h5>Connect With Us</h5>
-                    <div class="d-flex gap-3 fs-4">
-                        <a href="#" class="text-light"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-light"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-light"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="text-light"><i class="fab fa-instagram"></i></a>
-                    </div>
+                <span
+                        class="tooltip hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible"
+                        role="tooltip">
+          Blue_Theme
+        </span>
+            </label>
+
+            <input type="radio" class="btn-check" name="color-theme-layout" id="Aqua_Theme" autocomplete="off"/>
+            <label class="hs-tooltip hs-tooltip-toggle btn py-4 px-5 rounded-md border border-border dark:border-darkborder flex items-center  justify-center cursor-pointer"
+                   onclick="handleColorTheme('Aqua_Theme')" for="Aqua_Theme" data-bs-title="AQUA_THEME">
+                <div class="color-box rounded-full flex items-center justify-center skin-2">
+                    <i class="ti ti-check text-white flex icon fs-5"></i>
                 </div>
+                <span
+                        class="tooltip hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible"
+                        role="tooltip">
+        Aqua_Theme
+      </span>
+            </label>
+
+            <input type="radio" class="btn-check" name="color-theme-layout" id="Purple_Theme" autocomplete="off"/>
+            <label class="hs-tooltip hs-tooltip-toggle btn py-4 px-5 rounded-md border border-border dark:border-darkborder flex items-center  justify-center cursor-pointer"
+                   onclick="handleColorTheme('Purple_Theme')" for="Purple_Theme"
+                   data-bs-title="PURPLE_THEME">
+                <div class="color-box rounded-full flex items-center justify-center skin-3">
+                    <i class="ti ti-check text-white flex icon fs-5"></i>
+                </div>
+                <span
+                        class="tooltip hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible"
+                        role="tooltip">
+        Purple_Theme
+      </span>
+            </label>
+
+            <input type="radio" class="btn-check" name="color-theme-layout" id="green-theme-layout" autocomplete="off"/>
+            <label class="hs-tooltip hs-tooltip-toggle btn py-4 px-5 rounded-md border border-border dark:border-darkborder flex items-center  justify-center cursor-pointer"
+                   onclick="handleColorTheme('Green_Theme')" for="green-theme-layout"
+                   data-bs-title="GREEN_THEME">
+                <div class="color-box rounded-full flex items-center justify-center skin-4">
+                    <i class="ti ti-check text-white flex icon fs-5"></i>
+                </div>
+                <span
+                        class="tooltip hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible"
+                        role="tooltip">
+        Green_Theme
+      </span>
+            </label>
+
+            <input type="radio" class="btn-check" name="color-theme-layout" id="cyan-theme-layout" autocomplete="off"/>
+            <label class="hs-tooltip hs-tooltip-toggle btn py-4 px-5 rounded-md border border-border dark:border-darkborder flex items-center  justify-center cursor-pointer"
+                   onclick="handleColorTheme('Cyan_Theme')" for="cyan-theme-layout"
+                   data-bs-title="CYAN_THEME">
+                <div class="color-box rounded-full flex items-center justify-center skin-5">
+                    <i class="ti ti-check text-white flex icon fs-5"></i>
+                </div>
+                <span
+                        class="tooltip hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible"
+                        role="tooltip">
+        Cyan_Theme
+      </span>
+            </label>
+
+            <input type="radio" class="btn-check" name="color-theme-layout" id="orange-theme-layout"
+                   autocomplete="off"/>
+            <label class="hs-tooltip hs-tooltip-toggle btn py-4 px-5 rounded-md border border-border dark:border-darkborder flex items-center  justify-center cursor-pointer"
+                   onclick="handleColorTheme('Orange_Theme')" for="orange-theme-layout"
+                   data-bs-title="ORANGE_THEME">
+                <div class="color-box rounded-full flex items-center justify-center skin-6">
+                    <i class="ti ti-check text-white flex icon fs-5"></i>
+                </div>
+                <span
+                        class="tooltip hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible"
+                        role="tooltip">
+        Orange_Theme
+      </span>
+            </label>
+        </div>
+
+        <!-- Layput Options  -->
+        <h6 class="font-semibold mb-2 text-dark dark:text-white">Layout Type</h6>
+        <div class="flex flex-row gap-3 customizer-box mb-8" role="group">
+            <div>
+                <input type="radio" class="btn-check" name="page-layout" id="vertical-layout" autocomplete="off"/>
+                <label class="btn rounded-md border border-border dark:border-darkborder text-link dark:text-darklink h-full py-3 px-5 cursor-pointer"
+                       for="vertical-layout">
+                    <i class="icon ti ti-layout-sidebar-right text-2xl me-2"></i> Vertical</label>
             </div>
-            <hr>
-            <div class="text-center">
-                <p class="mb-0">&copy; 2023 Research Collaboration Platform. All rights reserved.</p>
+            <div>
+                <input type="radio" class="btn-check" name="page-layout" id="horizontal-layout" autocomplete="off"/>
+                <label class="btn rounded-md border border-border dark:border-darkborder text-link dark:text-darklink h-full py-3 px-5 cursor-pointer"
+                       for="horizontal-layout">
+                    <i class=" icon ti ti-layout-navbar text-2xl me-2"></i> Horizontal</label>
             </div>
         </div>
-    </footer>
 
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Main JS -->
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    {% block extra_js %}{% endblock %}
+        <!-- Container Options  -->
+        <h6 class="font-semibold mb-2 text-dark dark:text-white">Container Option</h6>
+        <div class="flex flex-row gap-3 customizer-box mb-8" role="group">
+            <input type="radio" class="btn-check" name="layout" id="boxed-layout" autocomplete="off"/>
+            <label class="btn rounded-md border border-border dark:border-darkborder text-link dark:text-darklink h-full py-3 px-5 cursor-pointer"
+                   for="boxed-layout">
+                <i class="icon ti ti-layout-distribute-vertical text-2xl me-2"></i>
+                Boxed</label>
+
+            <input type="radio" class="btn-check" name="layout" id="full-layout" autocomplete="off"/>
+            <label class="btn rounded-md border border-border dark:border-darkborder text-link dark:text-darklink h-full py-3 px-5 cursor-pointer"
+                   for="full-layout">
+                <i class="icon ti ti-layout-distribute-horizontal text-2xl me-2"></i> Full</label>
+        </div>
+
+        <!-- Sidebar Type Options  -->
+        <h6 class="font-semibold mb-2 text-dark dark:text-white">Sidebar Type</h6>
+        <div class="flex flex-row gap-3 customizer-box mb-8" role="group">
+            <a href="javascript:void(0)" class="fullsidebar">
+                <input type="radio" class="btn-check" name="sidebar-type" id="full-sidebar" autocomplete="off"/>
+                <label class="btn rounded-md border border-border dark:border-darkborder text-link dark:text-darklink h-full py-3 px-5 cursor-pointer"
+                       for="full-sidebar"><i
+                        class="icon ti ti-layout-sidebar-right text-2xl me-2"></i> Full</label>
+            </a>
+            <div>
+                <input type="radio" class="btn-check " name="sidebar-type" id="mini-sidebar" autocomplete="off"/>
+                <label class="btn rounded-md border border-border dark:border-darkborder text-link dark:text-darklink h-full py-3 px-5 cursor-pointer"
+                       for="mini-sidebar">
+                    <iconify-icon icon="solar:siderbar-outline" class="icon fs-7 me-2"></iconify-icon>
+                    Collapse</label>
+            </div>
+        </div>
+
+        <!-- Border-sahdow Card Options  -->
+        <h6 class="font-semibold mb-2 text-dark dark:text-white">Card With</h6>
+        <div class="flex flex-row gap-3 customizer-box mb-8" role="group">
+            <input type="radio" class="btn-check" name="card-layout" id="card-with-border" autocomplete="off"/>
+            <label class="btn rounded-md border border-border dark:border-darkborder text-link dark:text-darklink h-full py-3 px-5 cursor-pointer"
+                   for="card-with-border"><i
+                    class="icon ti ti-border-outer text-2xl me-2"></i>Border</label>
+
+            <input type="radio" class="btn-check" name="card-layout" id="card-without-border" autocomplete="off"/>
+            <label class="btn rounded-md border border-border dark:border-darkborder text-link dark:text-darklink h-full py-3 px-5 cursor-pointer"
+                   for="card-without-border">
+                <i class="icon ti ti-border-none text-2xl me-2"></i>Shadow</label>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function handleColorTheme(e) {
+        document.documentElement.setAttribute("data-color-theme", e);
+    }
+</script>
+<script src="../static/assets/js/vendor.min.js"></script>
+
+<script src="../static/assets/js/theme/app.init.js"></script>
+<script src="../static/assets/js/theme/app.min.js"></script>
+<script src="../static/assets/libs/simplebar/dist/simplebar.min.js"></script>
+<script src="../static/assets/libs/iconify-icon/dist/iconify-icon.min.js"></script>
+<script src="../static/assets/libs/preline/dist/preline.js"></script>
+<script src="../static/assets/libs/_preline/input-number/index.js"></script>
+<script src="../static/assets/libs/_preline/tooltip/index.js"></script>
+<script src="../static/assets/libs/_preline/stepper/index.js"></script>
+
+<script
+        src="../static/assets/libs/jvectormap/jquery-jvectormap.min.js"></script>
+<script
+        src="../static/assets/js/extra-libs/jvectormap/jquery-jvectormap-us-aea-en.js"></script>
+<script
+        src="../static/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+<script src="../static/assets/js/dashboards/dashboard.js"></script>
 </body>
+
 </html>

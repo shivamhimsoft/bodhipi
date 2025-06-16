@@ -14,246 +14,899 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1 class="mb-4">Admin Dashboard</h1>
-    
-    <!-- Stats Overview -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card text-center bg-primary text-white mb-3 stat-card">
-                <div class="card-body">
-                    <h1 class="display-4">{{ stats.total_users }}</h1>
-                    <p class="lead">Total Users</p>
+<div class="max-w-full">
+    <div class="container full-container max-w-full">
+
+<!--        <div class="grid grid-cols-12 gap-6 mt-3">-->
+<!--            <div class="lg:col-span-3 md:col-span-6 sm:col-span-6 col-span-12">-->
+<!--                <div class="card overflow-hidden">-->
+<!--                    <div class="flex items-center gap-4">-->
+<!--                        <div class="py-5 px-4 rounded-e-none bg-info dark:bg-darkinfo">-->
+<!--                            <i class="ti ti-brand-messenger text-2xl text-white"></i>-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                            <h5 class="font-medium text-xl text-info">{{ stats.opportunities }}</h5>-->
+<!--                            <p>Opportunities</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="lg:col-span-3 md:col-span-6 sm:col-span-6 col-span-12">-->
+<!--                <div class="card overflow-hidden">-->
+<!--                    <div class="flex items-center gap-4">-->
+<!--                        <div class="py-5 px-4 rounded-e-none bg-success dark:bg-darksuccess">-->
+<!--                            <i class="ti ti-building-broadcast-tower text-2xl text-white"></i>-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                            <h5 class="font-medium text-xl text-success">{{ stats.total_users }}</h5>-->
+<!--                            <p>Total Users</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="lg:col-span-3 md:col-span-6 sm:col-span-6 col-span-12">-->
+<!--                <div class="card overflow-hidden">-->
+<!--                    <div class="flex items-center gap-4">-->
+<!--                        <div class="py-5 px-4 rounded-e-none bg-info dark:bg-darkprimary">-->
+<!--                            <i class="ti ti-clock-hour-3 text-2xl text-white"></i>-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                            <h5 class="font-medium text-xl text-info">{{ stats.active_opportunities }}</h5>-->
+<!--                            <p>Active Listings</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="lg:col-span-3 md:col-span-6 sm:col-span-6 col-span-12">-->
+<!--                <div class="card overflow-hidden">-->
+<!--                    <div class="flex items-center gap-4">-->
+<!--                        <div class="py-5 px-4 rounded-e-none bg-warning dark:bg-darkwarning">-->
+<!--                            <i class="ti ti-database text-2xl text-white"></i>-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                            <h5 class="font-medium text-xl text-warning">{{ stats.applications }}</h5>-->
+<!--                            <p>Applications</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+
+<!--        </div>-->
+
+
+
+
+        <div class="grid grid-cols-12 gap-6 mt-6">
+            <div class="lg:col-span-3 md:col-span-6 sm:col-span-6 col-span-12">
+                <div class="card ">
+                    <div class="card-body">
+                        <div class="flex gap-4 items-center">
+                            <div class="h-10 w-10 rounded-full bg-success flex items-center justify-center">
+                                <i class="ti ti-credit-card text-xl text-white"></i>
+                            </div>
+                            <div>
+                                <h5 class="text-xl font-medium">{{ stats.opportunities }}</h5>
+                                <p class="font-medium">Opportunities</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-center bg-success text-white mb-3 stat-card">
-                <div class="card-body">
-                    <h1 class="display-4">{{ stats.opportunities }}</h1>
-                    <p class="lead">Opportunities</p>
+            <div class="lg:col-span-3 md:col-span-6 sm:col-span-6 col-span-12">
+                <div class="card ">
+                    <div class="card-body">
+                        <div class="flex gap-4 items-center">
+                            <div class="h-10 w-10 rounded-full bg-info flex items-center justify-center">
+                                <i class="ti ti-users text-xl text-white"></i>
+                            </div>
+                            <div>
+                                <h5 class="text-xl font-medium">{{ stats.total_users }}</h5>
+                                <p class="font-medium">Total Users</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-center bg-info text-white mb-3 stat-card">
-                <div class="card-body">
-                    <h1 class="display-4">{{ stats.active_opportunities }}</h1>
-                    <p class="lead">Active Listings</p>
+            <div class="lg:col-span-3 md:col-span-6 sm:col-span-6 col-span-12">
+                <div class="card ">
+                    <div class="card-body">
+                        <div class="flex gap-4 items-center">
+                            <div class="h-10 w-10 rounded-full bg-error flex items-center justify-center">
+                                <i class="ti ti-calendar text-xl text-white"></i>
+                            </div>
+                            <div>
+                                <h5 class="text-xl font-medium">{{ stats.active_opportunities }}</h5>
+                                <p class="font-medium">Active Listings</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-center bg-warning text-white mb-3 stat-card">
-                <div class="card-body">
-                    <h1 class="display-4">{{ stats.applications }}</h1>
-                    <p class="lead">Applications</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- User Distribution Chart -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card h-100">
-                <div class="card-header bg-light">
-                    <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>User Distribution</h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="userDistributionChart"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card h-100">
-                <div class="card-header bg-light">
-                    <h5 class="mb-0"><i class="fas fa-users me-2"></i>User Breakdown</h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>User Type</th>
-                                    <th>Count</th>
-                                    <th>Percentage</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><i class="fas fa-user-graduate me-2 text-primary"></i>Students</td>
-                                    <td>{{ stats.students }}</td>
-                                    <td>{{ (stats.students / stats.total_users * 100)|round|int if stats.total_users > 0 else 0 }}%</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fas fa-microscope me-2 text-success"></i>PIs/Lab Directors</td>
-                                    <td>{{ stats.pis }}</td>
-                                    <td>{{ (stats.pis / stats.total_users * 100)|round|int if stats.total_users > 0 else 0 }}%</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fas fa-building me-2 text-info"></i>Industry Partners</td>
-                                    <td>{{ stats.industry }}</td>
-                                    <td>{{ (stats.industry / stats.total_users * 100)|round|int if stats.total_users > 0 else 0 }}%</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fas fa-truck me-2 text-warning"></i>Vendors</td>
-                                    <td>{{ stats.vendors }}</td>
-                                    <td>{{ (stats.vendors / stats.total_users * 100)|round|int if stats.total_users > 0 else 0 }}%</td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <div class="lg:col-span-3 md:col-span-6 sm:col-span-6 col-span-12">
+                <div class="card ">
+                    <div class="card-body">
+                        <div class="flex gap-4 items-center">
+                            <div class="h-10 w-10 rounded-full bg-success flex items-center justify-center">
+                                <i class="ti ti-settings text-xl text-white"></i>
+                            </div>
+                            <div>
+                                <h5 class="text-xl font-medium">{{ stats.applications }}</h5>
+                                <p class="font-medium">Applications</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <!-- Recent Activity -->
-    <div class="row">
-        <!-- Recent Users -->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0"><i class="fas fa-user-plus me-2"></i>Recent Users</h5>
-                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#recentUsersCollapse" aria-expanded="true" aria-controls="recentUsersCollapse">
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
+
+
+
+        <div class="grid grid-cols-12 gap-6 mt-6">
+            <!-----Earning / Latest Deal Card----->
+            <div class="lg:col-span-3 col-span-12">
+                <div class="card mb-6">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h5 class="card-title">Earning</h5>
+                                <p class="card-subtitle">Last 7 days</p>
+                            </div>
+                            <div class="sm:mt-0 mt-4">
+                                <h6 class="text-lg">12,389</h6>
+                                <div
+                                        class="badge bg-lightwarning dark:bg-darkwarning border-warning text-warning">-3.8%</div>
+                            </div>
+                        </div>
+                        <div id="total-orders" class="total-orders-chart my-1 -me-8"></div>
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center">
+                                <i class="ti ti-circle text-primary text-fs_15 me-2"></i>
+                                <p class="mb-0 font-medium">Wrappixel</p>
+                            </div>
+                            <p class="mb-0 font-medium">52%</p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="ti ti-circle text-light text-fs_15 me-2"></i>
+                                <p class="mb-0 font-medium">Adminmart</p>
+                            </div>
+                            <p class="mb-0 font-medium">48%</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="collapse show" id="recentUsersCollapse">
-                    <div class="card-body p-0">
-                        <div class="list-group list-group-flush">
-                            {% for user in recent_users %}
-                                <div class="list-group-item">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h6 class="mb-0">{{ user.email }}</h6>
-                                            <small class="text-muted">
-                                                <span class="badge {% if user.user_type == 'Student' %}bg-primary{% elif user.user_type == 'PI' %}bg-success{% elif user.user_type == 'Industry' %}bg-info{% elif user.user_type == 'Vendor' %}bg-warning{% else %}bg-secondary{% endif %}">
-                                                    {{ user.user_type }}
-                                                </span>
-                                                Joined: {{ user.created_at.strftime('%b %d, %Y') }}
-                                            </small>
-                                        </div>
-                                        <div class="btn-group">
-                                            <a href="{{ url_for('view_profile', user_id=user.id) }}" class="btn btn-sm btn-outline-primary">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">
-                                                <i class="fas fa-user-check"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-outline-danger">
-                                                <i class="fas fa-ban"></i>
-                                            </button>
-                                        </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="flex items-baseline justify-between mb-4">
+                            <div>
+                                <h5 class="card-title">Latest Deal</h5>
+                                <p class="card-subtitle">Last 7 days</p>
+                            </div>
+                            <div class="sm:mt-0">
+                                <div
+                                        class="badge bg-lightsuccess dark:bg-darksuccess border-success text-success">+86.5%</div>
+                            </div>
+                        </div>
+                        <div class="my-8">
+                            <div class="flex justify-between items-center">
+                                <h5 class="text-xl">$98,500</h5>
+                                <p
+                                        class="text-dark dark:text-white font-medium text-fs_15">$1,22,900</p>
+                            </div>
+                            <div
+                                    class="flex my-1.5 w-full h-2 bg-lightprimary dark:bg-darkprimary rounded-md overflow-hidden"
+                                    role="progressbar" aria-valuenow="80" aria-valuemin="0"
+                                    aria-valuemax="100">
+                                <div
+                                        class="flex flex-col justify-center overflow-hidden bg-primary text-xs text-white text-center whitespace-nowrap transition duration-500 "
+                                        style="width: 80%"></div>
+                            </div>
+                            <p class="font-medium">Coupons used: 18/22</p>
+                        </div>
+                        <div>
+                            <h6 class="card-title text-fs_15">Recent Purchasers</h6>
+                            <div class="flex mt-5">
+                                <a href="javascript:void(0)" class="relative ">
+                                    <img src="../static/assets/images/profile/user-2.jpg"
+                                         class="rounded-full h-11 w-11 border-2 border-body dark:border-dark"
+                                         alt="user" />
+                                </a>
+                                <a href="javascript:void(0)" class="relative -ms-2">
+                                    <img src="../static/assets/images/profile/user-3.jpg"
+                                         class="rounded-full h-11 w-11 border-2 border-body dark:border-dark"
+                                         alt="user" />
+                                </a>
+                                <a href="javascript:void(0)" class="relative -ms-2">
+                                    <img src="../static/assets/images/profile/user-4.jpg"
+                                         class="rounded-full h-11 w-11 border-2 border-body dark:border-dark"
+                                         alt="user" />
+                                </a>
+                                <a href="javascript:void(0)" class="relative -ms-2">
+                                    <img src="../static/assets/images/profile/user-5.jpg"
+                                         class="rounded-full h-11 w-11 border-2 border-body dark:border-dark"
+                                         alt="user" />
+                                </a>
+                                <a href="javascript:void(0)" class="relative -ms-2 ">
+                                    <div
+                                            class="rounded-full h-11 w-11 border-2  border-body dark:border-dark flex justify-center items-center bg-lightprimary dark:bg-darkprimary text-dark dark:text-white font-medium hover:text-primary">
+                                        8+
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-----Congratulation Card----->
+            <div class="lg:col-span-6  col-span-12">
+                <div class="card overflow-hidden">
+                    <div class="card-body relative">
+                        <h5 class="card-title">Congratulations Jonathan</h5>
+                        <p class="card-subtitle">You have done 38% more sales</p>
+                        <div class="mt-6">
+                            <ul class="mb-0">
+                                <li class="flex items-center mb-5 gap-4">
+                                    <div
+                                            class="bg-lightsuccess dark:bg-darksuccess h-12 w-12 rounded-full flex items-center justify-center">
+                                        <iconify-icon icon="solar:cart-5-line-duotone"
+                                                      class="text-2xl text-success"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <h6 class="text-base">64 new orders</h6>
+                                        <p class="font-medium">Processing</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-center mb-5 gap-4">
+                                    <div
+                                            class="bg-lightwarning dark:bg-darkwarning h-12 w-12 rounded-full flex items-center justify-center">
+                                        <iconify-icon icon="solar:pause-line-duotone"
+                                                      class="text-2xl text-warning"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <h6 class="text-base">4 orders</h6>
+                                        <p class="font-medium">On hold</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-center gap-4">
+                                    <div
+                                            class="bg-lightindigo dark:bg-darkindigo h-12 w-12 rounded-full flex items-center justify-center">
+                                        <iconify-icon icon="solar:bicycling-round-bold-duotone"
+                                                      class="text-2xl text-indigo"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <h6 class="text-base">12 orders</h6>
+                                        <p class="font-medium">Delivered</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div
+                                    class="md:absolute relative md:end-0 -end-7 md:bottom-0 -bottom-8">
+                                <img
+                                        src="../static/assets/images/backgrounds/man-working-on-laptop.png"
+                                        alt class="w-full">
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                            class="card-body border-t border-border dark:border-darkborder">
+                        <div class="flex items-center justify-between ">
+                            <div>
+                                <h5 class="card-title">Total Orders</h5>
+                                <p class="card-subtitle">Weekly order updates</p>
+                            </div>
+                            <select class>
+                                <option selected>This Week</option>
+                                <option>March 2024</option>
+                                <option>April 2024</option>
+                                <option>May 2024</option>
+                                <option>June 2024</option>
+                            </select>
+                        </div>
+                        <div id="netsells" class="-me-7"></div>
+                    </div>
+                </div>
+            </div>
+            <!-----Profit / Customer----->
+            <div class="lg:col-span-3 col-span-12">
+                <div class="card mb-6">
+                    <div class="card-body">
+                        <div class="flex items-baseline justify-between mb-4">
+                            <div>
+                                <h5 class="card-title">Profit</h5>
+                                <p class="card-subtitle">Years</p>
+                            </div>
+                            <div class="sm:mt-0 mt-4">
+                                <h6 class="text-lg text-end">432</h6>
+                                <div
+                                        class="badge bg-lightsuccess dark:bg-darksuccess border-success text-success">+26.5%</div>
+                            </div>
+                        </div>
+                        <div id="products" class="my-6"></div>
+                        <p class="text-fs_15 text-center font-medium">$18k Profit more than
+                            last
+                            years</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="flex items-baseline justify-between mb-4">
+                            <div>
+                                <h5 class="card-title">Customers</h5>
+                                <p class="card-subtitle">Last 7 days</p>
+                            </div>
+                            <div class="sm:mt-0 mt-4">
+                                <h6 class="text-lg text-end">6,380</h6>
+                                <div
+                                        class="badge bg-lightsuccess dark:bg-darksuccess border-success text-success">+26.5%</div>
+                            </div>
+                        </div>
+                        <div id="customers" class="my-10"></div>
+                        <div
+                                class="flex items-center justify-between mb-2">
+                            <p class="font-medium">April 07 - April 14</p>
+                            <p class="font-medium">6,380</p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <p class="text-fs_15 font-medium">Last Week</p>
+                            <p class="text-fs_15 font-medium">4,298</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-----Table 1----->
+            <!-----Table 2----->
+            <div class="col-span-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="sm:flex items-center justify-between mb-4">
+                            <div>
+                                <h5 class="card-title">Recent Users</h5>
+                                <p class="card-subtitle">Latest users registrations</p>
+                            </div>
+                            <div class="flex items-center gap-3 md:mt-0 mt-3">
+                                <form class="relative">
+                                    <input type="text"
+                                           class="form-control rounded-full py-[9px]  ps-12 border-bordergray  text-dark dark:text-darklink text-fs_15  font-medium"
+                                           placeholder="Search">
+                                    <iconify-icon icon="solar:magnifer-linear"
+                                                  class="text-dark dark:text-darklink absolute top-3  start-1 text-lg  ms-3"></iconify-icon>
+                                </form>
+
+                            </div>
+
+                        </div>
+                        <div class="flex flex-col">
+                            <div class="-m-1.5 overflow-x-auto">
+                                <div class="p-1.5 min-w-full inline-block align-middle">
+                                    <div class="overflow-hidden">
+                                        <table
+                                                class="min-w-full divide-y divide-border dark:divide-darkborder">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col"
+                                                    class="text-start  p-3 ps-0 font-semibold text-dark dark:text-white text-base">
+                                                    #</th>
+                                                <th scope="col"
+                                                    class="text-start  p-3 font-semibold text-dark dark:text-white text-base">
+                                                    Products</th>
+                                                <th scope="col"
+                                                    class="text-start  p-3 font-semibold text-dark dark:text-white text-base">
+                                                    Customer</th>
+                                                <th scope="col"
+                                                    class="text-start  p-3 font-semibold text-dark dark:text-white text-base">
+                                                    Review</th>
+                                                <th scope="col"
+                                                    class="text-start  p-3 font-semibold text-dark dark:text-white text-base">
+                                                    Status</th>
+                                                <th scope="col"
+                                                    class="text-start  p-3 font-semibold text-dark dark:text-white text-base">
+                                                    Time</th>
+                                                <th scope="col"
+                                                    class="text-start  p-3 font-semibold text-dark dark:text-white text-base">
+                                                </th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody
+                                                    class="divide-y divide-border dark:divide-darkborder">
+                                            <tr>
+                                                <td class="p-3 ps-0 whitespace-nowrap">
+                                                    <input type="checkbox" class="form-check-input rounded-xs"
+                                                           id="check1">
+                                                </td>
+                                                <td class="p-3 whitespace-nowrap">
+                                                    <div class="flex gap-4 items-center truncate ">
+                                                        <div class>
+                                                            <img src="../static/assets/images/products/product-5.png"
+                                                                 width="60" height="60"
+                                                                 alt="user" />
+                                                        </div>
+                                                        <h6
+                                                                class="text-base line-clamp-2 md:max-w-56 whitespace-normal ">
+                                                            iPhone 13 pro max-Pacific Blue-128GB storage</h6>
+                                                    </div>
+                                                </td>
+
+                                                <td class="p-3">
+                                                    <div class="flex gap-4 items-center truncate">
+                                                        <img src="../static/assets/images/profile/user-2.jpg" alt
+                                                             class="w-8 h-8 rounded-full">
+                                                        <div>
+                                                            <h5 class="text-base">Arlene McCoy</h5>
+                                                            <p
+                                                                    class="text-dark dark:text-darklink font-light">macoy@arlene.com</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="p-3">
+                                                    <div class="flex gap-1">
+                                                        <iconify-icon icon="solar:star-bold"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold-duotone"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-line-duotone"
+                                                                      class="text-warning"></iconify-icon>
+                                                    </div>
+                                                    <p
+                                                            class="font-medium mt-1 text-dark dark:text-darklink  truncate line-clamp-2 max-w-56 whitespace-normal">
+                                                        This theme is great. Clean and easy to understand. Perfect
+                                                        for
+                                                    </p>
+                                                </td>
+                                                <td class="p-3">
+                                                    <div
+                                                            class="badge bg-lightsuccess dark:bg-darksuccess border-success text-success w-fit">Confirmed</div>
+
+                                                </td>
+                                                <td
+                                                        class="p-3 font-medium text-dark dark:text-darklink whitespace-nowrap">
+                                                    Nov 8
+                                                </td>
+                                                <td class="p-3">
+                                                    <div class="hs-dropdown relative inline-flex">
+                                                        <button id="hs-dropdown-custom-icon-trigger"
+                                                                class="hs-dropdown-toggle h-10 w-10 text-bodytext dark:text-darklink hover:text-primary dark:hover:text-primary group bg-hover justify-center items-center rounded-full">
+                                                            <i class="ti ti-dots-vertical text-lg"></i>
+                                                        </button>
+
+                                                        <div
+                                                                class="hs-dropdown-menu overflow-hidden z-[1] transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 min-w-40 hidden"
+                                                                aria-labelledby="hs-dropdown-custom-icon-trigger">
+                                                            <div class="flex flex-col">
+                                                                <div class="py-1 px-4 bg-hover">
+                                                                    <a class="font-medium flex gap-2 items-center "
+                                                                       href="index.html#">
+                                                                        <i class="ti ti-plus  text-base"></i>Add
+                                                                    </a>
+                                                                </div>
+                                                                <div class="py-1 px-4 bg-hover">
+                                                                    <a class="font-medium flex gap-2 items-center "
+                                                                       href="index.html#">
+                                                                        <i class="ti ti-edit  text-base"></i>Edit
+                                                                    </a>
+                                                                </div>
+                                                                <div class="py-1 px-4 bg-hover">
+                                                                    <a class="font-medium flex gap-2 items-center "
+                                                                       href="index.html#">
+                                                                        <i class="ti ti-trash  text-base"></i>Delete
+
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-3 ps-0 whitespace-nowrap">
+                                                    <input type="checkbox" class="form-check-input rounded-xs"
+                                                           id="check2">
+                                                </td>
+                                                <td class="p-3 whitespace-nowrap">
+                                                    <div class="flex gap-4 items-center truncate ">
+                                                        <div class>
+                                                            <img src="../static/assets/images/products/product-6.png"
+                                                                 width="60" height="60"
+                                                                 alt="user" />
+                                                        </div>
+                                                        <h6
+                                                                class="text-base line-clamp-2 md:max-w-56 whitespace-normal ">
+                                                            Apple MacBook Pro 13 inch-M1-8/256GB-space</h6>
+                                                    </div>
+                                                </td>
+
+                                                <td class="p-3">
+                                                    <div class="flex gap-4 items-center truncate">
+                                                        <img src="../static/assets/images/profile/user-3.jpg" alt
+                                                             class="w-8 h-8 rounded-full">
+                                                        <div>
+                                                            <h5 class="text-base">Jerome Bell</h5>
+                                                            <p
+                                                                    class="text-dark dark:text-darklink font-light">belljerome@yahoo.com</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="p-3">
+                                                    <div class="flex gap-1">
+                                                        <iconify-icon icon="solar:star-bold"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold-duotone"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-line-duotone"
+                                                                      class="text-warning"></iconify-icon>
+                                                    </div>
+                                                    <p
+                                                            class="font-medium mt-1 text-dark dark:text-darklink  truncate line-clamp-2 max-w-56 whitespace-normal">
+                                                        It's a Mac, after all. Once you've gone Mac,there's no
+                                                        going back. My first Mac
+                                                        lastedover nine years.
+                                                    </p>
+                                                </td>
+                                                <td class="p-3">
+                                                    <div
+                                                            class="badge bg-lightwarning dark:bg-darkwarning border-warning text-warning w-fit">Pending</div>
+
+                                                </td>
+                                                <td
+                                                        class="p-3 font-medium text-dark dark:text-darklink whitespace-nowrap">
+                                                    Nov 8
+                                                </td>
+                                                <td class="p-3">
+                                                    <div class="hs-dropdown relative inline-flex">
+                                                        <button id="hs-dropdown-custom-icon-trigger"
+                                                                class="hs-dropdown-toggle h-10 w-10 text-bodytext dark:text-darklink hover:text-primary dark:hover:text-primary group bg-hover justify-center items-center rounded-full">
+                                                            <i class="ti ti-dots-vertical text-lg"></i>
+                                                        </button>
+
+                                                        <div
+                                                                class="hs-dropdown-menu overflow-hidden z-[1] transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 min-w-40 hidden"
+                                                                aria-labelledby="hs-dropdown-custom-icon-trigger">
+                                                            <div class="flex flex-col">
+                                                                <div class="py-1 px-4 bg-hover">
+                                                                    <a class="font-medium flex gap-2 items-center "
+                                                                       href="index.html#">
+                                                                        <i class="ti ti-plus  text-base"></i>Add
+                                                                    </a>
+                                                                </div>
+                                                                <div class="py-1 px-4 bg-hover">
+                                                                    <a class="font-medium flex gap-2 items-center "
+                                                                       href="index.html#">
+                                                                        <i class="ti ti-edit  text-base"></i>Edit
+                                                                    </a>
+                                                                </div>
+                                                                <div class="py-1 px-4 bg-hover">
+                                                                    <a class="font-medium flex gap-2 items-center "
+                                                                       href="index.html#">
+                                                                        <i class="ti ti-trash  text-base"></i>Delete
+
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-3 ps-0 whitespace-nowrap">
+                                                    <input type="checkbox" class="form-check-input rounded-xs"
+                                                           id="check3">
+                                                </td>
+                                                <td class="p-3 whitespace-nowrap">
+                                                    <div class="flex gap-4 items-center truncate ">
+                                                        <div class>
+                                                            <img src="../static/assets/images/products/product-7.png"
+                                                                 width="60" height="60"
+                                                                 alt="user" />
+                                                        </div>
+                                                        <h6
+                                                                class="text-base line-clamp-2 md:max-w-56 whitespace-normal ">
+                                                            PlayStation 5 DualSense Wireless Controller</h6>
+                                                    </div>
+                                                </td>
+
+                                                <td class="p-3">
+                                                    <div class="flex gap-4 items-center truncate">
+                                                        <img src="../static/assets/images/profile/user-4.jpg" alt
+                                                             class="w-8 h-8 rounded-full">
+                                                        <div>
+                                                            <h5 class="text-base">Jacob Jones</h5>
+                                                            <p
+                                                                    class="text-dark dark:text-darklink font-light">jones009@hotmail.com</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="p-3">
+                                                    <div class="flex gap-1">
+                                                        <iconify-icon icon="solar:star-bold"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold-duotone"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-line-duotone"
+                                                                      class="text-warning"></iconify-icon>
+                                                    </div>
+                                                    <p
+                                                            class="font-medium mt-1 text-dark dark:text-darklink  truncate line-clamp-2 max-w-56 whitespace-normal">
+                                                        The best experience we could hope for.Customer service
+                                                        team is amazing and thequality
+                                                        of their products...
+                                                    </p>
+                                                </td>
+                                                <td class="p-3">
+                                                    <div
+                                                            class="badge bg-lightwarning dark:bg-darkwarning border-warning text-warning w-fit">Pending</div>
+
+                                                </td>
+                                                <td
+                                                        class="p-3 font-medium text-dark dark:text-darklink whitespace-nowrap">
+                                                    Nov 8
+                                                </td>
+                                                <td class="p-3">
+                                                    <div class="hs-dropdown relative inline-flex">
+                                                        <button id="hs-dropdown-custom-icon-trigger"
+                                                                class="hs-dropdown-toggle h-10 w-10 text-bodytext dark:text-darklink hover:text-primary dark:hover:text-primary group bg-hover justify-center items-center rounded-full">
+                                                            <i class="ti ti-dots-vertical text-lg"></i>
+                                                        </button>
+
+                                                        <div
+                                                                class="hs-dropdown-menu overflow-hidden z-[1] transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 min-w-40 hidden"
+                                                                aria-labelledby="hs-dropdown-custom-icon-trigger">
+                                                            <div class="flex flex-col">
+                                                                <div class="py-1 px-4 bg-hover">
+                                                                    <a class="font-medium flex gap-2 items-center "
+                                                                       href="index.html#">
+                                                                        <i class="ti ti-plus  text-base"></i>Add
+                                                                    </a>
+                                                                </div>
+                                                                <div class="py-1 px-4 bg-hover">
+                                                                    <a class="font-medium flex gap-2 items-center "
+                                                                       href="index.html#">
+                                                                        <i class="ti ti-edit  text-base"></i>Edit
+                                                                    </a>
+                                                                </div>
+                                                                <div class="py-1 px-4 bg-hover">
+                                                                    <a class="font-medium flex gap-2 items-center "
+                                                                       href="index.html#">
+                                                                        <i class="ti ti-trash  text-base"></i>Delete
+
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-3 ps-0 whitespace-nowrap">
+                                                    <input type="checkbox" class="form-check-input rounded-xs"
+                                                           id="check4">
+                                                </td>
+                                                <td class="p-3 whitespace-nowrap">
+                                                    <div class="flex gap-4 items-center truncate ">
+                                                        <div class>
+                                                            <img src="../static/assets/images/products/product-8.png"
+                                                                 width="60" height="60"
+                                                                 alt="user" />
+                                                        </div>
+                                                        <h6
+                                                                class="text-base line-clamp-2 md:max-w-56 md:whitespace-normal ">
+                                                            Amazon Basics Mesh, Mid-Back, Swivel Office De...</h6>
+                                                    </div>
+                                                </td>
+
+                                                <td class="p-3">
+                                                    <div class="flex gap-4 items-center truncate">
+                                                        <img src="../static/assets/images/profile/user-5.jpg" alt
+                                                             class="w-8 h-8 rounded-full">
+                                                        <div>
+                                                            <h5 class="text-base">Annette Black</h5>
+                                                            <p
+                                                                    class="text-dark dark:text-darklink font-light">blackanne@yahoo.com</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="p-3">
+                                                    <div class="flex gap-1">
+                                                        <iconify-icon icon="solar:star-bold"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold-duotone"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold-duotone"
+                                                                      class="text-warning"></iconify-icon>
+                                                    </div>
+                                                    <p
+                                                            class="font-medium mt-1 text-dark dark:text-darklink  truncate line-clamp-2 max-w-56 whitespace-normal">
+                                                        The controller is quite comfy for me. Despiteits increased
+                                                        size, the controller still
+                                                        fits well
+                                                    </p>
+                                                </td>
+                                                <td class="p-3">
+                                                    <div
+                                                            class="badge bg-lightsuccess dark:bg-darksuccess border-success text-success w-fit">Confirmed</div>
+
+                                                </td>
+                                                <td
+                                                        class="p-3 font-medium text-dark dark:text-darklink whitespace-nowrap">
+                                                    Nov 8
+                                                </td>
+                                                <td class="p-3">
+                                                    <div class="hs-dropdown relative inline-flex">
+                                                        <button id="hs-dropdown-custom-icon-trigger"
+                                                                class="hs-dropdown-toggle h-10 w-10 text-bodytext dark:text-darklink hover:text-primary dark:hover:text-primary group bg-hover justify-center items-center rounded-full">
+                                                            <i class="ti ti-dots-vertical text-lg"></i>
+                                                        </button>
+
+                                                        <div
+                                                                class="hs-dropdown-menu overflow-hidden z-[1] transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 min-w-40 hidden"
+                                                                aria-labelledby="hs-dropdown-custom-icon-trigger">
+                                                            <div class="flex flex-col">
+                                                                <div class="py-1 px-4 bg-hover">
+                                                                    <a class="font-medium flex gap-2 items-center "
+                                                                       href="index.html#">
+                                                                        <i class="ti ti-plus  text-base"></i>Add
+                                                                    </a>
+                                                                </div>
+                                                                <div class="py-1 px-4 bg-hover">
+                                                                    <a class="font-medium flex gap-2 items-center "
+                                                                       href="index.html#">
+                                                                        <i class="ti ti-edit  text-base"></i>Edit
+                                                                    </a>
+                                                                </div>
+                                                                <div class="py-1 px-4 bg-hover">
+                                                                    <a class="font-medium flex gap-2 items-center "
+                                                                       href="index.html#">
+                                                                        <i class="ti ti-trash  text-base"></i>Delete
+
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-3 ps-0 whitespace-nowrap">
+                                                    <input type="checkbox" class="form-check-input rounded-xs"
+                                                           id="check4">
+                                                </td>
+                                                <td class="p-3 whitespace-nowrap">
+                                                    <div class="flex gap-4 items-center truncate ">
+                                                        <div class>
+                                                            <img src="../static/assets/images/products/product-9.png"
+                                                                 width="60" height="60"
+                                                                 alt="user" />
+                                                        </div>
+                                                        <h6
+                                                                class="text-base line-clamp-2 md:max-w-56 md:whitespace-normal ">
+                                                            Sony X85J 75 Inch Sony 4K Ultra HD LED Smart G...</h6>
+                                                    </div>
+                                                </td>
+
+                                                <td class="p-3">
+                                                    <div class="flex gap-4 items-center truncate">
+                                                        <img src="../static/assets/images/profile/user-6.jpg" alt
+                                                             class="w-8 h-8 rounded-full">
+                                                        <div>
+                                                            <h5 class="text-base">Albert Flores</h5>
+                                                            <p
+                                                                    class="text-dark dark:text-darklink font-light">albertflo9@gmail.com</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="p-3">
+                                                    <div class="flex gap-1">
+                                                        <iconify-icon icon="solar:star-bold"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold-duotone"
+                                                                      class="text-warning"></iconify-icon>
+                                                        <iconify-icon icon="solar:star-bold-duotone"
+                                                                      class="text-warning"></iconify-icon>
+                                                    </div>
+                                                    <p
+                                                            class="font-medium mt-1 text-dark dark:text-darklink  truncate line-clamp-2 max-w-56 whitespace-normal">
+                                                        This theme is great. Perfect for those whodon't have time
+                                                        to start everything from.
+                                                    </p>
+                                                </td>
+                                                <td class="p-3">
+                                                    <div
+                                                            class="badge bg-lightwarning dark:bg-darkwarning border-warning text-warning w-fit">Pending</div>
+
+                                                </td>
+                                                <td
+                                                        class="p-3 font-medium text-dark dark:text-darklink whitespace-nowrap">
+                                                    Nov 8
+                                                </td>
+                                                <td class="p-3">
+                                                    <div class="hs-dropdown relative inline-flex">
+                                                        <button id="hs-dropdown-custom-icon-trigger"
+                                                                class="hs-dropdown-toggle h-10 w-10 text-bodytext dark:text-darklink hover:text-primary dark:hover:text-primary group bg-hover justify-center items-center rounded-full">
+                                                            <i class="ti ti-dots-vertical text-lg"></i>
+                                                        </button>
+
+                                                        <div
+                                                                class="hs-dropdown-menu overflow-hidden z-[1] transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 min-w-40 hidden"
+                                                                aria-labelledby="hs-dropdown-custom-icon-trigger">
+                                                            <div class="flex flex-col">
+                                                                <div class="py-1 px-4 bg-hover">
+                                                                    <a class="font-medium flex gap-2 items-center "
+                                                                       href="index.html#">
+                                                                        <i class="ti ti-plus  text-base"></i>Add
+                                                                    </a>
+                                                                </div>
+                                                                <div class="py-1 px-4 bg-hover">
+                                                                    <a class="font-medium flex gap-2 items-center "
+                                                                       href="index.html#">
+                                                                        <i class="ti ti-edit  text-base"></i>Edit
+                                                                    </a>
+                                                                </div>
+                                                                <div class="py-1 px-4 bg-hover">
+                                                                    <a class="font-medium flex gap-2 items-center "
+                                                                       href="index.html#">
+                                                                        <i class="ti ti-trash  text-base"></i>Delete
+
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="card-footer bg-transparent text-center">
-                        <a href="#" class="btn btn-sm btn-outline-primary">View All Users</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Recent Opportunities -->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0"><i class="fas fa-briefcase me-2"></i>Recent Opportunities</h5>
-                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#recentOpportunitiesCollapse" aria-expanded="true" aria-controls="recentOpportunitiesCollapse">
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                </div>
-                <div class="collapse show" id="recentOpportunitiesCollapse">
-                    <div class="card-body p-0">
-                        <div class="list-group list-group-flush">
-                            {% for opportunity in recent_opportunities %}
-                                <div class="list-group-item">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h6 class="mb-0">{{ opportunity.title }}</h6>
-                                            <small class="text-muted">
-                                                <span class="badge {% if opportunity.type == 'Internship' %}bg-success{% elif opportunity.type == 'PhD' %}bg-primary{% elif opportunity.type == 'PostDoc' %}bg-info{% elif opportunity.type == 'Job' %}bg-warning{% else %}bg-secondary{% endif %}">
-                                                    {{ opportunity.type }}
-                                                </span>
-                                                Posted: {{ opportunity.created_at.strftime('%b %d, %Y') }}
-                                            </small>
-                                        </div>
-                                        <div class="btn-group">
-                                            <a href="{{ url_for('view_opportunity', opportunity_id=opportunity.id) }}" class="btn btn-sm btn-outline-primary">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-sm btn-outline-success">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-outline-danger">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="card-footer bg-transparent text-center">
-                        <a href="{{ url_for('list_opportunities') }}" class="btn btn-sm btn-outline-primary">View All Opportunities</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Admin Actions -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header bg-light">
-                    <h5 class="mb-0"><i class="fas fa-cogs me-2"></i>Administrative Actions</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <div class="card h-100 bg-light">
-                                <div class="card-body text-center">
-                                    <i class="fas fa-user-shield fa-3x mb-3 text-primary"></i>
-                                    <h5>User Management</h5>
-                                    <p class="small">Approve, suspend, or manage user accounts</p>
-                                    <a href="#" class="btn btn-sm btn-outline-primary" id="manage-users-btn">Manage Users</a>
-                                </div>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="card h-100 bg-light">
-                                <div class="card-body text-center">
-                                    <i class="fas fa-clipboard-check fa-3x mb-3 text-success"></i>
-                                    <h5>Content Moderation</h5>
-                                    <p class="small">Review and approve opportunities and profiles</p>
-                                    <a href="#" class="btn btn-sm btn-outline-success" id="moderate-content-btn">Moderate Content</a>
+                        <div
+                                class="md:flex text-center pt-3 justify-between items-center border-t border-border dark:border-darkborder">
+                            <p class="font-medium">1-6 of 32</p>
+                            <!-- Pagination -->
+                            <nav class="flex items-center gap-x-1">
+                                <button type="button"
+                                        class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-dark bg-hover focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-darklink  dark:focus:bg-white/10">
+                                    <i
+                                            class="ti ti-chevron-left text-sm leading-tight font-medium"></i>
+                                    <span class="leading-tight">Previous</span>
+                                </button>
+                                <div class="flex items-center gap-x-1">
+                                    <button type="button"
+                                            class="min-h-[38px] min-w-[38px] flex justify-center items-center text-dark bg-hover py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-darklink  dark:focus:bg-white/10"
+                                            aria-current="page">1</button>
+                                    <button type="button"
+                                            class="min-h-[38px] min-w-[38px] flex justify-center items-center text-dark bg-hover py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-darklink  dark:focus:bg-white/10">2</button>
+                                    <button type="button"
+                                            class="min-h-[38px] min-w-[38px] flex justify-center items-center text-dark bg-hover py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-darklink  dark:focus:bg-white/10">3</button>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="card h-100 bg-light">
-                                <div class="card-body text-center">
-                                    <i class="fas fa-envelope-open-text fa-3x mb-3 text-info"></i>
-                                    <h5>Message Broadcast</h5>
-                                    <p class="small">Send announcements to platform users</p>
-                                    <a href="#" class="btn btn-sm btn-outline-info" id="broadcast-message-btn">Compose Message</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="card h-100 bg-light">
-                                <div class="card-body text-center">
-                                    <i class="fas fa-download fa-3x mb-3 text-warning"></i>
-                                    <h5>Export Data</h5>
-                                    <p class="small">Generate reports and export platform data</p>
-                                    <a href="#" class="btn btn-sm btn-outline-warning" id="export-data-btn">Export Reports</a>
-                                </div>
-                            </div>
+                                <button type="button"
+                                        class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-dark bg-hover focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-darklink  dark:focus:bg-white/10">
+                                    <span class="leading-tight">Next</span>
+                                    <i
+                                            class="ti ti-chevron-right text-sm leading-tight font-medium"></i>
+                                </button>
+                            </nav>
+                            <!-- End Pagination -->
                         </div>
                     </div>
                 </div>
@@ -261,6 +914,7 @@
         </div>
     </div>
 </div>
+
 
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -274,30 +928,33 @@
                 labels: ['Students', 'PIs/Lab Directors', 'Industry Partners', 'Vendors'],
                 datasets: [{
                     data: [{{ stats.students }}, {{ stats.pis }}, {{ stats.industry }}, {{ stats.vendors }}],
-                    backgroundColor: [
-                        '#0d6efd', // primary
-                        '#198754', // success
-                        '#0dcaf0', // info
-                        '#ffc107'  // warning
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
+        backgroundColor: [
+            '#0d6efd', // primary
+            '#198754', // success
+            '#0dcaf0', // info
+            '#ffc107'  // warning
+        ],
+            borderWidth: 1
+    }]
+    },
+        options: {
+            responsive: true,
                 plugins: {
-                    legend: {
-                        position: 'bottom',
-                    },
-                    title: {
-                        display: true,
+                legend: {
+                    position: 'bottom',
+                },
+                title: {
+                    display: true,
                         text: 'User Type Distribution'
-                    }
                 }
             }
-        });
+        }
+    });
     });
 </script>
 <script src="{{ url_for('static', filename='js/admin-dashboard.js') }}"></script>
 {% endblock %}
 {% endblock %}
+
+
+

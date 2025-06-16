@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BodhiPhi</title>
+    <link rel="icon" type="image/x-icon" href="../static/images/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&family=WDXL+Lubrifont+TC&display=swap"
+            rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+<!--    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>-->
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+</head>
+<body class="bg-gray-100" style="font-family: 'Nunito Sans', sans-serif; ">
+<div class="w-full flex justify-center bg-center bg-cover bg-no-repeat px-2 shadow-lg shadow-[#314a4a]/10 ">
+    <div class="lg:w-[70%] md:w-[80%] sm:w-[80%] w-full flex justify-between items-center gap-4">
+        <img src="../static/images/logo.png" class="h-28" alt="">
+        <div class="flex items-center gap-4">
+            <a href="{{url_for('admin_dashboard')}}"  class="w-max px-6 py-1.5 text-[#314a4a] bg-white border-[1px] border-[#314a4a] rounded-full font-semibold hover:bg-[#314a4a] hover:text-white transition ease-in duration-2000">
+                Login/ Signup
+            </a>
+        </div>
+    </div>
+</div>
+
+{% block content %}{% endblock %}
+
+<div class="w-full flex flex-col items-center justify-center bg-center bg-cover bg-no-repeat px-2 border-t-[2px] border-t-[#314a4a]/10 ">
+    <div class="lg:w-[70%] md:w-[80%] sm:w-[80%] w-full flex gap-4  py-4 flex lg:flex-row md:flex-row flex-col lg:justify-between md:justify-between justify-center">
+        <div class="w-full flex flex-col lg:items-start md:items-start items-center">
+            <div class="flex gap-2">
+                <a href="" class="text-black font-medium hover:text-[#314a4a] hover:underline transition ease-in duration-2000">info@email.com</a>
+                <a href="" class="text-black font-medium hover:text-[#314a4a] hover:underline transition ease-in duration-2000">+91 0123456789</a>
+            </div>
+            <div class="flex gap-4">
+                <a href="" class="text-black font-medium hover:text-[#314a4a] hover:underline transition ease-in duration-2000"><i class="fa-brands fa-facebook"></i></a>
+                <a href="" class="text-black font-medium hover:text-[#314a4a] hover:underline transition ease-in duration-2000"><i class="fa-brands fa-instagram"></i></a>
+                <a href="" class="text-black font-medium hover:text-[#314a4a] hover:underline transition ease-in duration-2000"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="" class="text-black font-medium hover:text-[#314a4a] hover:underline transition ease-in duration-2000"><i class="fa-brands fa-twitter"></i></a>
+            </div>
+
+        </div>
+        <div class="w-full flex gap-2 flex-wrap lg:justify-end md:justify-end justify-center">
+            <a href="" class="text-black font-medium hover:text-[#314a4a] hover:underline transition ease-in duration-2000">About us</a>
+            <a href="" class="text-black font-medium hover:text-[#314a4a] hover:underline transition ease-in duration-2000">Careers</a>
+            <a href="" class="text-black font-medium hover:text-[#314a4a] hover:underline transition ease-in duration-2000">Terms & Conditions</a>
+            <a href="" class="text-black font-medium hover:text-[#314a4a] hover:underline transition ease-in duration-2000">Privacy Policy</a>
+            <a href="" class="text-black font-medium hover:text-[#314a4a] hover:underline transition ease-in duration-2000">Community Guidelines</a>
+            <a href="" class="text-black font-medium hover:text-[#314a4a] hover:underline transition ease-in duration-2000">Need Help? </a>
+        </div>
+    </div>
+    <div class="lg:w-[70%] md:w-[80%] sm:w-[80%] w-full">
+        <div class="flex justify-center   gap-2">
+            <span class="text-black font-medium hover:text-[#314a4a] hover:underline transition ease-in duration-2000">© Copyright 2025. All rights reserved.</span>
+            <span class="text-black font-medium hover:text-[#314a4a] hover:underline transition ease-in duration-2000">Developed by <a href="https://himsoftsolution.com" class="text-blue-600">Him Soft Solution</a> </span>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        function activateTab(tabName) {
+            // Update buttons
+            tabButtons.forEach(btn => {
+                const isActive = btn.dataset.tab === tabName;
+                btn.classList.toggle('bg-[#314a4a]/90', isActive);
+                btn.classList.toggle('text-white', isActive);
+                btn.classList.toggle('bg-white', !isActive);
+                btn.classList.toggle('text-[#314a4a]', !isActive);
+            });
+
+            // Show/hide tab content
+            tabContents.forEach(content => {
+                content.classList.toggle('hidden', content.dataset.tabContent !== tabName);
+            });
+        }
+
+        // Add click listeners
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabName = button.dataset.tab;
+                activateTab(tabName);
+            });
+        });
+        activateTab('profile');
+
+
+
+
+
+        const facultyTabButtons = document.querySelectorAll('.faculty-tab-button');
+        const facultyTabContent = document.querySelectorAll('.faculty-tab-content');
+
+        function facultyActiveTab(tabName) {
+            // Update buttons
+            facultyTabButtons.forEach(btn => {
+                const isActive = btn.dataset.tab === tabName;
+                btn.classList.toggle('bg-[#314a4a]', isActive);
+                btn.classList.toggle('text-white', isActive);
+                btn.classList.toggle('bg-gray-100', !isActive);
+                btn.classList.toggle('text-[#314a4a]', !isActive);
+                btn.classList.toggle('border-t-[#314a4a]/50', !isActive);
+                btn.classList.toggle('border-t-gray-100', isActive);
+
+            });
+
+            // Show/hide tab content
+            facultyTabContent.forEach(content => {
+                content.classList.toggle('hidden', content.dataset.tabContent !== tabName);
+            });
+        }
+
+        // Add click listeners
+        facultyTabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabName = button.dataset.tab;
+                facultyActiveTab(tabName);
+            });
+        });
+
+        // Set default active tab
+        facultyActiveTab('facultyProfile');
+    });
+</script>
+
+<script>
+    // Tab switching functionality
+    document.querySelectorAll('.student-tab-button').forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            document.querySelectorAll('.student-tab-button').forEach(btn => {
+                btn.classList.remove('bg-[#314a4a]', 'text-white');
+                btn.classList.add('text-[#314a4a]');
+            });
+
+            // Add active class to clicked button
+            button.classList.add('bg-[#314a4a]', 'text-white');
+            button.classList.remove('text-[#314a4a]');
+
+            // Hide all tab contents
+            document.querySelectorAll('.student-tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Show selected tab content
+            const tabId = button.getAttribute('data-tab');
+            document.querySelector(`#tab-content-${tabId}`).classList.remove('hidden');
+        });
+    });
+
+    // Activate first tab by default
+    document.querySelector('.student-tab-button').click();
+</script>
+<script>
+    $(document).ready(function () {
+        $('.carousel').slick({
+            slidesToShow: 4, // Number of visible slides at a time
+            slidesToScroll: 1,
+            prevArrow: '<button class="slick-prev">Previous</button>',
+            nextArrow: '<button class="slick-next">Next</button>',
+            responsive: [
+                {
+                    breakpoint: 1400,
+                    settings: {
+                        slidesToShow: 3, // Adjust for smaller screens
+                        slidesToScroll: 1
+                    }
+                },
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 2, // Adjust for smaller screens
+                        slidesToScroll: 1
+                    }
+                },
+                {
+                    breakpoint: 500,
+                    settings: {
+                        slidesToShow: 1, // Adjust for smaller screens
+                        slidesToScroll: 1
+                    }
+                }
+            ]
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Tab switching functionality
+        document.querySelectorAll('.industry-tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                document.querySelectorAll('.industry-tab-button').forEach(btn => {
+                    btn.classList.remove('bg-[#314a4a]', 'text-white');
+                    btn.classList.add('text-[#314a4a]');
+                });
+
+                // Add active class to clicked button
+                button.classList.add('bg-[#314a4a]', 'text-white');
+                button.classList.remove('text-[#314a4a]');
+
+                // Hide all tab contents
+                document.querySelectorAll('.student-tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                // Show selected tab content
+                const tabId = button.getAttribute('data-tab');
+                const content = document.querySelector(`#tab-content-${tabId}`);
+                if (content) content.classList.remove('hidden');
+            });
+        });
+
+        // Activate first tab by default
+        const firstTab = document.querySelector('.industry-tab-button');
+        if (firstTab) firstTab.click();
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Tab switching functionality
+        document.querySelectorAll('.vendor-tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                document.querySelectorAll('.vendor-tab-button').forEach(btn => {
+                    btn.classList.remove('bg-[#314a4a]', 'text-white');
+                    btn.classList.add('text-[#314a4a]');
+                });
+
+                // Add active class to clicked button
+                button.classList.add('bg-[#314a4a]', 'text-white');
+                button.classList.remove('text-[#314a4a]');
+
+                // Hide all tab contents
+                document.querySelectorAll('.student-tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                // Show selected tab content
+                const tabId = button.getAttribute('data-tab');
+                const content = document.querySelector(`#tab-content-${tabId}`);
+                if (content) content.classList.remove('hidden');
+            });
+        });
+
+        // Activate first tab by default
+        const firstTab = document.querySelector('.vendor-tab-button');
+        if (firstTab) firstTab.click();
+    });
+</script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    // Predefined random data for publications (2000-2025)
+    var publicationData = [
+        {x: '2016/Q1', y: 95}, {x: '2016/Q2', y: 102}, {x: '2016/Q3', y: 98}, {x: '2016/Q4', y: 105},
+        {x: '2017/Q1', y: 100}, {x: '2017/Q2', y: 108}, {x: '2017/Q3', y: 103}, {x: '2017/Q4', y: 110},
+        {x: '2018/Q1', y: 105}, {x: '2018/Q2', y: 112}, {x: '2018/Q3', y: 108}, {x: '2018/Q4', y: 115},
+        {x: '2019/Q1', y: 110}, {x: '2019/Q2', y: 118}, {x: '2019/Q3', y: 113}, {x: '2019/Q4', y: 120},
+        {x: '2020/Q1', y: 115}, {x: '2020/Q2', y: 122}, {x: '2020/Q3', y: 118}, {x: '2020/Q4', y: 125},
+        {x: '2021/Q1', y: 120}, {x: '2021/Q2', y: 128}, {x: '2021/Q3', y: 123}, {x: '2021/Q4', y: 130},
+        {x: '2022/Q1', y: 125}, {x: '2022/Q2', y: 132}, {x: '2022/Q3', y: 128}, {x: '2022/Q4', y: 135},
+        {x: '2023/Q1', y: 130}, {x: '2023/Q2', y: 138}, {x: '2023/Q3', y: 133}, {x: '2023/Q4', y: 140},
+        {x: '2024/Q1', y: 135}, {x: '2024/Q2', y: 142}, {x: '2024/Q3', y: 138}, {x: '2024/Q4', y: 145},
+        {x: '2025/Q1', y: 140}, {x: '2025/Q2', y: 148}, {x: '2025/Q3', y: 143}, {x: '2025/Q4', y: 150}
+    ];
+
+    var options = {
+        series: [{
+            name: "Publications",
+            data: publicationData
+        }],
+        chart: {
+            type: 'bar',
+            height: 200,
+            toolbar: {
+                show: false
+            }
+        },
+        colors: ['#314a4a'],
+        plotOptions: {
+            bar: {
+                borderRadius: 0,
+                columnWidth: '80%'
+            }
+        },
+        xaxis: {
+            type: 'category',
+            labels: {
+                formatter: function(val) {
+                    return val.split('/')[1]; // Show just Q1, Q2, etc.
+                }
+            },
+            group: {
+                style: {
+                    fontSize: '10px',
+                    fontWeight: 700
+                },
+                groups: (function() {
+                    // Create groups for each year from 2000 to 2025
+                    const groups = [];
+                    for (let year = 2000; year <= 2025; year++) {
+                        groups.push({ title: year.toString(), cols: 4 });
+                    }
+                    return groups;
+                })()
+            }
+        },
+
+        tooltip: {
+            x: {
+                formatter: function(val) {
+                    return val.replace('/', ' '); // Format as "2000 Q1"
+                }
+            }
+        },
+        dataLabels: {
+            enabled: false
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+</script>
+</body>
+
+
+</html>
