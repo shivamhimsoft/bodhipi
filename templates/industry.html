@@ -3,6 +3,8 @@
 {% block title %}Research Collaboration Platform | Home{% endblock %}
 
 {% block content %}
+<h2>Industry####################</h2>
+
 <div class="w-full flex justify-center p-4 min-h-screen">
     <div class="lg:w-[70%] md:w-[80%] sm:w-[80%] w-full">
         <div class="p-4 flex lg:flex-row md:flex-row flex-col-reverse bg-white">
@@ -35,8 +37,8 @@
                             <span>Latest Industry Program</span>
                         </div>
                         <div class="p-4">
-                            <h4 class="font-bold text-gray-800 text-sm mb-1">"Tech Innovation Challenge 2023"</h4>
-                            <p class="text-gray-600 text-xs mb-2">Supporting startups in AI and Clean Energy</p>
+                            <h4 class="font-bold text-gray-800 text-sm mb-1">{{ industry.company_name}}</h4>
+                            <p class="text-gray-600 text-xs mb-2">{{ industry.vision or "Leading Innovation Globally" }}</p>
                             <div class="flex justify-between items-center">
                                 <span class="text-xs text-gray-500">Launch: June 2023</span>
                                 <a href="#" class="text-[#314a4a] text-xs font-medium hover:underline flex items-center">
@@ -125,11 +127,13 @@
                             <div class="relative z-10 px-8 w-full">
                                 <div class="flex items-center">
                                     <div class="bg-white p-2 rounded-lg shadow-xl mr-6">
-                                        <img src="../static/images/logo.png" class="w-20 h-20 object-contain" alt="TechSolutions Inc.">
+                                        <!-- <img src="../static/images/logo.png" class="w-20 h-20 object-contain" alt="TechSolutions Inc."> -->
+                                        <img src="{{ url_for('static', filename=industry.logo or 'images/logo.png') }}" class="w-20 h-20 object-contain" alt="{{ industry.company_name }}">
+
                                     </div>
                                     <div>
-                                        <h1 class="text-3xl font-bold text-white">TechSolutions Inc.</h1>
-                                        <p class="text-blue-100">Global Technology Innovator Since 2005</p>
+                                        <h1 class="text-3xl font-bold text-white">{{ industry.company_name }}</h1>
+                                        <p class="text-blue-100">{{ industry.sector }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -146,8 +150,15 @@
                                             <div class="bg-blue-100 p-1 rounded mr-2 mt-0.5">
                                                 <i class="fas fa-users text-blue-600 text-xs"></i>
                                             </div>
-                                            <span class="text-sm"><strong>2,500+</strong> Employees</span>
+                                            <span class="text-sm"><strong>{{ industry.team_size}}</strong> Employees</span>
                                         </li>
+                                        <li class="flex items-start">
+                                            <div class="bg-blue-100 p-1 rounded mr-2 mt-0.5">
+                                                <i class="fas fa-hand-holding-usd text-blue-600 text-xs"></i>
+                                            </div>
+                                            <span class="text-sm"><strong>{{ industry.annual_turnover }}</strong> Annual Turnover</span>
+                                        </li>
+
                                         <li class="flex items-start">
                                             <div class="bg-blue-100 p-1 rounded mr-2 mt-0.5">
                                                 <i class="fas fa-globe text-blue-600 text-xs"></i>
@@ -173,17 +184,26 @@
                                     <h3 class="font-bold text-gray-700 mb-3 text-sm uppercase tracking-wider">Contact</h3>
                                     <address class="not-italic text-sm space-y-2">
                                         <div class="flex items-start">
+                                            <i class="fas fa-user-tie text-gray-400 mt-0.5 mr-2"></i>
+                                            <span>{{ industry.contact_person }}</span>
+                                        </div>
+                                        <div class="flex items-start">
                                             <i class="fas fa-map-marker-alt text-gray-400 mt-0.5 mr-2"></i>
-                                            <span>123 Tech Park, Silicon Valley, CA 94025</span>
+                                            <span>{{ industry.address }}</span>
                                         </div>
                                         <div class="flex items-start">
                                             <i class="fas fa-phone text-gray-400 mt-0.5 mr-2"></i>
-                                            <span>+1 (555) 123-4567</span>
+                                            <span>+1 {{ industry.contact_phone }}</span>
                                         </div>
                                         <div class="flex items-start">
                                             <i class="fas fa-envelope text-gray-400 mt-0.5 mr-2"></i>
-                                            <span>contact@techsolutions.com</span>
+                                            <span class="break-words max-w-full">
+                                                <a href="mailto:{{ industry.email }}" class="text-blue-600 hover:underline">
+                                                    {{ industry.email }}
+                                                </a>
+                                            </span>                                        
                                         </div>
+
                                         <div class="flex items-start">
                                             <i class="fas fa-globe text-gray-400 mt-0.5 mr-2"></i>
                                             <span>www.techsolutions.com</span>
@@ -223,10 +243,7 @@
                                     <div class="grid md:grid-cols-2 gap-4 mt-4">
                                         <div class="border-l-2 border-blue-500 pl-3">
                                             <h3 class="font-semibold text-gray-800">Our Vision</h3>
-                                            <p class="text-gray-600 text-sm">
-                                                To be the world's most trusted technology partner, empowering businesses through innovative
-                                                solutions that create sustainable value.
-                                            </p>
+                                            <p class="text-gray-600 text-sm">{{ industry.vision }}</p>
                                         </div>
                                         <div class="border-l-2 border-green-500 pl-3">
                                             <h3 class="font-semibold text-gray-800">Our Mission</h3>
@@ -245,7 +262,19 @@
                                         <h2 class="text-xl font-bold text-gray-800">Core Business Areas</h2>
                                     </div>
                                     <div class="grid md:grid-cols-2 gap-4">
+                                        {% for sector in industry.sectors %}
                                         <div class="bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors">
+                                            <div class="flex items-center mb-2">
+                                                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                                    <i class="{{ sector.icon_class }} text-blue-600"></i>
+                                                </div>
+                                                <h3 class="font-semibold">{{ sector.name }}</h3>
+                                            </div>
+                                            <p class="text-gray-600 text-sm">{{ sector.description }}</p>
+                                        </div>
+                                        {% endfor %}
+
+                                        <!-- <div class="bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors">
                                             <div class="flex items-center mb-2">
                                                 <div class="bg-blue-100 p-2 rounded-full mr-3">
                                                     <i class="fas fa-brain text-blue-600"></i>
@@ -256,8 +285,8 @@
                                                 Advanced machine learning solutions for predictive analytics, natural language processing,
                                                 and computer vision applications.
                                             </p>
-                                        </div>
-                                        <div class="bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors">
+                                        </div> -->
+                                        <!-- <div class="bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors">
                                             <div class="flex items-center mb-2">
                                                 <div class="bg-blue-100 p-2 rounded-full mr-3">
                                                     <i class="fas fa-cloud text-blue-600"></i>
@@ -267,8 +296,8 @@
                                             <p class="text-gray-600 text-sm">
                                                 Secure, scalable cloud infrastructure and platform services for enterprises of all sizes.
                                             </p>
-                                        </div>
-                                        <div class="bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors">
+                                        </div> -->
+                                        <!-- <div class="bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors">
                                             <div class="flex items-center mb-2">
                                                 <div class="bg-blue-100 p-2 rounded-full mr-3">
                                                     <i class="fas fa-shield-alt text-blue-600"></i>
@@ -279,8 +308,8 @@
                                                 Comprehensive security solutions including threat detection, vulnerability assessment,
                                                 and compliance management.
                                             </p>
-                                        </div>
-                                        <div class="bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors">
+                                        </div> -->
+                                        <!-- <div class="bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors">
                                             <div class="flex items-center mb-2">
                                                 <div class="bg-blue-100 p-2 rounded-full mr-3">
                                                     <i class="fas fa-network-wired text-blue-600"></i>
@@ -290,7 +319,7 @@
                                             <p class="text-gray-600 text-sm">
                                                 End-to-end IoT platforms for smart cities, industrial automation, and connected devices.
                                             </p>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
 

@@ -3,6 +3,8 @@
 {% block title %}Research Collaboration Platform | Home{% endblock %}
 
 {% block content %}
+<h2>Students################</h2>
+
 <div class="w-full flex justify-center p-4 min-h-screen">
     <div class="lg:w-[70%] md:w-[80%] sm:w-[80%] w-full">
         <div class="p-4 flex lg:flex-row md:flex-row flex-col-reverse bg-white">
@@ -141,12 +143,11 @@
                                 <!-- Profile Image Section -->
                                 <div class="md:w-1/4 p-6 flex flex-col items-center bg-[#314a4a]">
                                     <div class="w-40 h-40 rounded-full border-4 border-white shadow-lg overflow-hidden mb-4">
-                                        <img src="../static/images/logo.png" class="w-full h-full object-cover" alt="Ananya Singh">
-                                    </div>
-                                    <h1 class="text-white font-bold text-xl mb-1">Ananya Singh</h1>
-                                    <p class="text-white/90 text-sm mb-2">PhD Research Scholar</p>
-                                    <p class="text-white/80 text-xs text-center mb-4">Indian Institute of Technology Delhi</p>
-
+                                        <img src="{{ url_for('static', filename=student.profile_picture) if student.profile_picture else url_for('static', filename='images/logo.png') }}" class="w-full h-full object-cover" alt="{{ student.name }}">                                    </div>
+                                    <h1 class="text-white font-bold text-xl mb-1">{{ student.name }}</h1>
+                                    <p class="text-white/90 text-sm mb-2">{{ student.current_status or 'Research Scholar' }}</p>
+                                    <p class="text-white/80 text-xs text-center mb-4">{{ student.affiliation or 'University' }}</p>
+                                    
                                     <!-- Social Links -->
                                     <div class="flex space-x-3 mb-4">
                                         <a href="#" class="text-white hover:text-gray-200 transition-colors">
@@ -167,18 +168,18 @@
                                     <div class="w-full bg-white/20 rounded-lg p-3">
                                         <div class="flex justify-between text-center">
                                             <div>
-                                                <div class="text-white font-bold text-lg">7</div>
+                                                <div class="text-white font-bold text-lg">{{ publications|length }}</div>
                                                 <div class="text-white/80 text-xs">Publications</div>
                                             </div>
                                             <div class="border-l border-white/30"></div>
                                             <div>
-                                                <div class="text-white font-bold text-lg">4</div>
+                                                <div class="text-white font-bold text-lg">{{ experiences|length }}</div>
                                                 <div class="text-white/80 text-xs">Projects</div>
                                             </div>
                                             <div class="border-l border-white/30"></div>
                                             <div>
-                                                <div class="text-white font-bold text-lg">12</div>
-                                                <div class="text-white/80 text-xs">Repos</div>
+                                                <div class="text-white font-bold text-lg">{{ skills|length }}</div>
+                                                <div class="text-white/80 text-xs">Skills</div>
                                             </div>
                                         </div>
                                     </div>
@@ -199,7 +200,7 @@
                                                 </div>
                                                 <div>
                                                     <p class="text-xs text-gray-500">Email</p>
-                                                    <p class="text-sm font-medium">ananya.singh@iitd.ac.in</p>
+                                                    <p class="text-sm font-medium">{{ student.contact_email or 'Not provided' }}</p>
                                                 </div>
                                             </div>
                                             <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
@@ -208,7 +209,7 @@
                                                 </div>
                                                 <div>
                                                     <p class="text-xs text-gray-500">Phone</p>
-                                                    <p class="text-sm font-medium">+91 9876543210</p>
+                                                    <p class="text-sm font-medium">{{ student.contact_phone or 'Not provided' }}</p>
                                                 </div>
                                             </div>
                                             <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
@@ -217,7 +218,7 @@
                                                 </div>
                                                 <div>
                                                     <p class="text-xs text-gray-500">Address</p>
-                                                    <p class="text-sm font-medium">Department of Computer Science, IIT Delhi</p>
+                                                    <p class="text-sm font-medium">{{ student.address or 'Not provided' }}</p>
                                                 </div>
                                             </div>
                                             <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
@@ -226,7 +227,7 @@
                                                 </div>
                                                 <div>
                                                     <p class="text-xs text-gray-500">Website</p>
-                                                    <p class="text-sm font-medium">ananyasingh-research.io</p>
+                                                    <p class="text-sm font-medium">{{ student.website or 'Not provided' }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -239,21 +240,15 @@
                                             Research Interests
                                         </h2>
                                         <div class="flex flex-wrap gap-2">
-                        <span class="inline-flex items-center px-3 py-1 rounded-full bg-[#314a4a]/10 text-[#314a4a] text-sm font-medium">
-                            Machine Learning
-                        </span>
-                                            <span class="inline-flex items-center px-3 py-1 rounded-full bg-[#314a4a]/10 text-[#314a4a] text-sm font-medium">
-                            Deep Learning
-                        </span>
-                                            <span class="inline-flex items-center px-3 py-1 rounded-full bg-[#314a4a]/10 text-[#314a4a] text-sm font-medium">
-                            Natural Language Processing
-                        </span>
-                                            <span class="inline-flex items-center px-3 py-1 rounded-full bg-[#314a4a]/10 text-[#314a4a] text-sm font-medium">
-                            Computer Vision
-                        </span>
-                                            <span class="inline-flex items-center px-3 py-1 rounded-full bg-[#314a4a]/10 text-[#314a4a] text-sm font-medium">
-                            Data Mining
-                        </span>
+                                            {% if student.research_interests %}
+                                                {% for interest in student.research_interests.split(',') %}
+                                                    <span class="inline-flex items-center px-3 py-1 rounded-full bg-[#314a4a]/10 text-[#314a4a] text-sm font-medium">
+                                                        {{ interest.strip() }}
+                                                    </span>
+                                                {% endfor %}
+                                            {% else %}
+                                                <p class="text-gray-500">No research interests specified</p>
+                                            {% endif %}
                                         </div>
                                     </div>
 
@@ -264,7 +259,7 @@
                                             About Me
                                         </h2>
                                         <p class="text-gray-700 text-sm leading-relaxed">
-                                            Passionate researcher with expertise in machine learning and data science. Strong background in developing innovative solutions for real-world problems. Published multiple papers in reputed journals and conferences. Collaborative team player with excellent communication skills and a drive for continuous learning.
+                                            {{ student.why_me or 'No description provided.' }}
                                         </p>
                                     </div>
                                 </div>
@@ -280,23 +275,35 @@
                                 </h2>
 
                                 <div class="space-y-4">
-                                    <!-- Education Item 1 -->
+                                    {% for education in educations %}
+                                    <!-- Education Item -->
                                     <div class="flex items-start">
                                         <div class="bg-[#314a4a]/10 p-3 rounded-full mr-4 mt-1">
                                             <i class="fas fa-university text-[#314a4a]"></i>
                                         </div>
                                         <div class="flex-1">
                                             <div class="flex justify-between items-start">
-                                                <h3 class="font-bold text-gray-800">PhD in Computer Science</h3>
-                                                <span class="bg-[#314a4a]/10 text-[#314a4a] text-xs px-2 py-1 rounded-full">2020 - Present</span>
+                                                <h3 class="font-bold text-gray-800">{{ education.degree_name }}</h3>
+                                                <span class="bg-[#314a4a]/10 text-[#314a4a] text-xs px-2 py-1 rounded-full">
+                                                    {% if education.currently_pursuing %}
+                                                        {{ education.start_year }} - Present
+                                                    {% else %}
+                                                        {{ education.start_year }} - {{ education.end_year }}
+                                                    {% endif %}
+                                                </span>
                                             </div>
-                                            <p class="text-gray-600 text-sm mb-1">Indian Institute of Technology Delhi</p>
-                                            <p class="text-gray-700 text-sm italic">Thesis: "Advanced Machine Learning Techniques for Natural Language Understanding"</p>
+                                            <p class="text-gray-600 text-sm mb-1">{{ education.college }}, {{ education.university }}</p>
+                                            {% if education.university_address %}
+                                            <p class="text-gray-700 text-sm italic">{{ education.university_address }}</p>
+                                            {% endif %}
                                         </div>
                                     </div>
+                                    {% else %}
+                                    <p class="text-gray-500">No education information available</p>
+                                    {% endfor %}
 
                                     <!-- Education Item 2 -->
-                                    <div class="flex items-start">
+                                    <!-- <div class="flex items-start">
                                         <div class="bg-[#314a4a]/10 p-3 rounded-full mr-4 mt-1">
                                             <i class="fas fa-university text-[#314a4a]"></i>
                                         </div>
@@ -308,10 +315,10 @@
                                             <p class="text-gray-600 text-sm mb-1">Indian Institute of Science, Bangalore</p>
                                             <p class="text-gray-700 text-sm">CGPA: 9.2/10.0</p>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <!-- Education Item 3 -->
-                                    <div class="flex items-start">
+                                    <!-- <div class="flex items-start">
                                         <div class="bg-[#314a4a]/10 p-3 rounded-full mr-4 mt-1">
                                             <i class="fas fa-university text-[#314a4a]"></i>
                                         </div>
@@ -323,7 +330,7 @@
                                             <p class="text-gray-600 text-sm mb-1">Delhi Technological University</p>
                                             <p class="text-gray-700 text-sm">CGPA: 8.6/10.0</p>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -340,21 +347,33 @@
 
                                     <div class="space-y-4">
                                         <!-- Experience Item 1 -->
+                                        {% for experience in experiences %}
+                                        <!-- Experience Item -->
                                         <div class="border-l-4 border-[#314a4a] pl-4">
                                             <div class="flex justify-between items-start">
-                                                <h3 class="font-bold text-gray-800">Research Intern</h3>
-                                                <span class="bg-[#314a4a]/10 text-[#314a4a] text-xs px-2 py-1 rounded-full">Summer 2019</span>
+                                                <h3 class="font-bold text-gray-800">{{ experience.position }}</h3>
+                                                <span class="bg-[#314a4a]/10 text-[#314a4a] text-xs px-2 py-1 rounded-full">
+                                                    {% if experience.currently_working %}
+                                                        {{ experience.start_date.strftime('%b %Y') }} - Present
+                                                    {% else %}
+                                                        {{ experience.start_date.strftime('%b %Y') }} - {{ experience.end_date.strftime('%b %Y') }}
+                                                    {% endif %}
+                                                </span>
                                             </div>
-                                            <p class="text-gray-600 text-sm mb-2">Microsoft Research India</p>
+                                            <p class="text-gray-600 text-sm mb-2">{{ experience.project_title }}</p>
                                             <ul class="list-disc list-inside text-gray-700 text-sm space-y-1 ml-2">
-                                                <li>Worked on developing novel NLP models for low-resource languages</li>
-                                                <li>Published paper at ACL 2019</li>
-                                                <li>Collaborated with senior researchers on cutting-edge projects</li>
+                                                {% if experience.pi %}
+                                                <li>PI: {{ experience.pi }} ({{ experience.pi_affiliation }})</li>
+                                                {% endif %}
+                                                <li>At: {{ experience.college }}, {{ experience.university_or_industry }}</li>
                                             </ul>
                                         </div>
+                                        {% else %}
+                                        <p class="text-gray-500">No experience information available</p>
+                                        {% endfor %}
 
                                         <!-- Experience Item 2 -->
-                                        <div class="border-l-4 border-[#314a4a] pl-4">
+                                        <!-- <div class="border-l-4 border-[#314a4a] pl-4">
                                             <div class="flex justify-between items-start">
                                                 <h3 class="font-bold text-gray-800">Teaching Assistant</h3>
                                                 <span class="bg-[#314a4a]/10 text-[#314a4a] text-xs px-2 py-1 rounded-full">2020 - Present</span>
@@ -365,7 +384,7 @@
                                                 <li>Mentored undergraduate students in research projects</li>
                                                 <li>Developed course materials and assignments</li>
                                             </ul>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -379,19 +398,22 @@
                                     </h2>
 
                                     <div class="space-y-4">
-                                        <!-- Publication 1 -->
+                                        {% for publication in publications[:2] %}
+                                        <!-- Publication -->
                                         <div class="group">
                                             <h3 class="font-bold text-gray-800 group-hover:text-[#314a4a] transition-colors">
-                                                "Transformer-based Models for Low-Resource Languages"
+                                                "{{ publication.title }}"
                                             </h3>
-                                            <p class="text-gray-600 text-sm mb-1">ACL 2022</p>
+                                            <p class="text-gray-600 text-sm mb-1">{{ publication.journal_or_conference }} ({{ publication.year }})</p>
                                             <p class="text-gray-700 text-sm mb-2">
-                                                Developed novel architecture for resource-efficient NLP models with 15% improvement over baseline.
+                                                {{ publication.abstract[:150] }}...
                                             </p>
                                             <div class="flex space-x-3">
-                                                <a href="#" class="text-[#314a4a] text-sm flex items-center hover:underline">
+                                                {% if publication.doi %}
+                                                <a href="https://doi.org/{{ publication.doi }}" target="_blank" class="text-[#314a4a] text-sm flex items-center hover:underline">
                                                     <i class="fas fa-external-link-alt mr-1 text-xs"></i> View
                                                 </a>
+                                                {% endif %}
                                                 <a href="#" class="text-[#314a4a] text-sm flex items-center hover:underline">
                                                     <i class="fas fa-file-pdf mr-1 text-xs"></i> PDF
                                                 </a>
@@ -400,9 +422,11 @@
                                                 </a>
                                             </div>
                                         </div>
-
+                                        {% else %}
+                                        <p class="text-gray-500">No publications available</p>
+                                        {% endfor %}
                                         <!-- Publication 2 -->
-                                        <div class="group">
+                                        <!-- <div class="group">
                                             <h3 class="font-bold text-gray-800 group-hover:text-[#314a4a] transition-colors">
                                                 "Efficient Training Techniques for Neural Networks"
                                             </h3>
@@ -421,13 +445,15 @@
                                                     <i class="fas fa-quote-right mr-1 text-xs"></i> Cite
                                                 </a>
                                             </div>
-                                        </div>
+                                        </div> -->
 
+                                        {% if publications|length > 2 %}
                                         <div class="pt-2">
                                             <button class="flex items-center text-[#314a4a] font-medium hover:text-[#314a4a]-dark transition-colors">
-                                                <i class="fas fa-list mr-2"></i> View All 7 Publications
+                                                <i class="fas fa-list mr-2"></i> View All {{ publications|length }} Publications
                                             </button>
                                         </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -441,7 +467,7 @@
                         </div>
 
                         <!-- Research Methodologies -->
-                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-400">
+                        <!-- <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-400">
                             <h4 class="font-bold text-xl text-[#314a4a] mb-4 flex items-center">
                                 <i class="fas fa-microscope mr-2"></i> Research Methodologies
                             </h4>
@@ -467,7 +493,28 @@
                                     <span class="ml-2 text-xs bg-[#314a4a]-dark text-white px-2 py-0.5 rounded-full">Advanced</span>
                                 </div>
                             </div>
+                        </div> -->
+
+                         <!-- Research Methodologies -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-400">
+                            <h4 class="font-bold text-xl text-[#314a4a] mb-4 flex items-center">
+                                <i class="fas fa-microscope mr-2"></i> Research Methodologies
+                            </h4>
+                            <div class="flex flex-wrap gap-3">
+                                {% for skill in skills if skill.skill_type == 'Methodology' %}
+                                <div class="flex items-center bg-[#314a4a]/5 px-4 py-2 rounded-full border border-[#314a4a]/20 hover:bg-[#314a4a]/10 transition-all">
+                                    <i class="fas fa-chart-bar text-[#314a4a]-dark mr-2"></i>
+                                    <span class="font-medium">{{ skill.skill_name }}</span>
+                                    <span class="ml-2 text-xs bg-[#314a4a]-dark text-white px-2 py-0.5 rounded-full">{{ skill.proficiency_level }}</span>
+                                </div>
+                                {% else %}
+                                <p class="text-gray-500">No methodology skills listed</p>
+                                {% endfor %}
+                            </div>
                         </div>
+
+             
+
 
                         <!-- Analytical Skills with improved progress bars -->
                         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-400">
@@ -515,7 +562,7 @@
                         </div>
 
                         <!-- Technical Proficiencies -->
-                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-400">
+                        <!-- <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-400">
                             <h4 class="font-bold text-xl text-[#314a4a] mb-4 flex items-center">
                                 <i class="fas fa-laptop-code mr-2"></i> Technical Proficiencies
                             </h4>
@@ -555,6 +602,26 @@
                                         <div class="text-xs text-gray-600">Database Management</div>
                                     </div>
                                 </div>
+                            </div>
+                        </div> -->
+
+                        <!-- Technical Proficiencies -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-400">
+                            <h4 class="font-bold text-xl text-[#314a4a] mb-4 flex items-center">
+                                <i class="fas fa-laptop-code mr-2"></i> Technical Proficiencies
+                            </h4>
+                            <div class="flex flex-wrap gap-3">
+                                {% for skill in skills if skill.skill_type == 'Technical' %}
+                                <div class="flex items-center bg-[#314a4a]/5 px-4 py-2 rounded-lg border border-[#314a4a]/20 hover:shadow-md transition-all group">
+                                    <i class="fas fa-code text-2xl text-[#314a4a]-dark mr-3 group-hover:scale-110 transition-transform"></i>
+                                    <div>
+                                        <div class="font-medium">{{ skill.skill_name }}</div>
+                                        <div class="text-xs text-gray-600">{{ skill.proficiency_level }}</div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <p class="text-gray-500">No technical skills listed</p>
+                                {% endfor %}
                             </div>
                         </div>
 
@@ -693,7 +760,7 @@
 
                         <!-- Research Group Members -->
                         <div class="bg-white ">
-                            <div class="flex justify-between items-center mb-4">
+                            <!-- <div class="flex justify-between items-center mb-4">
                                 <h4 class="font-bold text-xl text-[#314a4a] flex items-center">
                                     <i class="fas fa-users-cog mr-2"></i> Research Group Members
                                     <span class="ml-2 text-sm bg-[#314a4a]/20 text-[#314a4a]-dark px-2 py-0.5 rounded-full">6 Members</span>
@@ -703,11 +770,53 @@
                                     <button class="px-3 py-1 text-xs bg-gray-100 rounded-lg hover:bg-gray-200">PhD</button>
                                     <button class="px-3 py-1 text-xs bg-gray-100 rounded-lg hover:bg-gray-200">M.Tech</button>
                                 </div>
+                            </div> -->
+
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="font-bold text-xl text-[#314a4a] flex items-center">
+                                    <i class="fas fa-users-cog mr-2"></i> Research Groups
+                                    <span class="ml-2 text-sm bg-[#314a4a]/20 text-[#314a4a]-dark px-2 py-0.5 rounded-full">{{ team_memberships|length }} Memberships</span>
+                                </h4>
                             </div>
 
                             <div class="grid lg:grid-cols-2 gap-4">
-                                <!-- PhD Student 1 -->
+
+                                {% for membership in team_memberships %}
+                                <!-- Team Membership -->
                                 <div class="flex items-center gap-4 p-4 border border-gray-400 rounded-lg hover:shadow-md transition-all">
+                                    <div class="relative">
+                                        <img src="{{ url_for('static', filename='images/logo.png') }}" class="w-16 h-16 rounded-full border-2 border-[#314a4a]/30" alt="">
+                                        <div class="absolute -bottom-1 -right-1 bg-blue-500 text-white text-xs px-1.5 py-0.5 rounded-full">
+                                            {{ membership.pi_profile.profile.user.user_type }}
+                                        </div>
+                                    </div>
+               
+                                    <div class="flex-1">
+                                        <h5 class="font-bold">{{ membership.pi_profile.name }}</h5>
+                                        <p class="text-sm text-gray-600">{{ membership.pi_profile.department }}, {{ membership.pi_profile.affiliation }}</p>
+                                        <p class="text-xs text-[#314a4a]-dark font-medium">{{ membership.position }}</p>
+                                        <div class="flex items-center mt-1">
+                                            <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded mr-2">{{ membership.status }}</span>
+                                            <span class="text-xs text-gray-500">
+                                                {{ membership.start_date.strftime('%b %Y') }} - 
+                                                {% if membership.end_date %}
+                                                    {{ membership.end_date.strftime('%b %Y') }}
+                                                {% else %}
+                                                    Present
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <a href="mailto:{{ membership.pi_profile.email }}" class="text-gray-400 hover:text-[#314a4a]">
+                                        <i class="fas fa-envelope"></i>
+                                    </a>
+                                </div>
+                                {% else %}
+                                <p class="text-gray-500">No team memberships found</p>
+                                {% endfor %}
+
+                                <!-- PhD Student 1 -->
+                                <!-- <div class="flex items-center gap-4 p-4 border border-gray-400 rounded-lg hover:shadow-md transition-all">
                                     <div class="relative">
                                         <img src="../static/images/logo.png" class="w-16 h-16 rounded-full border-2 border-[#314a4a]/30" alt="">
                                         <div class="absolute -bottom-1 -right-1 bg-blue-500 text-white text-xs px-1.5 py-0.5 rounded-full">PhD</div>
@@ -724,10 +833,10 @@
                                     <a href="#" class="text-gray-400 hover:text-[#314a4a]">
                                         <i class="fas fa-envelope"></i>
                                     </a>
-                                </div>
+                                </div> -->
 
                                 <!-- PhD Student 2 -->
-                                <div class="flex items-center gap-4 p-4 border border-gray-400 rounded-lg hover:shadow-md transition-all">
+                                <!-- <div class="flex items-center gap-4 p-4 border border-gray-400 rounded-lg hover:shadow-md transition-all">
                                     <div class="relative">
                                         <img src="../static/images/logo.png" class="w-16 h-16 rounded-full border-2 border-[#314a4a]/30" alt="">
                                         <div class="absolute -bottom-1 -right-1 bg-blue-500 text-white text-xs px-1.5 py-0.5 rounded-full">PhD</div>
@@ -744,10 +853,10 @@
                                     <a href="#" class="text-gray-400 hover:text-[#314a4a]">
                                         <i class="fas fa-envelope"></i>
                                     </a>
-                                </div>
+                                </div> -->
 
                                 <!-- M.Tech Student 1 -->
-                                <div class="flex items-center gap-4 p-4 border border-gray-400 rounded-lg hover:shadow-md transition-all">
+                                <!-- <div class="flex items-center gap-4 p-4 border border-gray-400 rounded-lg hover:shadow-md transition-all">
                                     <div class="relative">
                                         <img src="../static/images/logo.png" class="w-16 h-16 rounded-full border-2 border-[#314a4a]/30" alt="">
                                         <div class="absolute -bottom-1 -right-1 bg-purple-500 text-white text-xs px-1.5 py-0.5 rounded-full">M.Tech</div>
@@ -764,10 +873,10 @@
                                     <a href="#" class="text-gray-400 hover:text-[#314a4a]">
                                         <i class="fas fa-envelope"></i>
                                     </a>
-                                </div>
+                                </div> -->
 
                                 <!-- M.Tech Student 2 -->
-                                <div class="flex items-center gap-4 p-4 border border-gray-400 rounded-lg hover:shadow-md transition-all">
+                                <!-- <div class="flex items-center gap-4 p-4 border border-gray-400 rounded-lg hover:shadow-md transition-all">
                                     <div class="relative">
                                         <img src="../static/images/logo.png" class="w-16 h-16 rounded-full border-2 border-[#314a4a]/30" alt="">
                                         <div class="absolute -bottom-1 -right-1 bg-purple-500 text-white text-xs px-1.5 py-0.5 rounded-full">M.Tech</div>
@@ -784,7 +893,7 @@
                                     <a href="#" class="text-gray-400 hover:text-[#314a4a]">
                                         <i class="fas fa-envelope"></i>
                                     </a>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
@@ -896,34 +1005,41 @@
                         <!-- Awards Grid -->
                         <div class="grid lg:grid-cols-2 gap-6">
                             <!-- Best Paper Award -->
+                            {% for award in awards %}
+                            <!-- Award Card -->
                             <div class="relative group">
                                 <div class="relative bg-white p-5 rounded-lg border border-gray-400 shadow-md hover:shadow-md transition-all h-full">
                                     <div class="flex justify-between items-start mb-3">
                                         <div class="flex items-center">
                                             <div class="bg-[#314a4a]/10 p-2 rounded-full mr-3">
-                                                <i class="fas fa-scroll text-[#314a4a] text-xl"></i>
+                                                <i class="fas fa-award text-[#314a4a] text-xl"></i>
                                             </div>
                                             <div>
-                                                <h4 class="font-bold text-lg text-gray-800">Best Paper Award</h4>
-                                                <p class="text-sm text-[#314a4a]-dark font-medium">ICML 2023</p>
+                                                <h4 class="font-bold text-lg text-gray-800">{{ award.title }}</h4>
+                                                <p class="text-sm text-[#314a4a]-dark font-medium">{{ award.issuing_organization }}</p>
                                             </div>
                                         </div>
-                                        <span class="bg-[#314a4a] text-white text-xs px-2 py-1 rounded-full">Premier</span>
+                                        <span class="bg-[#314a4a] text-white text-xs px-2 py-1 rounded-full">{{ award.date.year }}</span>
                                     </div>
-                                    <p class="text-gray-600 mb-4">Awarded for the paper "Efficient Transformers for Large-Scale Language Modeling" at the International Conference on Machine Learning</p>
+                                    <p class="text-gray-600 mb-4">{{ award.description }}</p>
                                     <div class="flex justify-between items-center">
                                         <div class="flex items-center text-sm text-gray-500">
-                                            <i class="fas fa-calendar-alt mr-1"></i> June 2023
+                                            <i class="fas fa-calendar-alt mr-1"></i> {{ award.date.strftime('%b %Y') }}
                                         </div>
-                                        <a href="#" class="text-[#314a4a] text-sm font-medium hover:underline flex items-center">
+                                        {% if award.document_link %}
+                                        <a href="{{ award.document_link }}" class="text-[#314a4a] text-sm font-medium hover:underline flex items-center">
                                             View Certificate <i class="fas fa-external-link-alt ml-1 text-xs"></i>
                                         </a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
+                            {% else %}
+                            <p class="text-gray-500">No awards or recognitions listed</p>
+                            {% endfor %}
 
                             <!-- Gold Medal -->
-                            <div class="relative group">
+                            <!-- <div class="relative group">
                                 <div class="relative bg-white p-5 rounded-lg border border-gray-400 shadow-md hover:shadow-md transition-all h-full">
                                     <div class="flex justify-between items-start mb-3">
                                         <div class="flex items-center">
@@ -947,10 +1063,10 @@
                                         </a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- PMRF Fellowship -->
-                            <div class="relative group">
+                            <!-- <div class="relative group">
                                 <div class="relative bg-white p-5 rounded-lg border border-gray-400 shadow-md hover:shadow-md transition-all h-full">
                                     <div class="flex justify-between items-start mb-3">
                                         <div class="flex items-center">
@@ -974,10 +1090,10 @@
                                         </a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- IEEE Project Award -->
-                            <div class="relative group">
+                            <!-- <div class="relative group">
                                 <div class="relative bg-white p-5 rounded-lg border border-gray-400 shadow-md hover:shadow-md transition-all h-full">
                                     <div class="flex justify-between items-start mb-3">
                                         <div class="flex items-center">
@@ -1001,10 +1117,10 @@
                                         </a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- Merit Scholarship -->
-                            <div class="relative group">
+                            <!-- <div class="relative group">
                                 <div class="relative bg-white p-5 rounded-lg border border-gray-400 shadow-md hover:shadow-md transition-all h-full">
                                     <div class="flex justify-between items-start mb-3">
                                         <div class="flex items-center">
@@ -1028,10 +1144,10 @@
                                         </a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- Hackathon Winner -->
-                            <div class="relative group">
+                            <!-- <div class="relative group">
                                 <div class="relative bg-white p-5 rounded-lg border border-gray-400 shadow-md hover:shadow-md transition-all h-full">
                                     <div class="flex justify-between items-start mb-3">
                                         <div class="flex items-center">
@@ -1055,16 +1171,28 @@
                                         </a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
 
                         <!-- View All Button -->
-                        <div class="flex justify-center mt-2">
+
+                        {% if awards|length > 4 %}
+                            <!-- View All Button -->
+                            <div class="flex justify-center mt-2">
+                                <button class="px-6 py-2 bg-white border border-[#314a4a] text-[#314a4a] rounded-lg hover:bg-[#314a4a] hover:text-white transition-all flex items-center">
+                                    <span>View All {{ awards|length }} Awards</span>
+                                    <i class="fas fa-chevron-down ml-2"></i>
+                                </button>
+                            </div>
+                        {% endif %}
+
+
+                        <!-- <div class="flex justify-center mt-2">
                             <button class="px-6 py-2 bg-white border border-[#314a4a] text-[#314a4a] rounded-lg hover:bg-[#314a4a] hover:text-white transition-all flex items-center">
                                 <span>View All 12 Awards</span>
                                 <i class="fas fa-chevron-down ml-2"></i>
                             </button>
-                        </div>
+                        </div> -->
                     </div>
 
                 </div>
@@ -1073,4 +1201,66 @@
     </div>
 </div>
 
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Tab functionality
+    const tabButtons = document.querySelectorAll('.student-tab-button');
+    const tabContents = document.querySelectorAll('.student-tab-content');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons and contents
+            tabButtons.forEach(btn => btn.classList.remove('bg-[#314a4a]', 'text-white'));
+            tabContents.forEach(content => content.classList.add('hidden'));
+            
+            // Add active class to clicked button
+            button.classList.add('bg-[#314a4a]', 'text-white');
+            
+            // Show corresponding content
+            const tabId = button.getAttribute('data-tab');
+            document.querySelector(`#tab-content-${tabId}`).classList.remove('hidden');
+        });
+    });
+    
+    // Activate the first tab by default
+    if (tabButtons.length > 0) {
+        tabButtons[0].click();
+    }
+});
+</script>
+
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,6 +3,8 @@
 {% block title %}Research Collaboration Platform | Home{% endblock %}
 
 {% block content %}
+<h2>Vendor############</h2>
+
 <div class="w-full flex justify-center p-4 min-h-screen">
     <div class="lg:w-[70%] md:w-[80%] sm:w-[80%] w-full">
         <div class="p-4 flex lg:flex-row md:flex-row flex-col-reverse bg-white">
@@ -26,7 +28,7 @@
                     </div>
 
                     <!-- Latest Offer Section -->
-                    <div class="bg-white rounded-sm shadow-sm overflow-hidden mb-6 mt-6 border-[1px] border-gray-300">
+                    <!-- <div class="bg-white rounded-sm shadow-sm overflow-hidden mb-6 mt-6 border-[1px] border-gray-300">
                         <div class="bg-orange-500 px-3 py-2 text-white font-medium flex items-center">
                             <i class="fas fa-percentage mr-2"></i>
                             <span>Latest Offer</span>
@@ -41,10 +43,23 @@
                                 </a>
                             </div>
                         </div>
+                    </div> -->
+
+                    <!-- Latest Offer Section -->
+                    {% if vendor.why_me %}
+                    <div class="bg-white rounded-sm shadow-sm overflow-hidden mb-6 mt-6 border-[1px] border-gray-300">
+                        <div class="bg-orange-500 px-3 py-2 text-white font-medium flex items-center">
+                            <i class="fas fa-percentage mr-2"></i>
+                            <span>Why Choose Us</span>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-gray-600 text-xs mb-2">{{ vendor.why_me }}</p>
+                        </div>
                     </div>
+                    {% endif %}
 
                     <!-- Recent Messages Preview -->
-                    <div class="bg-white rounded-sm shadow-sm overflow-hidden mb-6 border-[1px] border-gray-300">
+                    <!-- <div class="bg-white rounded-sm shadow-sm overflow-hidden mb-6 border-[1px] border-gray-300">
                         <div class="bg-blue-500 px-3 py-2 text-white font-medium flex items-center">
                             <i class="fas fa-comment-alt mr-2"></i>
                             <span>Recent Messages</span>
@@ -75,7 +90,38 @@
                         <div class="p-3 text-center border-t border-gray-100">
                             <a href="#" class="text-blue-500 text-sm font-medium hover:underline">View all messages</a>
                         </div>
+                    </div> -->
+
+                    <!-- Recent Messages Preview -->
+                    <div class="bg-white rounded-sm shadow-sm overflow-hidden mb-6 border-[1px] border-gray-300">
+                        <div class="bg-blue-500 px-3 py-2 text-white font-medium flex items-center">
+                            <i class="fas fa-comment-alt mr-2"></i>
+                            <span>Quick Contact</span>
+                        </div>
+                        <div class="divide-y divide-gray-100">
+                            <div class="p-3">
+                                <div class="flex justify-between">
+                                    <h4 class="font-bold text-gray-800 text-sm mb-1">Email</h4>
+                                </div>
+                                <p class="text-gray-600 text-xs truncate">{{ vendor.email }}</p>
+                            </div>
+                            <div class="p-3">
+                                <div class="flex justify-between">
+                                    <h4 class="font-bold text-gray-800 text-sm mb-1">Phone</h4>
+                                </div>
+                                <p class="text-gray-600 text-xs truncate">{{ vendor.contact_phone }}</p>
+                            </div>
+                            {% if vendor.address %}
+                            <div class="p-3">
+                                <div class="flex justify-between">
+                                    <h4 class="font-bold text-gray-800 text-sm mb-1">Address</h4>
+                                </div>
+                                <p class="text-gray-600 text-xs truncate">{{ vendor.address }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
+
 
                     <!-- Order Status Summary -->
                     <div class="bg-white rounded-sm shadow-sm overflow-hidden mb-6 border-[1px] border-gray-300">
@@ -169,8 +215,8 @@
                                             <img src="../static/images/logo.png" class="max-w-full max-h-full object-contain" alt="Global Suppliers Ltd.">
                                         </div>
                                         <div>
-                                            <h1 class="text-3xl font-bold text-white">Global Suppliers Ltd.</h1>
-                                            <p class="text-orange-100">Premium Vendor Since 2010</p>
+                                            <h1 class="text-3xl font-bold text-white">{{ vendor.company_name }}</h1>
+                                            <p class="text-orange-100">{{ vendor.dealing_categories or 'Vendor' }}</p>                                        
                                         </div>
                                     </div>
                                     <div class="bg-white/90 px-4 py-2 rounded-lg shadow">
@@ -198,13 +244,21 @@
                                 <div class="bg-white rounded-lg shadow-md p-4 border-t-4 border-orange-500">
                                     <h3 class="font-bold text-gray-700 mb-3 text-sm uppercase tracking-wider">Vendor Details</h3>
                                     <ul class="space-y-3 text-sm">
-                                        <li class="flex items-start">
+                                        <!-- <li class="flex items-start">
                                             <div class="bg-orange-100 p-1 rounded mr-2 mt-0.5">
                                                 <i class="fas fa-calendar-alt text-orange-600 text-xs"></i>
                                             </div>
                                             <span><strong>Established:</strong> 2010</span>
-                                        </li>
+                                        </li> -->
+                                        {% if vendor.contact_person %}
                                         <li class="flex items-start">
+                                            <div class="bg-orange-100 p-1 rounded mr-2 mt-0.5">
+                                                <i class="fas fa-user text-orange-600 text-xs"></i>
+                                            </div>
+                                            <span><strong>Contact:</strong> {{ vendor.contact_person }}</span>
+                                        </li>
+                                        {% endif %}
+                                        <!-- <li class="flex items-start">
                                             <div class="bg-orange-100 p-1 rounded mr-2 mt-0.5">
                                                 <i class="fas fa-tags text-orange-600 text-xs"></i>
                                             </div>
@@ -215,7 +269,35 @@
                                                 <i class="fas fa-certificate text-orange-600 text-xs"></i>
                                             </div>
                                             <span><strong>Certifications:</strong> ISO 9001, Fair Trade</span>
+                                        </li> -->
+                                        {% if vendor.email %}
+                                        <li class="flex items-start">
+                                            <div class="bg-orange-100 p-1 rounded mr-2 mt-0.5">
+                                                <i class="fas fa-envelope text-orange-600 text-xs"></i>
+                                            </div>
+                                            <div class="flex-1 min-w-0"> <!-- Added container with flex and min-width -->
+                                                <span class="block truncate"> <!-- Added truncate class -->
+                                                    <strong>Email:</strong> {{ vendor.email }}
+                                                </span>
+                                            </div>
                                         </li>
+                                        {% endif %}
+                                        {% if vendor.contact_phone %}
+                                        <li class="flex items-start">
+                                            <div class="bg-orange-100 p-1 rounded mr-2 mt-0.5">
+                                                <i class="fas fa-phone text-orange-600 text-xs"></i>
+                                            </div>
+                                            <span><strong>Phone:</strong> {{ vendor.contact_phone }}</span>
+                                        </li>
+                                        {% endif %}
+                                        {% if vendor.gst %}
+                                        <li class="flex items-start">
+                                            <div class="bg-orange-100 p-1 rounded mr-2 mt-0.5">
+                                                <i class="fas fa-industry text-orange-600 text-xs"></i>
+                                            </div>
+                                            <span><strong>GST:</strong> {{ vendor.gst }}</span>
+                                        </li>
+                                        {% endif %}
                                     </ul>
                                 </div>
 
@@ -292,24 +374,27 @@
                                 </div>
 
                                 <!-- Product Categories Section -->
+                                {% if vendor.product_categories %}
                                 <div class="bg-white rounded-lg shadow-md p-6">
                                     <div class="flex items-center mb-4">
                                         <div class="w-1 h-8 bg-blue-500 mr-3"></div>
                                         <h2 class="text-xl font-bold text-gray-800">Product Categories</h2>
                                     </div>
                                     <div class="grid md:grid-cols-3 gap-4">
+                                        {% for category in vendor.product_categories.split(',') %}
                                         <div class="border rounded-lg p-3 hover:border-blue-400 transition-colors">
                                             <div class="flex items-center mb-2">
                                                 <div class="bg-blue-100 p-2 rounded-full mr-3">
-                                                    <i class="fas fa-tshirt text-blue-600"></i>
+                                                    <i class="fas fa-box text-blue-600"></i>
                                                 </div>
-                                                <h3 class="font-semibold">Apparel</h3>
+                                                <h3 class="font-semibold">{{ category.strip() }}</h3>
                                             </div>
                                             <p class="text-gray-600 text-xs">
-                                                Wholesale clothing for men, women, and children across all seasons.
+                                                Available products in this category
                                             </p>
                                         </div>
-                                        <div class="border rounded-lg p-3 hover:border-green-400 transition-colors">
+                                        {% endfor %}
+                                        <!-- <div class="border rounded-lg p-3 hover:border-green-400 transition-colors">
                                             <div class="flex items-center mb-2">
                                                 <div class="bg-green-100 p-2 rounded-full mr-3">
                                                     <i class="fas fa-home text-green-600"></i>
@@ -330,9 +415,10 @@
                                             <p class="text-gray-600 text-xs">
                                                 Seasonal gifts, novelty items, and promotional products.
                                             </p>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
+                             {% endif %}
                             </div>
                         </div>
 

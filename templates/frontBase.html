@@ -21,7 +21,7 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
 </head>
 <body class="bg-gray-100" style="font-family: 'Nunito Sans', sans-serif; ">
-<div class="w-full flex justify-center bg-center bg-cover bg-no-repeat px-2 shadow-lg shadow-[#314a4a]/10 ">
+<!-- <div class="w-full flex justify-center bg-center bg-cover bg-no-repeat px-2 shadow-lg shadow-[#314a4a]/10 ">
     <div class="lg:w-[70%] md:w-[80%] sm:w-[80%] w-full flex justify-between items-center gap-4">
         <img src="../static/images/logo.png" class="h-28" alt="">
         <div class="flex items-center gap-4">
@@ -30,7 +30,87 @@
             </a>
         </div>
     </div>
-</div>
+</div> -->
+<!-- Navbar -->
+<!-- <div class="w-full flex justify-center bg-center bg-cover bg-no-repeat px-2 shadow-lg shadow-[#314a4a]/10">
+    <div class="lg:w-[70%] md:w-[80%] sm:w-[80%] w-full flex justify-between items-center gap-4">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" class="h-28" alt="">
+
+        <div class="flex items-center gap-4">
+            {% if current_user.is_authenticated %}
+                {% if current_user.user_type == 'Admin' %}
+                    <a href="{{ url_for('admin_dashboard') }}" class="w-max px-6 py-1.5 text-white bg-[#314a4a] border border-[#314a4a] rounded-full font-semibold hover:bg-white hover:text-[#314a4a] transition">
+                        Dashboard
+                    </a>
+                {% elif current_user.user_type == 'PI' %}
+                    <a href="{{ url_for('faculty_dashboard') }}" class="w-max px-6 py-1.5 text-white bg-[#314a4a] border border-[#314a4a] rounded-full font-semibold hover:bg-white hover:text-[#314a4a] transition">
+                        Dashboard
+                    </a>
+                {% elif current_user.user_type == 'Student' %}
+                    <a href="{{ url_for('studentProfile') }}" class="w-max px-6 py-1.5 text-white bg-[#314a4a] border border-[#314a4a] rounded-full font-semibold hover:bg-white hover:text-[#314a4a] transition">
+                        Dashboard
+                    </a>
+                {% elif current_user.user_type == 'Industry' %}
+                    <a href="{{ url_for('industryProfile') }}" class="w-max px-6 py-1.5 text-white bg-[#314a4a] border border-[#314a4a] rounded-full font-semibold hover:bg-white hover:text-[#314a4a] transition">
+                        Dashboard
+                    </a>
+                {% elif current_user.user_type == 'Vendor' %}
+                    <a href="{{ url_for('vendorProfile') }}" class="w-max px-6 py-1.5 text-white bg-[#314a4a] border border-[#314a4a] rounded-full font-semibold hover:bg-white hover:text-[#314a4a] transition">
+                        Dashboard
+                    </a>
+                {% endif %}
+            {% else %}
+                <a href="{{ url_for('login') }}" class="w-max px-6 py-1.5 text-[#314a4a] bg-white border-[1px] border-[#314a4a] rounded-full font-semibold hover:bg-[#314a4a] hover:text-white transition">
+                    Login / Signup
+                </a>
+            {% endif %}
+        </div>
+
+    </div>
+</div> -->
+    
+<!-- Navbar -->
+    <nav class="bg-[#314a4a] text-white px-4 py-3 shadow-md">
+        <div class="mx-auto max-w-7xl flex justify-between items-center flex-wrap gap-4">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="h-10">
+                <a href="{{ url_for('index') }}" class="text-xl font-bold">bodhiϕ</a>
+            </div>
+
+                  <!-- Optional Navbar Content -->
+        {% block navbar_extra %}{% endblock %}
+
+            <!-- Navigation Links -->
+            <div class="flex items-center space-x-6">
+                <a href="{{ url_for('index') }}" class="hover:underline">Home</a>
+                <a href="{{ url_for('about') }}" class="hover:underline">About</a>
+                <a href="{{ url_for('contact') }}" class="hover:underline">Contact</a>
+
+                {% if current_user.is_authenticated %}
+                    {% if current_user.user_type == 'Admin' %}
+                        <a href="{{ url_for('admin_dashboard') }}" class="px-4 py-2 bg-white text-[#314a4a] rounded-full hover:bg-gray-200">Dashboard</a>
+                    {% elif current_user.user_type == 'PI' %}
+                        <a href="{{ url_for('faculty_dashboard') }}" class="px-4 py-2 bg-white text-[#314a4a] rounded-full hover:bg-gray-200">Dashboard</a>
+                    {% elif current_user.user_type == 'Student' %}
+                        <a href="{{ url_for('studentProfile') }}" class="px-4 py-2 bg-white text-[#314a4a] rounded-full hover:bg-gray-200">Dashboard</a>
+                    {% elif current_user.user_type == 'Industry' %}
+                        <a href="{{ url_for('industryProfile') }}" class="px-4 py-2 bg-white text-[#314a4a] rounded-full hover:bg-gray-200">Dashboard</a>
+                    {% elif current_user.user_type == 'Vendor' %}
+                        <a href="{{ url_for('vendorProfile') }}" class="px-4 py-2 bg-white text-[#314a4a] rounded-full hover:bg-gray-200">Dashboard</a>
+                    {% endif %}
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="px-4 py-2 bg-white text-[#314a4a] rounded-full hover:bg-gray-200">Login</a>
+                {% endif %}
+            </div>
+
+      
+        </div>
+    </nav>
+
+
+
+
 
 {% block content %}{% endblock %}
 

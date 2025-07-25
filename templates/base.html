@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="../static/assets/css/theme.css"/>
     <title>{% block title %}Research Collaboration Platform{% endblock %}</title>
     <link rel="stylesheet" href="../static/assets/libs/jvectormap/jquery-jvectormap.css">
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+
 </head>
 
 <body class="DEFAULT_THEME bg-lightprimary dark:bg-darkbody">
@@ -44,19 +46,64 @@
                                 <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center leading-[16px]"></i>
                                 <span class="hide-menu">HOME</span>
                             </div>
-
                             <li class="sidebar-item">
-                                <a class="sidebar-link before:bg-lightindigo hover:text-indigo
-                  " href="{{url_for('index')}}"
-                                >
+                                <a class="sidebar-link before:bg-lightindigo hover:text-indigo" href="{{url_for('index')}}">
                                     <iconify-icon icon="solar:screencast-2-line-duotone"
                                                   class="text-xl p-2"></iconify-icon>
-                                    <span class="hide-menu flex-shrink-0 ">Dashboard</span>
+                                    <span class="hide-menu flex-shrink-0 ">Home</span>
                                 </a>
                             </li>
 
+                           
+
+                            <!-- Dashboard Link -->
+                            {% if current_user.is_authenticated %}
+                                <li class="sidebar-item">
+                                    {% if current_user.user_type == 'Admin' %}
+                                        <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                        href="{{ url_for('admin_dashboard') }}">
+                                    {% elif current_user.user_type == 'PI' %}
+                                        <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                        href="{{ url_for('faculty_dashboard') }}">
+                                    {% elif current_user.user_type == 'Student' %}
+                                        <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                        href="{{ url_for('studentProfile') }}">
+                                    {% elif current_user.user_type == 'Industry' %}
+                                        <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                        href="{{ url_for('industry_dashboard') }}">
+                                    {% elif current_user.user_type == 'Vendor' %}
+                                        <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                        href="{{ url_for('vendor_dashboard') }}">
+                                    {% endif %}
+                                            <iconify-icon icon="solar:screencast-2-line-duotone" class="text-xl p-2"></iconify-icon>
+                                            <span class="hide-menu flex-shrink-0">Dashboard</span>
+                                        </a>
+                                </li>
+                            {% endif %}
+                                {% if current_user.is_authenticated and current_user.user_type == 'Student' %}
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('student_profile') }}">
+                                        <iconify-icon icon="solar:smart-home-line-duotone" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Student Profile</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                                {% if current_user.is_authenticated and current_user.user_type == 'PI' %}
+
+                               <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('view_pi_profile') }}">
+                                        <iconify-icon icon="solar:smart-home-line-duotone" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Profile</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+
 
                             <!---Apps---->
+
+                            {% if current_user.is_authenticated and current_user.user_type == 'admin' %}
                             <div class="caption">
                                 <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center leading-[16px]"></i>
                                 <span class="hide-menu">Other</span>
@@ -112,42 +159,219 @@
                                             </a>
                                         </li>
 
-
                                     </ul>
                                 </div>
                             </li>
-                                                        {% if current_user.is_authenticated %}
-                                                        {% if current_user.user_type in ['PI', 'Industry'] %}
-                            <li class="sidebar-item">
-                                <a class="sidebar-link before:bg-lightindigo hover:text-indigo
-                  " href="{{ url_for('create_opportunity') }}"
-                                >
-                                    <iconify-icon icon="solar:screencast-2-line-duotone"
-                                                  class="text-xl p-2"></iconify-icon>
-                                    <span class="hide-menu flex-shrink-0 ">Post Opportunity</span>
-                                </a>
-                            </li>
+                            {% endif %}
 
-                                                        {% endif %}
-                                                        {% if current_user.user_type == 'Admin' %}
-                            <li class="sidebar-item">
-                                <a class="sidebar-link before:bg-lightindigo hover:text-indigo
-                  " href="{{ url_for('admin_dashboard') }}"
-                                >
-                                    <iconify-icon icon="solar:screencast-2-line-duotone"
-                                                  class="text-xl p-2"></iconify-icon>
-                                    <span class="hide-menu flex-shrink-0 ">Admin Dashboard</span>
-                                </a>
-                            </li>
 
-                                                        {% endif %}
-                                                        {% endif %}
+                            {% if current_user.is_authenticated and current_user.user_type in ['PI', 'Student'] %}
+                                <!-- Common for PI and Student -->
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('education')}}">
+                                        <iconify-icon icon="solar:smart-home-line-duotone" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Education</span>
+                                    </a>
+                                </li>
+
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('experience') }}">
+                                        <iconify-icon icon="solar:smart-home-line-duotone" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Experience</span>
+                                    </a>
+                                </li>
+
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('publications') }}">
+                                        <iconify-icon icon="solar:smart-home-line-duotone" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Publications</span>
+                                    </a>
+                                </li>
+
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('technologies') }}">
+                                        <iconify-icon icon="solar:smart-home-line-duotone" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Technologies</span>
+                                    </a>
+                                </li>
+
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('skills') }}">
+                                        <iconify-icon icon="solar:smart-home-line-duotone" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Skills</span>
+                                    </a>
+                                </li>
+
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('awards') }}">
+                                        <iconify-icon icon="solar:smart-home-line-duotone" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Awards</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                            {% if current_user.is_authenticated and current_user.user_type == 'PI' %}
+                             
+
+                                 <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('research_facilities') }}">
+                                        <iconify-icon icon="solar:smart-home-line-duotone" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Research Facilities</span>
+                                    </a>
+                                </li>
+
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('basic_info') }}">
+                                        <iconify-icon icon="solar:smart-home-line-duotone" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Basic Information</span>
+                                    </a>
+                                </li>
+
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('projects') }}">
+                                        <iconify-icon icon="solar:smart-home-line-duotone" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Projects</span>
+                                    </a>
+                                </li>
+
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('team_members') }}">
+                                        <iconify-icon icon="solar:smart-home-line-duotone" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Team Members</span>
+                                    </a>
+                                </li>
+
+                                 <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('sponsor_request') }}">
+                                        <iconify-icon icon="mdi:hand-coin-outline" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Looking for Sponsors</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+
+
+                            {% if current_user.is_authenticated and current_user.user_type == 'Vendor' %}
+                             
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('vendorProfile') }}">
+                                        <iconify-icon icon="solar:smart-home-line-duotone" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Vendor Profile</span>
+                                    </a>
+                                </li>
+                                 <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('technologies') }}">
+                                        <iconify-icon icon="solar:smart-home-line-duotone" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Technologies</span>
+                                    </a>
+                                </li>
+                                
+                            {% endif %}
+                            {% if current_user.is_authenticated and current_user.user_type == 'Industry' %}
+                             
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('industryProfile') }}">
+                                        <iconify-icon icon="solar:smart-home-line-duotone" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Industry Profile</span>
+                                    </a>
+                                </li>
+                                 <li class="sidebar-item">
+                                    <a class="sidebar-link before:bg-lightindigo hover:text-indigo"
+                                    href="{{ url_for('technologies') }}">
+                                        <iconify-icon icon="solar:smart-home-line-duotone" class="text-xl p-2"></iconify-icon>
+                                        <span class="hide-menu flex-shrink-0">Technologies</span>
+                                    </a>
+                                </li>
+                                
+                            {% endif %}
+
+
+                                {% if current_user.is_authenticated %}
+                                {% if current_user.user_type == 'Admin' %}
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link before:bg-lightindigo hover:text-indigo" href="{{ url_for('admin_dashboard') }}">
+                                            <iconify-icon icon="solar:screencast-2-line-duotone"
+                                                        class="text-xl p-2"></iconify-icon>
+                                            <span class="hide-menu flex-shrink-0 ">Admin Dashboard</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link before:bg-lightindigo hover:text-indigo" href="{{ url_for('add_institute') }}">
+                                            <iconify-icon icon="solar:screencast-2-line-duotone"
+                                                        class="text-xl p-2"></iconify-icon>
+                                            <span class="hide-menu flex-shrink-0 ">Institutes</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link before:bg-lightindigo hover:text-indigo" href="{{ url_for('departments') }}">
+                                            <iconify-icon icon="solar:screencast-2-line-duotone" class="text-xl p-2"></iconify-icon>
+                                            <span class="hide-menu flex-shrink-0">Department</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link before:bg-lightindigo hover:text-indigo" href="{{ url_for('adminfaculty') }}">
+                                            <iconify-icon icon="solar:screencast-2-line-duotone" class="text-xl p-2"></iconify-icon>
+                                            <span class="hide-menu flex-shrink-0">Faculty</span>
+                                        </a>
+                                    </li>
+
+                                {% endif %}
+                                {% endif %}
+
+                                 <!-- Add this to the sidebar menu in base.html -->
+                           <!-- Add this to the sidebar menu in base.html -->
+<div class="caption">
+    <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center leading-[16px]"></i>
+    <span class="hide-menu">Opportunities</span>
+</div>
+
+{% if current_user.is_authenticated %}
+    <!-- Show "My Opportunities" only for non-Admin users -->
+    {% if current_user.user_type != 'Admin' %}
+    <li class="sidebar-item">
+        <a class="sidebar-link before:bg-lightindigo hover:text-indigo" href="{{ url_for('my_opportunities') }}">
+            <iconify-icon icon="solar:lightbulb-bolt-broken" class="text-xl p-2"></iconify-icon>
+            <span class="hide-menu flex-shrink-0">My Opportunities</span>
+        </a>
+    </li>
+    {% endif %}
+
+    <!-- Show "Find Opportunities" for all authenticated users -->
+    <li class="sidebar-item">
+        <a class="sidebar-link before:bg-lightindigo hover:text-indigo" href="{{ url_for('find_opportunities') }}">
+            <iconify-icon icon="solar:magnifer-line-duotone" class="text-xl p-2"></iconify-icon>
+            <span class="hide-menu flex-shrink-0">Find Opportunities</span>
+        </a>
+    </li>
+{% endif %}
 
                         </ul>
                     </nav>
                 </div>
             </div>
         </aside>
+
+
+
+
+
+
 <!--        side bar ends here-->
         <div class="page-wrapper w-full" role="main">
             <main class="h-full ">
@@ -483,7 +707,7 @@
                                                                             </a>
                                                                         </li>
                                                                         <li>
-                                                                            <a href="#"
+                                                                            <a href="{{ url_for('logout') }}"
                                                                                class="flex gap-5 items-center p-2 rounded-sm bg-hover relative group">
                                 <span
                                         class="bg-lighterror dark:bg-darkerror p-2 hover:bg-error group text-error hover:text-white rounded-sm flex justify-center items-center">
@@ -492,15 +716,14 @@
                                             class="text-2xl"></iconify-icon>
                                 </span>
 
-                                                                                <div>
-                                                                                    <h6
-                                                                                            class="font-medium text-base leading-tight mb-1  group-hover:text-primary">
-                                                                                        Logout
-                                                                                    </h6>
-                                                                                    <p
-                                                                                            class="text-sm  font-normal leading-tight">
-                                                                                        Logout from you account</p>
-                                                                                </div>
+                                                                                        <div>
+                                                                                            <h6 class="font-medium text-base leading-tight mb-1 group-hover:text-primary">
+                                                                                                Logout
+                                                                                            </h6>
+                                                                                            <p class="text-sm font-normal leading-tight">
+                                                                                                Logout from your account
+                                                                                            </p>
+                                                                                        </div>
                                                                             </a>
                                                                         </li>
                                                                     </ul>
@@ -768,7 +991,7 @@
                                                                                 </a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="#"
+                                                                                <a href="{{ url_for('logout') }}"
                                                                                    class="flex gap-5 items-center p-2 rounded-sm bg-hover relative group">
                                 <span
                                         class="bg-lighterror dark:bg-darkerror p-2 hover:bg-error group text-error hover:text-white rounded-sm flex justify-center items-center">
@@ -777,15 +1000,15 @@
                                             class="text-2xl"></iconify-icon>
                                 </span>
 
-                                                                                    <div>
-                                                                                        <h6
-                                                                                                class="font-medium text-base leading-tight mb-1  group-hover:text-primary">
-                                                                                            Logout
-                                                                                        </h6>
-                                                                                        <p
-                                                                                                class="text-sm  font-normal leading-tight">
-                                                                                           Logout from your account</p>
-                                                                                    </div>
+                                                                                        <div>
+                                                                                            <h6 class="font-medium text-base leading-tight mb-1 group-hover:text-primary">
+                                                                                                Logout
+                                                                                            </h6>
+                                                                                            <p class="text-sm font-normal leading-tight">
+                                                                                                Logout from your account
+                                                                                            </p>
+                                                                                        </div>
+
                                                                                 </a>
                                                                             </li>
                                                                         </ul>
@@ -1033,6 +1256,8 @@
 <script
         src="../static/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
 <script src="../static/assets/js/dashboards/dashboard.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+
 </body>
 
 </html>

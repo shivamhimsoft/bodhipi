@@ -1,0 +1,325 @@
+<!-- templates\opportunities\find_opportunities.html -->
+ 
+{% extends "base.html" %}
+{% block title %}Find Opportunities | Research Collaboration Platform{% endblock %}
+{% block content %}
+
+<div class="max-w-full">
+  <div class="container full-container max-w-full">
+
+    <!-- Search Bar -->
+    <!-- Search and Filter Bar -->
+    <div class="card mb-6">
+      <div class="card-body">
+        <div class="flex justify-between items-center mb-4">
+          <h5 class="card-title">Search Opportunities</h5>
+          <div>
+            <button onclick="toggleMyOpportunities()" 
+                    class="{% if show_mine %}bg-blue-600 text-white{% else %}bg-gray-200{% endif %} hover:bg-blue-500 font-semibold py-2 px-4 rounded shadow">
+              {% if show_mine %}Show All Opportunities{% else %}Show My Opportunities{% endif %}
+            </button>
+          </div>
+        </div>
+        
+        <form method="GET" action="{{ url_for('find_opportunities') }}" class="flex gap-4">
+          <input type="hidden" name="mine" value="{{ 'true' if show_mine else 'false' }}">
+          <div class="flex-grow">
+            <input type="text" name="query" value="{{ request.args.get('query', '') }}" 
+                   class="form-control py-2" placeholder="Search by title, domain, or keywords">
+          </div>
+          <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-black font-semibold py-2 px-4 rounded shadow">
+            Search
+          </button>
+          <!-- <a href="{{ url_for('find_opportunities', mine='true' if show_mine else 'false') }}" 
+             class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded shadow">
+            Clear
+          </a> -->
+        </form>
+      </div>
+    </div>
+
+
+    <!-- Opportunities Table -->
+    <div class="card">
+      <div class="card-body overflow-auto">
+        <h5 class="card-title">Available Opportunities</h5>
+        <div class="overflow-x-auto mt-4">
+          <table class="min-w-full divide-y divide-border dark:divide-darkborder">
+            <thead>
+              <tr>
+                <th class="text-start p-3 ps-0 font-semibold text-dark dark:text-white text-base">#</th>
+                <th class="text-start p-3 font-semibold text-dark dark:text-white text-base">Type</th>
+                <th class="text-start p-3 font-semibold text-dark dark:text-white text-base">Title</th>
+                <th class="text-start p-3 font-semibold text-dark dark:text-white text-base">Posted By</th>
+                <th class="text-start p-3 font-semibold text-dark dark:text-white text-base">Domain</th>
+                <th class="text-start p-3 font-semibold text-dark dark:text-white text-base">Deadline</th>
+                <th class="text-start p-3 font-semibold text-dark dark:text-white text-base">Location</th>
+                <th class="text-start p-3 font-semibold text-dark dark:text-white text-base">Status</th>
+                <th class="text-start p-3 font-semibold text-dark dark:text-white text-base">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y">
+              {% for opportunity in opportunities.items %}
+              <tr>
+                <td class="p-3 ps-0 whitespace-nowrap">{{ (opportunities.page - 1) * opportunities.per_page + loop.index }}</td>
+                <td class="p-3">{{ opportunity.type }}</td>
+                <td class="p-3">
+                  <a href="#" class="text-primary hover:underline" 
+                     onclick="showOpportunityDetails({{ opportunity.id }})">
+                    {{ opportunity.title }}
+                  </a>
+                </td>
+                <td class="p-3">
+                  <a href="{{ url_for('opp_view_profile', profile_id=opportunity.creator_profile_id) }}" 
+                     class="text-primary hover:underline">
+                    {{ opportunity.creator.user.email }} ({{ opportunity.creator.profile_type }})
+                  </a>
+                </td>
+                <td class="p-3">{{ opportunity.domain }}</td>
+                <td class="p-3">{{ opportunity.deadline.strftime('%Y-%m-%d') if opportunity.deadline else '-' }}</td>
+                <td class="p-3">{{ opportunity.location }}</td>
+                <td class="p-3">
+                  <span class="badge 
+                    {% if opportunity.status == 'Active' %}bg-lightsuccess text-success
+                    {% elif opportunity.status == 'Closed' %}bg-lightwarning text-warning
+                    {% else %}bg-gray-200 text-gray-700{% endif %}">
+                    {{ opportunity.status }}
+                  </span>
+                </td>
+                <td class="p-3 whitespace-nowrap">
+                  <div class="flex gap-2">
+                    <!-- <button onclick="followUser({{ opportunity.creator_profile_id }})" 
+                            class="bg-blue-500 hover:bg-blue-600 text-black font-semibold py-1 px-3 rounded shadow text-sm">
+                      View Profile
+                    </button> -->
+
+                    <a href="{{ url_for('opp_view_profile', profile_id=opportunity.creator_profile_id) }}"
+                      target="_blank"
+                      class="bg-blue-500 hover:bg-blue-600 text-black font-semibold py-1 px-3 rounded shadow text-sm">
+                      View Profile
+                    </a>
+
+
+                    <button onclick="showOpportunityDetails({{ opportunity.id }})" 
+                            class="bg-green-500 hover:bg-green-600 text-black font-semibold py-1 px-3 rounded shadow text-sm">
+                      Details
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              {% else %}
+              <tr>
+                <td colspan="9" class="p-3 text-center text-gray-500">No opportunities found.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="md:flex text-center pt-3 justify-between items-center border-t border-border dark:border-darkborder">
+          <p class="font-medium">
+            Showing {{ opportunities.first }} to {{ opportunities.last }} of {{ opportunities.total }} entries
+          </p>
+          
+          <nav class="flex items-center gap-x-1">
+            {% if opportunities.has_prev %}
+              <a href="{{ url_for('find_opportunities', page=opportunities.prev_num, query=request.args.get('query', '')) }}"
+                class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-dark bg-hover focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-darklink dark:focus:bg-white/10">
+                <i class="ti ti-chevron-left text-sm leading-tight font-medium"></i>
+                <span class="leading-tight">Previous</span>
+              </a>
+            {% else %}
+              <span class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-dark bg-gray-200 cursor-not-allowed dark:text-darklink">
+                <i class="ti ti-chevron-left text-sm leading-tight font-medium"></i>
+                <span class="leading-tight">Previous</span>
+              </span>
+            {% endif %}
+            
+            <div class="flex items-center gap-x-1">
+              {% for page_num in opportunities.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=3) %}
+                {% if page_num %}
+                  {% if opportunities.page == page_num %}
+                    <span class="min-h-[38px] min-w-[38px] flex justify-center items-center text-white bg-primary py-2 px-3 text-sm rounded-lg focus:outline-none"
+                      aria-current="page">{{ page_num }}</span>
+                  {% else %}
+                    <a href="{{ url_for('find_opportunities', page=page_num, query=request.args.get('query', '')) }}"
+                      class="min-h-[38px] min-w-[38px] flex justify-center items-center text-dark bg-hover py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 dark:text-darklink dark:focus:bg-white/10">
+                      {{ page_num }}
+                    </a>
+                  {% endif %}
+                {% else %}
+                  <span class="min-h-[38px] min-w-[38px] flex justify-center items-center text-dark bg-hover py-2 px-3 text-sm rounded-lg">...</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+            
+            {% if opportunities.has_next %}
+              <a href="{{ url_for('find_opportunities', page=opportunities.next_num, query=request.args.get('query', '')) }}"
+                class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-dark bg-hover focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-darklink dark:focus:bg-white/10">
+                <span class="leading-tight">Next</span>
+                <i class="ti ti-chevron-right text-sm leading-tight font-medium"></i>
+              </a>
+            {% else %}
+              <span class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-dark bg-gray-200 cursor-not-allowed dark:text-darklink">
+                <span class="leading-tight">Next</span>
+                <i class="ti ti-chevron-right text-sm leading-tight font-medium"></i>
+              </span>
+            {% endif %}
+          </nav>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Opportunity Details Modal -->
+<div id="opportunityModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+  <div class="bg-white dark:bg-dark rounded-lg shadow-lg w-full max-w-2xl max-h-[90vh] overflow-auto">
+    <div class="p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold" id="modalTitle"></h3>
+        <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+          <i class="ti ti-x text-xl"></i>
+        </button>
+      </div>
+      <div class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="font-semibold block">Type:</label>
+            <p id="modalType"></p>
+          </div>
+          <div>
+            <label class="font-semibold block">Posted By:</label>
+            <p id="modalPostedBy"></p>
+          </div>
+          <div>
+            <label class="font-semibold block">Domain:</label>
+            <p id="modalDomain"></p>
+          </div>
+          <div>
+            <label class="font-semibold block">Deadline:</label>
+            <p id="modalDeadline"></p>
+          </div>
+          <div>
+            <label class="font-semibold block">Location:</label>
+            <p id="modalLocation"></p>
+          </div>
+          <div>
+            <label class="font-semibold block">Duration:</label>
+            <p id="modalDuration"></p>
+          </div>
+          <div>
+            <label class="font-semibold block">Compensation:</label>
+            <p id="modalCompensation"></p>
+          </div>
+          <div>
+            <label class="font-semibold block">Status:</label>
+            <p id="modalStatus"></p>
+          </div>
+        </div>
+        <div>
+          <label class="font-semibold block">Eligibility:</label>
+          <p id="modalEligibility" class="whitespace-pre-line"></p>
+        </div>
+        <div>
+          <label class="font-semibold block">Description:</label>
+          <p id="modalDescription" class="whitespace-pre-line"></p>
+        </div>
+        <div>
+          <label class="font-semibold block">Keywords:</label>
+          <p id="modalKeywords"></p>
+        </div>
+        <div>
+          <label class="font-semibold block">Advertisement Link:</label>
+          <a id="modalLink" href="#" target="_blank" class="text-primary hover:underline"></a>
+        </div>
+      </div>
+      <div class="mt-6 flex justify-end">
+        <button onclick="closeModal()" class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded shadow">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+// Follow user function
+function followUser(profileId) {
+  // You'll need to implement this function to handle following
+  fetch(`/follow-profile/${profileId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      alert('You are now following this user');
+    } else {
+      alert(data.message || 'Failed to follow user');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('An error occurred while trying to follow');
+  });
+}
+
+// Show opportunity details in modal
+function showOpportunityDetails(opportunityId) {
+  fetch(`/get-opportunity/${opportunityId}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data) {
+        document.getElementById('modalTitle').textContent = data.title;
+        document.getElementById('modalType').textContent = data.type;
+        document.getElementById('modalPostedBy').innerHTML = 
+          `<a href="/opp_view-profile/${data.creator_profile_id}" class="text-primary hover:underline">
+            ${data.creator_email} (${data.creator_type})
+          </a>`;
+        document.getElementById('modalDomain').textContent = data.domain || '-';
+        document.getElementById('modalDeadline').textContent = data.deadline || '-';
+        document.getElementById('modalLocation').textContent = data.location || '-';
+        document.getElementById('modalDuration').textContent = data.duration || '-';
+        document.getElementById('modalCompensation').textContent = data.compensation || '-';
+        document.getElementById('modalStatus').innerHTML = 
+          `<span class="badge ${data.status === 'Active' ? 'bg-lightsuccess text-success' : 
+                              data.status === 'Closed' ? 'bg-lightwarning text-warning' : 
+                              'bg-gray-200 text-gray-700'}">
+            ${data.status}
+          </span>`;
+        document.getElementById('modalEligibility').textContent = data.eligibility || '-';
+        document.getElementById('modalDescription').textContent = data.description || '-';
+        document.getElementById('modalKeywords').textContent = data.keywords || '-';
+        const link = document.getElementById('modalLink');
+        link.textContent = data.advertisement_link || '-';
+        link.href = data.advertisement_link || '#';
+        
+        document.getElementById('opportunityModal').classList.remove('hidden');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Failed to load opportunity details');
+    });
+}
+
+function closeModal() {
+  document.getElementById('opportunityModal').classList.add('hidden');
+}
+
+function toggleMyOpportunities() {
+  const url = new URL(window.location.href);
+  const currentMode = url.searchParams.get('mine') === 'true';
+  url.searchParams.set('mine', currentMode ? 'false' : 'true');
+  url.searchParams.delete('page'); // Reset to first page when switching modes
+  window.location.href = url.toString();
+}
+
+</script>
+{% endblock %}

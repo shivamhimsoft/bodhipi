@@ -2,12 +2,36 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField, DateField, IntegerField, HiddenField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional, URL, ValidationError
 from models import User
+import re
+
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
+
+# class RegistrationForm(FlaskForm):
+#     email = StringField('Email', validators=[DataRequired(), Email()])
+#     user_type = SelectField('User Type', choices=[
+#         ('Student', 'Student'),
+#         ('PI', 'Principal Investigator/Lab Director'),
+#         ('Industry', 'Industry/Company'),
+#         ('Vendor', 'Vendor/Service Provider')
+#     ], validators=[DataRequired()])
+#     password = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
+#     password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
+#     agree_terms = BooleanField('I agree to the Terms and Conditions', validators=[DataRequired()])
+#     submit = SubmitField('Register')
+
+#     def validate_email(self, email):
+#         user = User.query.filter_by(email=email.data).first()
+#         if user is not None:
+#             raise ValidationError('Email already registered. Please use a different email address.')
+
+
+# form.py
+
 
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -26,6 +50,29 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Email already registered. Please use a different email address.')
+        
+        # Get the selected user type
+        user_type = self.user_type.data
+        
+        # Allowed domains for institutional emails
+        allowed_domains = [
+            '.ac.in', '.edu.in', '.gov.in', '.nic.in', '.res.in',
+            '.ernet.in', 'isro.gov.in', 'drdo.in', 'nptel.iitm.ac.in',
+            'swayam.gov.in'
+        ]
+        
+        # Special test email
+        test_email = 'er.shivamwallu@gmail.com'
+        
+        if user_type in ['PI', 'Student']:
+            # For PI and Student, require institutional email
+            if not (any(email.data.endswith(domain) for domain in allowed_domains) or email.data == test_email):
+                raise ValidationError('PI and Student accounts must use an institutional email address.')
+        else:
+            # For Industry and Vendor, just basic email format validation
+            if not re.match(r'^[^@]+@[^@]+\.[^@]+$', email.data):
+                raise ValidationError('Please enter a valid email address.')
+
 
 class StudentProfileForm(FlaskForm):
     name = StringField('Full Name', validators=[DataRequired(), Length(max=100)])
